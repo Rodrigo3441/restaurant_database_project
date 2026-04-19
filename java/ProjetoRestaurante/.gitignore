@@ -1,0 +1,12 @@
+# compiled files
+bin/
+target/
+*.class
+
+# IDE files
+.settings/
+.project
+.classpath
+
+# OS files
+.DS_Store
