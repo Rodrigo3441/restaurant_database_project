@@ -2,8 +2,10 @@ package application;
 
 import java.sql.Connection;
 import database.DatabaseConnection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import entities.Restaurante;
+import database.AcessoDadosRestaurante;
+
+import java.util.ArrayList;
 
 public class Programa {
 
@@ -11,24 +13,24 @@ public class Programa {
 		// TODO Auto-generated method stub
 	
 		System.out.println("TEste");
-		
-	try {
 		Connection conn = DatabaseConnection.getConnection();
-		
-		String sql = "SELECT * FROM CLIENTE";
-		
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
-		
-		while (rs.next()) {
-			System.out.println("Cliente: " + rs.getString("cli_primeiro_nome"));
-		}
 		
 		
 		System.out.println("Connected successfully!");
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
+
+	
+	//Restaurante res = new Restaurante("123213", "Jambalaia", "112345", 0, "abc123");
+	
+	AcessoDadosRestaurante resdao = new AcessoDadosRestaurante(conn);
+	
+	Restaurante ativo = resdao.buscarPorCnpj("123213");
+	
+	ArrayList<Restaurante> restaurantes = resdao.listarRestaurantes();
+
+	for (Restaurante x: restaurantes) {
+		System.out.println("CNPJ: " + x.getCnpj() + " Nome: " + x.getNome() + " Telefone: " + x.getTelefone() + " Categoria: " +  String.valueOf(x.getIdCategoria()) + " senha: " + x.getSenha());
+
+		}
 		
 	}
 

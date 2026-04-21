@@ -1,0 +1,191 @@
+package database;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import entities.Entregador;
+
+/**
+ * Classe: AcessoDadosEntregador
+ *
+ * Descrição:
+ * Classe responsável por gerenciar dados do Entregador
+ *
+ * Responsabilidades:
+ * - Conectar ao banco de dados
+ * - Fazer manipulações com os dados
+ *
+ * @author Rodrigo
+ * @since 21-04-2026
+ */
+
+public class AcessoDadosEntregador {
+	
+	private Connection conn;
+	
+	/**
+	 * Construtor
+	 * Recebe a conexão para que seja possível estabelecer
+	 * uma comunicação com o banco de dados
+	 * 
+	 * @param conn: objeto de conexão
+	 */
+	public AcessoDadosEntregador(Connection conn) {
+		this.conn = conn;
+	}
+	
+	/**
+	 * Método inserirEntregador
+	 * responsável por fazer a inserção de um novo entregador no banco de dados
+	 * 
+	 * @param entregador: objeto entregador
+	 */
+	public boolean inserirEntregador(Entregador entregador) {
+		String sqlQuery = "INSERT INTO ENTREGADOR (" +
+						"pk_etg_cpf, etg_primeiro_nome, " +
+						"etg_nome_meio, " +
+						"etg_ultimo_nome, " +
+						"etg_telefone, " +
+						"etg_veiculo, " +
+						"etg_disponibilidade) " +
+						"VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		//preparação da query antes da execução
+		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+			
+			//vinculação dos atributos à query preparada
+			stmt.setString(1, entregador.getCpf());
+			stmt.setString(2, entregador.getPrimeiroNome());
+			stmt.setString(3, entregador.getNomeMeio());
+			stmt.setString(4, entregador.getUltimoNome());
+			stmt.setString(5, entregador.getTelefone());
+			stmt.setString(6, entregador.getVeiculo());
+			stmt.setShort(7, entregador.getDisponibilidade());
+			
+			int linhasAfetadas = stmt.executeUpdate();
+			return linhasAfetadas > 0;
+			
+		} catch (SQLException e) {
+			System.err.println("Erro na operação de ENTREGADOR");
+		    e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Método buscarPorCpf
+	 * 
+	 * Responsável por trazer as informações do entregador da base de dados
+	 * para que possam ser utilizadas para atribuições nas entregas
+	 *  
+	 * @param cpf: cpf do entregador buscado
+	 * @return um objeto entregador
+	 */
+	public Entregador buscarPorCpf(String cpf) {
+		String sqlQuery = "SELECT * FROM ENTREGADOR WHERE pk_etg_cpf = ?";
+		
+		//preparação da query antes da execução
+		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+			
+			//vinculação dos atributos à query preparada
+			stmt.setString(1, cpf);
+			
+			ResultSet resultado = stmt.executeQuery();
+			
+			//se houver resultado da busca pelo cpf, instancia um objeto entregador
+			//com os atributos do resultado
+			if (resultado.next()) {
+				Entregador e = new Entregador();
+							
+				e.setCpf(resultado.getString("pk_etg_cpf"));
+				e.setPrimeiroNome(resultado.getString("etg_primeiro_nome"));
+				e.setNomeMeio(resultado.getString("etg_nome_meio"));
+				e.setUltimoNome(resultado.getString("etg_ultimo_nome"));
+				e.setTelefone(resultado.getString("etg_telefone"));
+				e.setVeiculo(resultado.getString("etg_veiculo"));
+				e.setDisponibilidade(resultado.getShort("etg_disponibilidade"));
+				
+				return e;
+
+			}
+									
+		} catch (SQLException e) {
+			System.err.println("Erro na operação de ENTREGADOR");
+		    e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Método atualizarEntregador
+	 * 
+	 * Responsável por atualizar as informações de um entregador no banco de dados 
+	 * 
+	 * @param entregador: objeto entregador
+	 */
+	public boolean atualizarEntregador(Entregador entregador) {
+		String sqlQuery = "UPDATE ENTREGADOR SET " +
+			            "etg_primeiro_nome = ?, " +
+			            "etg_nome_meio = ?, " +
+			            "etg_ultimo_nome = ?, " +
+			            "etg_telefone = ?, " +
+			            "etg_veiculo = ?, " +
+			            "etg_disponibilidade = ? " +
+			            "WHERE pk_etg_cpf = ?";
+
+		//preparação da query antes da execução
+		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+			
+			//vinculação dos atributos à query preparada
+			stmt.setString(1, entregador.getPrimeiroNome());
+	        stmt.setString(2, entregador.getNomeMeio());
+	        stmt.setString(3, entregador.getUltimoNome());
+	        stmt.setString(4, entregador.getTelefone());
+	        stmt.setString(5, entregador.getVeiculo());
+	        stmt.setShort(6, entregador.getDisponibilidade());
+	        stmt.setString(7, entregador.getCpf());
+						
+			int linhasAfetadas = stmt.executeUpdate();
+			return linhasAfetadas > 0;
+			
+		} catch (SQLException e) {
+			System.err.println("Erro na operação de ENTREGADOR");
+		    e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Método deletarEntregador
+	 * 
+	 * Responsável por apagar um entregador do banco de dados
+	 * 
+	 * @param cpf do entregador
+	 * @return true ou false
+	 */
+	public boolean deletarEntregador(String cpf) {
+		String sqlQuery = "DELETE FROM ENTREGADOR WHERE pk_etg_cpf = ?";
+		
+		//preparação da query antes da execução
+		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+			
+			//vinculação dos atributos à query preparada
+			stmt.setString(1, cpf);
+			
+			//execução da query e validação de êxito
+			int linhasAfetadas = stmt.executeUpdate();
+			return linhasAfetadas > 0;
+
+		} catch (SQLException e) {
+			System.err.println("Erro na operação de ENTREGADOR");
+		    e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+}
