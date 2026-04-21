@@ -11,5 +11,42 @@ public class Entregador extends Usuario {
 		this.disponibilidade = disponibilidade;
 	}
 	
+	public Entregador() {
+		super();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getVeiculo() {
+		return veiculo;
+	}
+
+	/**
+	 * 
+	 * @param veiculo
+	 */
+	public void setVeiculo(String veiculo) {
+		this.veiculo = veiculo;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Short getDisponibilidade() {
+		return disponibilidade;
+	}
+
+	/**
+	 * 
+	 * @param disponibilidade
+	 */
+	public void setDisponibilidade(Short disponibilidade) {
+		this.disponibilidade = disponibilidade;
+	}
+	
+	
 	
 }

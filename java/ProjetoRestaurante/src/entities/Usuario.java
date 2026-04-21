@@ -13,6 +13,92 @@ public class Usuario {
 		this.nomeMeio = nomeMeio;
 		this.ultimoNome = ultimoNome;
 		this.telefone = telefone;
+	}
+	
+	protected Usuario() {
+		
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCpf() {
+		return cpf;
+	}
+
+	/**
+	 * 
+	 * @param cpf
+	 */
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getPrimeiroNome() {
+		return primeiroNome;
+	}
+
+	/**
+	 * 
+	 * @param primeiroNome
+	 */
+	public void setPrimeiroNome(String primeiroNome) {
+		this.primeiroNome = primeiroNome;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getNomeMeio() {
+		return nomeMeio;
+	}
+	
+	/**
+	 * 
+	 * @param nomeMeio
+	 */
+	public void setNomeMeio(String nomeMeio) {
+		this.nomeMeio = nomeMeio;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getUltimoNome() {
+		return ultimoNome;
+	}
+
+	/**
+	 * 
+	 * @param ultimoNome
+	 */
+	public void setUltimoNome(String ultimoNome) {
+		this.ultimoNome = ultimoNome;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getTelefone() {
+		return telefone;
+	}
+
+	/**
+	 * 
+	 * @param telefone
+	 */
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}	
+	
+	
 	
 }
