@@ -70,7 +70,7 @@ public class AcessoDadosCliente {
 	}
 	
 	/**
-	 * Método buscarPorCpf
+	 * Método retornarCliente
 	 * 
 	 * Responsável por trazer as informações do cliente da base de dados
 	 * para que possam ser utilizadas ao longo da sessão
@@ -78,7 +78,7 @@ public class AcessoDadosCliente {
 	 * @param cpf: cpf do cliente buscado
 	 * @return um objeto cliente
 	 */
-	public Cliente buscarPorCpf(String cpf) {
+	public Cliente retornarCliente(String cpf) {
 		String sqlQuery = "SELECT * FROM CLIENTE WHERE pk_cli_cpf = ?";
 		
 		//preparação da query antes da execução

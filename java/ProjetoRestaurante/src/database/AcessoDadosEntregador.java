@@ -76,7 +76,7 @@ public class AcessoDadosEntregador {
 	}
 	
 	/**
-	 * Método buscarPorCpf
+	 * Método retornarEntregador
 	 * 
 	 * Responsável por trazer as informações do entregador da base de dados
 	 * para que possam ser utilizadas para atribuições nas entregas
@@ -84,7 +84,7 @@ public class AcessoDadosEntregador {
 	 * @param cpf: cpf do entregador buscado
 	 * @return um objeto entregador
 	 */
-	public Entregador buscarPorCpf(String cpf) {
+	public Entregador retornarEntregador(String cpf) {
 		String sqlQuery = "SELECT * FROM ENTREGADOR WHERE pk_etg_cpf = ?";
 		
 		//preparação da query antes da execução

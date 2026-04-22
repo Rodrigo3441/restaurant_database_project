@@ -71,7 +71,7 @@ public class AcessoDadosProduto {
 	}
 	
 	/**
-	 * Método buscarPorCodigo
+	 * Método retornarProduto
 	 * 
 	 * Responsável por trazer as informações do produto da base de dados
 	 * para que possam ser utilizadas para consultas
@@ -79,7 +79,7 @@ public class AcessoDadosProduto {
 	 * @param codigo: codigo do produto buscado
 	 * @return um objeto produto
 	 */
-	public Produto buscarPorCodigo(int codigo) {
+	public Produto retornarProduto(int codigo) {
 		String sqlQuery = "SELECT * FROM PRODUTO WHERE pk_prd_codigo = ?";
 		
 		//preparação da query antes da execução

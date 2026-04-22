@@ -67,7 +67,7 @@ public class AcessoDadosRestaurante {
 	}
 	
 	/**
-	 * Método buscarPorCnpj
+	 * Método retornarRestaurante
 	 * 
 	 * Responsável por trazer as informações do restaurante da base de dados
 	 * para que possam ser utilizadas ao longo da sessão
@@ -75,7 +75,7 @@ public class AcessoDadosRestaurante {
 	 * @param cnpj: cnpj do Restaurante buscado
 	 * @return um objeto Restaurante
 	 */
-	public Restaurante buscarPorCnpj(String cnpj) {
+	public Restaurante retornarRestaurante(String cnpj) {
 		String sqlQuery = "SELECT * FROM RESTAURANTE WHERE pk_res_cnpj = ?";
 		
 		//preparação da query antes da execução

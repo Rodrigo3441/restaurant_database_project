@@ -104,7 +104,7 @@ CREATE TABLE PRODUTO_RESTAURANTE (
 CREATE TABLE PEDIDO (
 	pk_ped_numero INT AUTO_INCREMENT PRIMARY KEY,
 	ped_status VARCHAR (15) NOT NULL,
-	fk_etg_cpf VARCHAR (11) NOT NULL,
+	fk_etg_cpf VARCHAR (11) NULL,
 	fk_res_cnpj VARCHAR (14) NOT NULL,
 	fk_cli_cpf VARCHAR (11) NOT NULL,
 	ped_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -235,4 +235,11 @@ c.pk_cli_cpf,
 p.pk_ped_numero
 FROM CLIENTE AS c
 INNER JOIN PEDIDO AS p
-ON c.pk_cli_cpf = p.fk_cli_cpf
+ON c.pk_cli_cpf = p.fk_cli_cpf;
+
+INSERT INTO RESTAURANTE VALUES 
+('12345678000101', 'Pizzaria Napoli', '11987654321', 1, 'senha123'),
+('98765432000199', 'Burger House', '11991234567', 2, 'senha456'),
+('45678912000155', 'Sushi Express', '11999887766', 3, 'senha789'),
+('32165498000122', 'Churrascaria Boi Forte', '11993456789', 1, 'senhaabc'),
+('15975348000177', 'Veggie Life', '11992345678', NULL, 'senhaxyz');
