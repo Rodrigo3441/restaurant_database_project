@@ -46,7 +46,7 @@ public class Cliente extends Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	
+
+
 	
 }

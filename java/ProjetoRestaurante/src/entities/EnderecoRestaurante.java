@@ -9,5 +9,27 @@ public class EnderecoRestaurante extends Endereco {
 		this.cnpjRestaurante = cnpjRestaurante;
 	}
 	
+	public EnderecoRestaurante() {
+		super();
+	}
+
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCnpjRestaurante() {
+		return cnpjRestaurante;
+	}
+
+
+	/**
+	 * 
+	 * @param cnpjRestaurante
+	 */
+	public void setCnpjRestaurante(String cnpjRestaurante) {
+		this.cnpjRestaurante = cnpjRestaurante;
+	}
+	
 	
 }
