@@ -35,7 +35,9 @@ public class MenuPerfilRestaurante {
 	/**
 	 * Método mostrarMenuPerfil
 	 * 
-	 * @param r
+	 * Responsável por exibir as ações de personalização do perfil
+	 * 
+	 * @param r objeto Restaurante
 	 */
 	public void mostrarMenuPerfil(Restaurante r) {
 		int option = 9;
@@ -79,7 +81,8 @@ public class MenuPerfilRestaurante {
 					this.atualizarSenha(r);
 					break;
 				case 4:
-					
+					MenuEnderecoRestaurante menuendereco = new MenuEnderecoRestaurante();
+					menuendereco.mostrar(r);
 					break;
 				case 5:
 					
@@ -96,9 +99,11 @@ public class MenuPerfilRestaurante {
 	/**
 	 * Método atualizarNome
 	 * 
-	 * @param r
+	 * Responsável por atualizar o nome do restaurante
+	 * 
+	 * @param r objeto restaurante
 	 */
-	public void atualizarNome(Restaurante r) {
+	private void atualizarNome(Restaurante r) {
 		String nome;
 		//campo para validação de Nome
 		System.out.print("Insira o novo nome do restaurante (3-40 caracteres): ");
@@ -128,9 +133,11 @@ public class MenuPerfilRestaurante {
 	/**
 	 * Método atualizarTelefone
 	 * 
-	 * @param r
+	 * Responsável por atualizar o telefone do restaurante
+	 * 
+	 * @param r objeto restaurante
 	 */
-	public void atualizarTelefone(Restaurante r) {
+	private void atualizarTelefone(Restaurante r) {
 		String telefone;
 		//campo para validação de telefone
 		System.out.print("Insira o novo telefone do restaurante (até 11 números): ");
@@ -158,10 +165,11 @@ public class MenuPerfilRestaurante {
 	/**
 	 * Método atualizarSenha
 	 * 
+	 * Responsável por atualizar a senha do restaurante 
 	 * 
 	 * @param r
 	 */
-	public void atualizarSenha(Restaurante r) {
+	private void atualizarSenha(Restaurante r) {
 		String senha;
 		//campo para validação de telefone
 		System.out.print("Insira a nova senha do restaurante: ");

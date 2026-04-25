@@ -67,7 +67,8 @@ public class MenuPrincipal {
 			//acesso as opções do menu			
 			switch (option) {
 				case 1:
-					System.out.println("1");
+					MenuCliente menucliente = new MenuCliente(conn);
+					menucliente.mostrarMenuPrincipal();
 					break;
 	
 				case 2:

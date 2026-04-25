@@ -10,10 +10,10 @@ import services.ServicoRestaurante;
  * Classe: MenuRestaurante
  *
  * Descrição:
- * Classe responsável por oferecer a interface do sistema para o usuário
+ * Classe responsável por oferecer a interface do sistema para o restaurante
  *
  * Responsabilidades:
- * - oferecer menus interativos para o usuário
+ * - oferecer menus interativos para o restaurante
  *
  * @author Rodrigo
  * @since 23-04-2026
@@ -25,8 +25,9 @@ public class MenuRestaurante {
 	private ServicoRestaurante servicorestaurante;
 	
 	/**
+	 * Recebe uma conexão para permitir comunicação com banco de dados
 	 * 
-	 * @param servicerestaurante
+	 * @param conn
 	 */
 	public MenuRestaurante(Connection conn) {
 		this.servicorestaurante = new ServicoRestaurante(new AcessoDadosRestaurante(conn));
@@ -35,7 +36,7 @@ public class MenuRestaurante {
 	/**
 	 * Método mostrarMenuPrincipal
 	 * 
-	 *
+	 * Responsável por oferecer opções inciais para o restaurante acessar ou cadastrar uma conta
 	 * 
 	 */
 	public void mostrarMenuPrincipal() {
@@ -92,9 +93,10 @@ public class MenuRestaurante {
 	/**
 	 * Método fazerCadastro
 	 * 
+	 * Responsável por fornecer a interface de cadastro para o restaurante
 	 * 
 	 */
-	public void fazerCadastro() {
+	private void fazerCadastro() {
 		
 		String cnpj;
 		String nome;
@@ -207,9 +209,10 @@ public class MenuRestaurante {
 	/**
 	 * Método fazerLogin
 	 * 
+	 * Responsável por receber credenciais do usuário e passá-las para a camada de serviço
 	 * 
 	 */
-	public void fazerLogin() {
+	private void fazerLogin() {
 		System.out.print("Digite o seu CNPJ para poder inciar sessão: ");
 		
 		String cnpj = sc.next().trim();
@@ -241,9 +244,11 @@ public class MenuRestaurante {
 	/**
 	 * Método menuRestauranteLogado
 	 * 
-	 * @param r
+	 * Responsável por oferecer opções de gerenciamento para o restaurante em sessão
+	 * 
+	 * @param r objeto restaurante
 	 */
-	public void menuRestauranteLogado(Restaurante r) {
+	private void menuRestauranteLogado(Restaurante r) {
 		int option = -1;
 		do {
 			System.out.println("MENU GERENCIADOR DO RESTAURANTE");
