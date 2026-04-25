@@ -1,0 +1,302 @@
+package services;
+
+import database.AcessoDadosCliente;
+import entities.Cliente;
+
+/**
+ * Classe: ServicoCliente
+ *
+ * Descrição:
+ * Classe responsável por gerenciar as regras de negócio do cliente
+ *
+ * Responsabilidades:
+ * - oferecer métodos de validação das informações
+ * - se comunicar com a camada de dados
+ *
+ * @author Rodrigo
+ * @since 24-04-2026
+ */
+
+public class ServicoCliente {
+	//conexão com o banco de dados que será usada em todas as operações
+	private AcessoDadosCliente dao;
+	
+	/**
+	 * Construtor que recebe o objeto para conexão com a camada de dados
+	 * 
+	 * @param dao objeto AccesoDadosCliente
+	 */
+	public ServicoCliente(AcessoDadosCliente dao) {
+		this.dao = dao;
+	}
+	
+	/**
+	 * Método validarCpf
+	 * 
+	 * Responsável por verificar disponibilidade de CPF e se é válido
+	 * @param cpf do cliente
+	 */
+	public void validarCpf(String cpf) {
+		if (!cpfValido(cpf)) {
+	        throw new IllegalArgumentException("Digite um CPF válido.");
+	    }
+
+	    if (!cpfDisponivel(cpf)) {
+	        throw new IllegalArgumentException("O CPF já está em uso.");
+	    }
+	}
+	
+	/**
+	 * Método validarPrimeiroNome
+	 * Responsável por verificar integridade do primeiro nome
+	 * @param primeiroNome
+	 */
+	public void validarPrimeiroNome(String primeiroNome) {
+		if(!primeiroNomeValido(primeiroNome)) {
+			throw new IllegalArgumentException("Utilize um nome válido");
+		}
+	}
+	
+	/**
+	 * Método validarNomeMeio
+	 * Responsável por verificar integridade do nome do meio
+	 * @param nomeMeio do cliente
+	 */
+	public void validarNomeMeio(String nomeMeio) {
+		if(!nomeMeioValido(nomeMeio)) {
+			throw new IllegalArgumentException("Utilize um nome válido");
+		}
+	}
+	
+	/**
+	 * Método validarUltimoNome
+	 * Responsável por verificar integridade do ultimo nome
+	 * @param ultimoNome do cliente
+	 */
+	public void validarUltimoNome(String ultimoNome) {
+		if(!ultimoNomeValido(ultimoNome)) {
+			throw new IllegalArgumentException("Utilize um nome válido");
+		}
+	}
+	
+	/**
+	 * Método validarTelefone
+	 * Responsável por verificar integridade do telefone
+	 * @param telefone do cliente
+	 */
+	public void validarTelefone(String telefone) {
+		if(!telefoneValido(telefone)) {
+			throw new IllegalArgumentException("Utilize um telefone válido");
+		}
+	}
+	
+	/**
+	 * Método validarEmail
+	 * Responsável por verificar integridade do email
+	 * @param email do cliente
+	 */
+	public void validarEmail(String email) {
+		if(!emailValido(email)) {
+			throw new IllegalArgumentException("Utilize um email válido");
+		}
+	}
+	
+	/**
+	 * Método validarSenha
+	 * Responsável por verificar integridade de senha
+	 * @param senha do cliente
+	 */
+	public void validarSenha(String senha) {
+		if(!senhaValida(senha)) {
+			throw new IllegalArgumentException("Utilize uma senha válida");
+		}
+	}
+	
+	/**
+	 * Método atualizarPrimeiroNome
+	 * Atualiza primeiro nome do cliente
+	 * @param c objeto cliente
+	 * @param primeiroNome do cliente
+	 * @return êxito ou não
+	 */
+	public boolean atualizarPrimeiroNome(Cliente c, String primeiroNome) {
+		if (!primeiroNomeValido(primeiroNome)) {
+			throw new IllegalArgumentException("Utilize um nome válido: ");
+		}
+		
+		c.setPrimeiroNome(primeiroNome);
+		return dao.atualizarCliente(c);
+	}
+	
+	/**
+	 * Método atualizarNomeMeio
+	 * Atualiza nome do meio do cliente
+	 * @param c objeto cliente
+	 * @param nomeMeio do cliente
+	 * @return êxito ou não 
+	 */
+	public boolean atualizarNomeMeio(Cliente c, String nomeMeio) {
+		if (!nomeMeioValido(nomeMeio)) {
+			throw new IllegalArgumentException("Utilize um nome válido: ");
+		}
+		
+		c.setNomeMeio(nomeMeio);
+		return dao.atualizarCliente(c);
+	}
+	
+	/**
+	 * Método atualizarUltimoNome
+	 * Atualiza ultimo nome do cliente
+	 * @param c objeto cliente
+	 * @param ultimoNome do cliente
+	 * @return êxito ou não
+	 */
+	public boolean atualizarUltimoNome(Cliente c, String ultimoNome) {
+		if (!ultimoNomeValido(ultimoNome)) {
+			throw new IllegalArgumentException("Utilize um nome válido: ");
+		}
+		
+		c.setUltimoNome(ultimoNome);
+		return dao.atualizarCliente(c);
+	}
+	
+	/**
+	 * Método atualizarTelefone
+	 * atualiza o telefone do cliente
+	 * @param c objeto cliente
+	 * @param telefone do cliente
+	 * @return êxito ou não
+	 */
+	public boolean atualizarTelefone(Cliente c, String telefone) {
+		if (!telefoneValido(telefone)) {
+			throw new IllegalArgumentException("Utilize um nome válido: ");
+		}
+		
+		c.setTelefone(telefone);
+		return dao.atualizarCliente(c);
+	}
+	
+	/**
+	 * Método atualizarEmail
+	 * atualiza o email do cliente
+	 * @param c objeto cliente
+	 * @param email do cliente
+	 * @return êxito ou não
+	 */
+	public boolean atualizarEmail(Cliente c, String email) {
+		if (!emailValido(email)) {
+			throw new IllegalArgumentException("Utilize um telefone válido: ");
+		}
+		
+		c.setEmail(email);
+		return dao.atualizarCliente(c);
+	}
+	
+	/**
+	 * Método atualizarSenha
+	 * Atualiza a senha do cliente
+	 * @param c objeto cliente
+	 * @param senha do cliente
+	 * @return êxito ou não
+	 */
+	public boolean atualizarSenha(Cliente c, String senha) {
+		if (!senhaValida(senha)) {
+			throw new IllegalArgumentException("Utilize uma senha válida: ");
+		}
+		
+		c.setSenha(senha);
+		return dao.atualizarCliente(c);
+	}
+	
+	/**
+	 * Método cadastrarCliente
+	 * @param r
+	 * @return êxito ou não
+	 */
+	public boolean cadastrarCliente(Cliente c) {
+		return dao.inserirCliente(c);
+	}
+	
+	/**
+	 * Método retornarCliente
+	 * @param cnpj
+	 * @return êxito ou não
+	 */
+	public Cliente retornarCliente(String cpf) {
+		return dao.retornarCliente(cpf);
+	}
+	
+	/**
+	 * Método cpfValido
+	 * @param cnpj
+	 * @return êxito ou não
+	 */
+	private boolean cpfValido(String cpf) {	
+		return cpf.length() == 11 && cpf.matches("^[0-9]+$");
+	}
+	
+	/**
+	 * Método cpfDisponivel
+	 * @param cnpj
+	 * @return êxito ou não
+	 */
+	private boolean cpfDisponivel(String cpf) {
+		return dao.retornarCliente(cpf) == null;
+	}
+	
+	/**
+	 * Método primeiroNomeValido
+	 * @param primeiroNome
+	 * @return êxito ou não
+	 */
+	private boolean primeiroNomeValido(String primeiroNome) {
+		return primeiroNome.length() >= 3 && primeiroNome.length() <= 20 && primeiroNome.matches("^[A-Za-zÀ-ÿ]+$");
+	}
+	
+	/**
+	 * Método nomeMeioValido
+	 * @param nomeMeio
+	 * @return êxito ou não
+	 */
+	private boolean nomeMeioValido(String nomeMeio) {
+		return nomeMeio.length() >= 3 && nomeMeio.length() <= 20 && nomeMeio.matches("^[A-Za-zÀ-ÿ ]+$");
+	}
+	
+	/**
+	 * Método ultimoNomeValido
+	 * @param ultimoNome
+	 * @return êxito ou não
+	 */
+	private boolean ultimoNomeValido(String ultimoNome) {
+		return ultimoNome.length() >= 3 && ultimoNome.length() <= 20 && ultimoNome.matches("^[A-Za-zÀ-ÿ]+$");
+	}
+	
+	/**
+	 * Método telefoneValido
+	 * @param telefone
+	 * @return êxito ou não
+	 */
+	private boolean telefoneValido(String telefone) {
+		return telefone.length() <= 11 && telefone.matches("^[0-9]+$");
+	}
+	
+	/**
+	 * Método emailValido
+	 * @param email
+	 * @return êxito ou não
+	 */
+	private boolean emailValido(String email) {
+		return email.length() <= 255 && email.contains("@");
+	}
+	
+	/**
+	 * Método senhaValida
+	 * @param senha do cliente
+	 * @return êxito ou não
+	 */
+	private boolean senhaValida(String senha) {
+		return senha.length() < 255;
+	}	
+	
+	
+}
