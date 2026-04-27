@@ -17,7 +17,7 @@ import services.ServicoEndereco;
  * - comunicar com a camada serviço
  *
  * @author Rodrigo
- * @since 27-04-2026
+ * @since 24-04-2026
  */
 
 public class MenuEnderecoRestaurante {
@@ -34,21 +34,21 @@ public class MenuEnderecoRestaurante {
 	/**
 	 * Método mostrar
 	 * 
-	 * Responsável por exibir a interface de endereço para o cliente pode gerenciar
+	 * Responsável por exibir a interface de endereço para o restaurante pode gerenciar
 	 * tem dois estados:
-	 * se o cliente possui um endereço exibe um menu, caso contrário outro
+	 * se o restaurante possui um endereço exibe um menu, caso contrário outro
 	 * 
-	 * @param c objeto cliente
+	 * @param r objeto restaurante
 	 */
 	public void mostrar(Restaurante r) {
 		
 		int option = 9;
 		
-		//armazena o endereço do cliente
+		//armazena o endereço do restaurante
 		endereco = servicoendereco.retornarEnderecoRestaurante(r.getCnpj());
 		
 		if (endereco == null) {
-			System.out.println("Você não possui um endereço cadastrado!");
+			System.out.println("Você não possue um endereço cadastrado!");
 			System.out.println("O que deseja fazer?");
 			System.out.println("1- Adicionar endereço");
 			System.out.println("2- Voltar ao menu anterior");
@@ -91,7 +91,7 @@ public class MenuEnderecoRestaurante {
 				System.out.println("Número do restaurante: " + endereco.getNumero());
 				System.out.println("1- Atualizar CEP");
 				System.out.println("2- Atualizar nome da rua");
-				System.out.println("3- Atualizar o número da rua");
+				System.out.println("3- Atualizar o número do restaurante");
 				System.out.println("4- voltar ao menu anterior");
 				System.out.print("O que deseja fazer? ");
 				
@@ -115,13 +115,13 @@ public class MenuEnderecoRestaurante {
 				//acesso as opções do menu			
 				switch (option) {
 					case 1:
-						this.atualizarCepRestaurante(endereco);
+						this.atualizarCep(endereco);
 						break;
 					case 2:
-						this.atualizarNomeEnderecoRestaurante(endereco);
+						this.atualizarNome(endereco);
 						break;
 					case 3:
-						this.atualizarNumeroEnderecoRestaurante(endereco);
+						this.atualizarNumero(endereco);
 						break;
 					case 4:
 						System.out.println("Voltando ao menu anterior");
@@ -150,47 +150,47 @@ public class MenuEnderecoRestaurante {
 		String nome;
 		int numero;
 	
-		//campo para validação do CEP
+		// validação do CEP
+		System.out.println("Digite o CEP do restaurante (8 dígitos): ");
 		while (true) {
-		    System.out.print("Digite o CEP da rua do restaurante (8 dígitos): ");
-		    cep = sc.nextLine().trim();
-
-		    try {
-		        servicoendereco.validarCep(cep);
-		        break;
-		    } catch (IllegalArgumentException e) {
-		        System.out.println(e.getMessage());
-		    }
+			
+			cep = sc.nextLine().trim();
+			
+			if (servicoendereco.cepValido(cep)) {
+				break;
+			} else {
+				System.out.print("Utilize 8 digitos para o CEP: ");
+			}
+			
 		}
 		
-		//campo para validação do nome da rua
+		// validação do nome da rua do restaurante
+		System.out.println("Digite o nome da rua do restaurante (até 100 dígitos): ");
 		while (true) {
-		    System.out.print("Digite o nome da rua do restaurante: ");
-		    nome = sc.nextLine().trim();
-
-		    try {
-		        servicoendereco.validarNome(nome);
-		        break;
-		    } catch (IllegalArgumentException e) {
-		        System.out.println(e.getMessage());
-		    }
+			
+			nome = sc.nextLine().trim();
+			
+			if (servicoendereco.nomeValido(nome)) {
+				break;
+			} else {
+				System.out.print("Nome inválido. Tente novamente: ");
+			}
+			
 		}
 		
-		// validação do número da rua do restaurante
+		// validação do número do restaurante
+		System.out.println("Digite o novo Número do restaurante (8 dígitos): ");
 		while (true) {
-		    System.out.print("Digite o número do restaurante: ");
-	
-		    try {
-		    	
-		    	numero = sc.nextInt();
-			    sc.nextLine();
-			    
-		        servicoendereco.validarNumero(numero);
-		        break;
-		    } catch (Exception e) {
-		        System.out.println(e.getMessage());
-		        
-		    }
+			
+			numero = sc.nextInt();
+			sc.nextLine();
+			
+			if (servicoendereco.numeroValido(numero)) {
+				break;
+			} else {
+				System.out.print("Utilize 8 digitos para o CEP: ");
+			}
+			
 		}
 		
 		System.out.println("Confirmando informações: ");
@@ -215,7 +215,7 @@ public class MenuEnderecoRestaurante {
 				
 				//chamada do método para cadastro e verificação se houve êxito na ação
 				if(servicoendereco.inserirEnderecoRestaurante(er)) {
-					System.out.println("Endereço do restaurante cadastrado com sucesso!");
+					System.out.println("Endereço do Restaurante cadastrado com sucesso!");
 					return;
 					
 				} else {
@@ -237,83 +237,94 @@ public class MenuEnderecoRestaurante {
 	}
 
 	/**
-	 * Método atualizarCepRestaurante
-	 * Edição do endereço do restaurante
-	 * @param er objeto enderecoRestaurante
+	 * Método atualizarCep
+	 * 
+	 * Implementa a edição de apenas o Cep
+	 * 
+	 * @param er objeto endereçoRestaurante existence
 	 */
-	private void atualizarCepRestaurante(EnderecoRestaurante er) {
-		//campo para validação do CEP
+	private void atualizarCep(EnderecoRestaurante er) {
+		
+		System.out.println("Digite o novo CEP do restaurante (8 dígitos): ");
 		while (true) {
-			System.out.print("Digite o novo CEP do restaurante (8 dígitos): ");
 			
-			String cep = sc.next().trim();
+			String cep = sc.nextLine().trim();
 			
-			try {
-				if(servicoendereco.atualizarCepEnderecoRestaurante(er, cep)) {
-					System.out.println("Informações alteradas com sucesso!");
-					break;
-				} else {
-					System.out.println("Erro ao atualizar no banco");
-				}
-			} catch (IllegalArgumentException e) {
-				System.out.println(e.getMessage());
+			if (servicoendereco.cepValido(cep)) {
+				er.setCep(cep);
+				break;
+			} else {
+				System.out.print("Utilize 8 digitos para o CEP: ");
 			}
+			
+		}
+		
+		if(servicoendereco.atualizarEnderecoRestaurante(er)) {
+			System.out.println("Número do restaurante atualizado com sucesso!");
+		} else {
+			System.out.println("Ocorreu um erro ao atualizar as informações");
 		}
 		
 	}
 	
 	/**
-	 * Método atualizarNomeEnderecoRestaurante
-	 * Implementa a edição do nome do endereço
-	 * @param er objeto enderecorestaurante
+	 * Método atualizarNome
+	 * 
+	 * Implementa a edição de apenas o Nome
+	 * 
+	 * @param er objeto endereçoRestaurante existence
 	 */
-	private void atualizarNomeEnderecoRestaurante(EnderecoRestaurante er) {
+	private void atualizarNome(EnderecoRestaurante er) {
 		
-		//campo para validação do nome da rua
+		System.out.println("Digite o nome da rua do restaurante (até 100 dígitos): ");
 		while (true) {
-			System.out.print("Digite o novo nome da sua rua: ");
 			
 			String nome = sc.nextLine().trim();
 			
-			try {
-				if(servicoendereco.atualizarNomeEnderecoRestaurante(er, nome)) {
-					System.out.println("Informações alteradas com sucesso!");
-					break;
-				} else {
-					System.out.println("Erro ao atualizar no banco");
-				}
-			} catch (IllegalArgumentException e) {
-				System.out.println(e.getMessage());
+			if (servicoendereco.nomeValido(nome)) {
+				er.setNome(nome);
+				break;
+			} else {
+				System.out.print("Nome inválido. Tente novamente: ");
 			}
+			
+		}
+		
+		if(servicoendereco.atualizarEnderecoRestaurante(er)) {
+			System.out.println("Número do restaurante atualizado com sucesso!");
+		} else {
+			System.out.println("Ocorreu um erro ao atualizar as informações");
 		}
 	}
 	
 	/**
-	 * Método atualizarNumeroEnderecoRestaurante
-	 * Implementa a edição do número do endereço
-	 * @param er objeto enderecorestaurante
+	 * Método atualizarNumero
+	 * 
+	 * Implementa a edição de apenas o Numero
+	 * 
+	 * @param er objeto endereçoRestaurante existence
 	 */
-	private void atualizarNumeroEnderecoRestaurante(EnderecoRestaurante er) {
+	private void atualizarNumero(EnderecoRestaurante er) {
 		
-		//campo para validação do número da rua
+		System.out.println("Digite o novo Número do restaurante (8 dígitos): ");
 		while (true) {
-			System.out.print("Digite o novo número da sua rua: ");
-	
-			try {
-				
-				int numero = sc.nextInt();
-				sc.nextLine();
-				
-				if(servicoendereco.atualizarNumeroEnderecoRestaurante(er, numero)) {
-					System.out.println("Informações alteradas com sucesso!");
-					break;
-				} else {
-					System.out.println("Erro ao atualizar no banco");
-				}
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+			
+			int numero = sc.nextInt();
+			sc.nextLine();
+			
+			if (servicoendereco.numeroValido(numero)) {
+				er.setNumero(numero);
 				break;
+			} else {
+				System.out.print("Utilize 8 digitos para o CEP: ");
 			}
+			
+		}
+		
+		if(servicoendereco.atualizarEnderecoRestaurante(er)) {
+			System.out.println("Número do restaurante atualizado com sucesso!");
+		} else {
+			System.out.println("Ocorreu um erro ao atualizar as informações");
 		}
 		
 	}

@@ -13,10 +13,10 @@ import services.ServicoRestaurante;
  * Classe responsável por oferecer a interface do sistema para o restaurante
  *
  * Responsabilidades:
- * - oferecer menus interativos para o cliente
+ * - oferecer menus interativos para o restaurante
  *
  * @author Rodrigo
- * @since 27-04-2026
+ * @since 23-04-2026
  */
 
 public class MenuRestaurante {
@@ -54,7 +54,6 @@ public class MenuRestaurante {
 				try {
 					
 					option = sc.nextInt();
-					sc.nextLine();
 					
 					//verificar se a opção do usuário está fora do intervalo permitido
 					if (!(option >= 0 && option <= 3)) {
@@ -106,56 +105,64 @@ public class MenuRestaurante {
 		
 		System.out.println("CADASTRO DE NOVO RESTAURANTE");
 		
-		//campo para validação de CPF
+		//campo para validação de CNPJ
+		System.out.print("Digite o CNPJ do seu restaurante (14 Dígitos): ");
 		while (true) {
-		    System.out.print("Digite o seu CNPJ (14 dígitos): ");
-		    cnpj = sc.nextLine().trim();
-
-		    try {
-		        servicorestaurante.validarCnpj(cnpj);
-		        break;
-		    } catch (IllegalArgumentException e) {
-		        System.out.println(e.getMessage());
-		    }
+			
+			cnpj = sc.next().trim();
+			
+			if(servicorestaurante.cnpjValido(cnpj)) {
+				if(servicorestaurante.cnpjDisponivel(cnpj)) {
+					break;
+					
+				} else {
+					System.out.print("O CNPJ informado já está em uso, tente outro: ");
+				}
+				
+			} else {
+				System.out.print("Digite um CNPJ Válido: ");
+			}
 		}
 		
-		//campo para validação do nome do restaurante
+		sc.nextLine();
+		//campo para validação de Nome
+		System.out.print("Insira o nome do restaurante (3-40 caracteres): ");
 		while (true) {
-		    System.out.print("Digite o nome do restaurante: ");
-		    nome = sc.nextLine().trim();
-
-		    try {
-		        servicorestaurante.validarNome(nome);
-		        break;
-		    } catch (IllegalArgumentException e) {
-		        System.out.println(e.getMessage());
-		    }
+			
+			nome = sc.nextLine().trim();
+			
+			if (servicorestaurante.nomeValido(nome)) {
+				break;
+			} else {
+				System.out.print("Utilize a quantidade de caracteres informada (3-40): ");
+			}
+			
 		}
-				
+		
 		//campo para validação de telefone
+		System.out.print("Insira o telefone do restaurante (até 11 números): ");
 		while (true) {
-		    System.out.print("Digite o telefone do restaurante: ");
-		    telefone = sc.nextLine().trim();
-
-		    try {
-		        servicorestaurante.validarTelefone(telefone);
-		        break;
-		    } catch (IllegalArgumentException e) {
-		        System.out.println(e.getMessage());
-		    }
+			
+			telefone = sc.next().trim();
+			
+			if (servicorestaurante.telefoneValido(telefone)) {
+				break;
+			} else {
+				System.out.print("Utilize apenas 11 dígitos para o telefone: ");
+			}
 		}
-	
+		
 		//campo para validação de senha
+		System.out.print("Insira a senha do restaurante: ");
 		while (true) {
-		    System.out.print("Digite a senha de acesso do restaurante: ");
-		    senha = sc.nextLine().trim();
-
-		    try {
-		        servicorestaurante.validarSenha(senha);
-		        break;
-		    } catch (IllegalArgumentException e) {
-		        System.out.println(e.getMessage());
-		    }
+			
+			senha = sc.next().trim();
+			
+			if (servicorestaurante.senhaValida(senha)) {
+				break;
+			} else {
+				System.out.print("Senha inválida, tente novamente: ");
+			}
 		}
 		
 		System.out.println("Confirmando informações: ");
@@ -202,7 +209,7 @@ public class MenuRestaurante {
 	/**
 	 * Método fazerLogin
 	 * 
-	 * Responsável por receber credenciais do restaurante e passá-las para a camada de serviço
+	 * Responsável por receber credenciais do usuário e passá-las para a camada de serviço
 	 * 
 	 */
 	private void fazerLogin() {
@@ -216,7 +223,7 @@ public class MenuRestaurante {
 		//verifica se houve retorno para um restaurante
 		if(r != null) {
 
-			System.out.print("Digite a senha do restaurante: ");
+			System.out.print("Digite a senha da sua conta: ");
 			
 			String senha = sc.next().trim();
 			
@@ -235,11 +242,11 @@ public class MenuRestaurante {
 	}
 	
 	/**
-	 * Método menuClienteLogado
+	 * Método menuRestauranteLogado
 	 * 
-	 * Responsável por oferecer o menu de ações para o cliente em sessão
+	 * Responsável por oferecer opções de gerenciamento para o restaurante em sessão
 	 * 
-	 * @param c objeto Cliente
+	 * @param r objeto restaurante
 	 */
 	private void menuRestauranteLogado(Restaurante r) {
 		int option = -1;
