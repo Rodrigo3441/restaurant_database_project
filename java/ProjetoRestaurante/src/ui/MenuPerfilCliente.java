@@ -3,9 +3,7 @@ package ui;
 import java.util.Scanner;
 
 import entities.Cliente;
-import entities.Restaurante;
 import services.ServicoCliente;
-import services.ServicoRestaurante;
 
 /**
  * Classe: MenuPerfilCliente
@@ -39,7 +37,7 @@ public class MenuPerfilCliente {
 	 * 
 	 * Responsável por exibir as ações de personalização do perfil
 	 * 
-	 * @param r objeto Restaurante
+	 * @param c objeto Cliente
 	 */
 	public void mostrarMenuPerfil(Cliente c) {
 		int option = 9;
@@ -94,7 +92,8 @@ public class MenuPerfilCliente {
 					this.atualizarSenha(c);		
 					break;
 				case 7:
-					
+					MenuEnderecoCliente menuenderecocliente = new MenuEnderecoCliente();
+					menuenderecocliente.mostrar(c);
 					break;
 				case 8:
 					return;
@@ -125,7 +124,7 @@ public class MenuPerfilCliente {
 				} else {
 					System.out.println("Erro ao atualizar no banco");
 				}
-			} catch (IllegalArgumentException  e) {
+			} catch (IllegalArgumentException e) {
 				System.out.println(e.getMessage());
 			}
 		}

@@ -9,13 +9,13 @@ import services.ServicoRestaurante;
  * Classe: MenuPerfilRestaurante
  *
  * Descrição:
- * Classe responsável por oferecer a interface do sistema para o usuário
+ * Classe responsável por oferecer a interface do sistema para o restaurante
  *
  * Responsabilidades:
  * - oferecer menus interativos para o usuário
  *
  * @author Rodrigo
- * @since 23-04-2026
+ * @since 27-04-2026
  */
 
 public class MenuPerfilRestaurante {
@@ -34,9 +34,7 @@ public class MenuPerfilRestaurante {
 
 	/**
 	 * Método mostrarMenuPerfil
-	 * 
-	 * Responsável por exibir as ações de personalização do perfil
-	 * 
+	 * Responsável por exibir as ações de personalização do perfil do restaurante
 	 * @param r objeto Restaurante
 	 */
 	public void mostrarMenuPerfil(Restaurante r) {
@@ -92,106 +90,85 @@ public class MenuPerfilRestaurante {
 				
 			}
 
-		} while (option != 3);
+		} while (option != 6);
 		
 	}
 	
 	/**
 	 * Método atualizarNome
-	 * 
 	 * Responsável por atualizar o nome do restaurante
-	 * 
 	 * @param r objeto restaurante
 	 */
 	private void atualizarNome(Restaurante r) {
-		String nome;
-		//campo para validação de Nome
-		System.out.print("Insira o novo nome do restaurante (3-40 caracteres): ");
+		//campo para validação do nome do restaurante
 		while (true) {
+			System.out.print("Insira o seu primeiro nome (3-40 letras): ");
 			
-			nome = sc.nextLine().trim();
-			sc.nextLine();
+			String nome = sc.nextLine().trim();
 			
-			if (servicorestaurante.nomeValido(nome)) {
-				break;
-			} else {
-				System.out.print("Utilize a quantidade de caracteres informada (3-40): ");
+			try {
+				if(servicorestaurante.atualizarNome(r, nome)) {
+					System.out.println("Informações alteradas com sucesso!");
+					break;
+				} else {
+					System.out.println("Erro ao atualizar no banco");
+				}
+			} catch (IllegalArgumentException e) {
+				System.out.println(e.getMessage());
 			}
-			
 		}
 		
-		r.setNome(nome);
-		
-		//atualiza e verifica se houve exito
-		if(servicorestaurante.atualizarRestaurante(r)) {
-			System.out.println("Nome atualizado com sucesso!");
-		} else {
-			System.out.println("Ocorreu um erro ao atualizar o nome.");
-		}
 	}
 	
 	/**
 	 * Método atualizarTelefone
-	 * 
 	 * Responsável por atualizar o telefone do restaurante
-	 * 
 	 * @param r objeto restaurante
 	 */
 	private void atualizarTelefone(Restaurante r) {
-		String telefone;
-		//campo para validação de telefone
-		System.out.print("Insira o novo telefone do restaurante (até 11 números): ");
+		//campo para validação do telefone
 		while (true) {
+			System.out.print("Insira o novo telefone do restaurante (até 11 dígitos): ");
 			
-			telefone = sc.next().trim();
+			String telefone = sc.next().trim();
 			
-			if (servicorestaurante.telefoneValido(telefone)) {
-				break;
-			} else {
-				System.out.print("Utilize apenas 11 dígitos para o telefone: ");
+			try {
+				if(servicorestaurante.atualizarTelefone(r, telefone)) {
+					System.out.println("Informações alteradas com sucesso!");
+					break;
+				} else {
+					System.out.println("Erro ao atualizar no banco");
+				}
+			} catch (IllegalArgumentException  e) {
+				System.out.println(e.getMessage());
 			}
-		}
-			
-		r.setTelefone(telefone);
-		
-		//atualiza e verifica se houve exito
-		if(servicorestaurante.atualizarRestaurante(r)) {
-			System.out.println("Telefone atualizado com sucesso!");
-		} else {
-			System.out.println("Ocorreu um erro ao atualizar o telefone.");
 		}
 	}
 	
 	/**
 	 * Método atualizarSenha
-	 * 
 	 * Responsável por atualizar a senha do restaurante 
-	 * 
 	 * @param r
 	 */
 	private void atualizarSenha(Restaurante r) {
-		String senha;
-		//campo para validação de telefone
-		System.out.print("Insira a nova senha do restaurante: ");
+		//campo para validação da senha
 		while (true) {
+			System.out.print("Insira a nova senha do restaurante: ");
 			
-			senha = sc.next().trim();
+			String senha = sc.next().trim();
 			
-			if (servicorestaurante.senhaValida(senha)) {
-				break;
-			} else {
-				System.out.print("Senha inválida, tente novamente: ");
+			try {
+				if(servicorestaurante.atualizarSenha(r, senha)) {
+					System.out.println("Informações alteradas com sucesso!");
+					break;
+				} else {
+					System.out.println("Erro ao atualizar no banco");
+				}
+			} catch (IllegalArgumentException  e) {
+				System.out.println(e.getMessage());
 			}
-		}
+		}	
 			
-		r.setSenha(senha);
-		
-		//atualiza e verifica se houve exito
-		if(servicorestaurante.atualizarRestaurante(r)) {
-			System.out.println("senha atualizada com sucesso!");
-		} else {
-			System.out.println("Ocorreu um erro ao atualizar a senha.");
-		}
 	}
 	
 }

@@ -216,7 +216,7 @@ public class MenuCliente {
 			String opt = sc.next();
 			
 			if (opt.equals("s")) {
-				//instanciação de um novo restaurante e vinculação dos atributos
+				//instanciação de um novo cliente e vinculação dos atributos
 				Cliente c = new Cliente();
 				c.setCpf(cpf);
 				c.setPrimeiroNome(primeiroNome);
