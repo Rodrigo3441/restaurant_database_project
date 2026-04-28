@@ -276,7 +276,8 @@ public class MenuRestaurante {
 					
 					break;
 				case 3:
-					
+					MenuProdutoRestaurante menuproduto = new MenuProdutoRestaurante();
+					menuproduto.mostrarMenuProdutos(r);
 					break;
 				case 4:
 					
