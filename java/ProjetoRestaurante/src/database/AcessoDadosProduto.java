@@ -71,15 +71,15 @@ public class AcessoDadosProduto {
 	}
 	
 	/**
-	 * Método retornarProduto
+	 * Método retornarProdutoPorId
 	 * 
 	 * Responsável por trazer as informações do produto da base de dados
-	 * para que possam ser utilizadas para consultas
+	 * com base no Id do produto
 	 *  
 	 * @param codigo: codigo do produto buscado
 	 * @return um objeto produto
 	 */
-	public Produto retornarProduto(int codigo) {
+	public Produto retornarProdutoPorId(int codigo) {
 		String sqlQuery = "SELECT * FROM PRODUTO WHERE pk_prd_codigo = ?";
 		
 		//preparação da query antes da execução
@@ -87,6 +87,52 @@ public class AcessoDadosProduto {
 			
 			//vinculação dos atributos à query preparada
 			stmt.setInt(1, codigo);
+			
+			ResultSet resultado = stmt.executeQuery();
+			
+			//se houver resultado da busca pelo cpnj, instancia um objeto restaurante
+			//com os atributos do resultado
+			if (resultado.next()) {
+				Produto p = new Produto();
+							
+				p.setCodigo(resultado.getInt("pk_prd_codigo"));
+				p.setNome(resultado.getString("prd_nome"));
+				p.setDescricao(resultado.getString("prd_descricao"));
+				
+				//categoria do produto pode ser null
+				int categoria = resultado.getInt("fk_prd_id_catg");
+				if (!resultado.wasNull()) {
+					p.setIdCategoria(categoria);
+				}
+				return p;
+
+			}
+									
+		} catch (SQLException e) {
+			System.err.println("Erro na operação de PRODUTO");
+		    e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Método retornarProdutoPorId
+	 * 
+	 * Responsável por trazer as informações do produto da base de dados
+	 * com base no Id do produto
+	 *  
+	 * @param codigo: codigo do produto buscado
+	 * @return um objeto produto
+	 */
+	public Produto retornarProdutoPorNome(String nome) {
+		String sqlQuery = "SELECT * FROM PRODUTO WHERE prd_nome LIKE ?";
+		
+		//preparação da query antes da execução
+		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+			
+			//vinculação dos atributos à query preparada
+			stmt.setString(1, "%" + nome + "%");
 			
 			ResultSet resultado = stmt.executeQuery();
 			
