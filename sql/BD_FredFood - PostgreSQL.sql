@@ -53,7 +53,7 @@ CREATE TABLE RESTAURANTE (
 -- Tabela Produto
 CREATE TABLE PRODUTO (
 	pk_prd_codigo INT PRIMARY KEY,
-    prd_nome VARCHAR(50) NOT NULL,
+    prd_nome VARCHAR(50) UNIQUE NOT NULL,
     prd_descricao VARCHAR (255) NOT NULL,
     fk_prd_id_catg INT NULL,
 
