@@ -2,9 +2,9 @@ package ui;
 
 import java.sql.Connection;
 import java.util.Scanner;
-import database.AcessoDadosCliente;
+import database.ClienteDAO;
 import entities.Cliente;
-import services.ServicoCliente;
+import services.ClienteService;
 
 /**
  * Classe: MenuCliente
@@ -22,7 +22,7 @@ import services.ServicoCliente;
 public class MenuCliente {
 	
 	private Scanner sc = new Scanner(System.in);
-	private ServicoCliente servicocliente;
+	private ClienteService servicocliente;
 	
 	/**
 	 * Recebe uma conexão para permitir comunicação com banco de dados
@@ -30,7 +30,7 @@ public class MenuCliente {
 	 * @param conn
 	 */
 	public MenuCliente(Connection conn) {
-		this.servicocliente = new ServicoCliente(new AcessoDadosCliente(conn));
+		this.servicocliente = new ClienteService(new ClienteDAO(conn));
 	}
 	
 	/**

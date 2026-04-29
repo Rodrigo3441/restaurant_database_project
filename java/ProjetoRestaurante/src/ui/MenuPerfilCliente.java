@@ -3,7 +3,7 @@ package ui;
 import java.util.Scanner;
 
 import entities.Cliente;
-import services.ServicoCliente;
+import services.ClienteService;
 
 /**
  * Classe: MenuPerfilCliente
@@ -21,13 +21,13 @@ import services.ServicoCliente;
 public class MenuPerfilCliente {
 	
 	private Scanner sc = new Scanner(System.in);
-	private ServicoCliente servicocliente;
+	private ClienteService servicocliente;
 	
 	/**
 	 * 
 	 * @param servicocliente
 	 */
-	public MenuPerfilCliente(ServicoCliente servicocliente) {
+	public MenuPerfilCliente(ClienteService servicocliente) {
 		this.servicocliente = servicocliente;
 	}
 	

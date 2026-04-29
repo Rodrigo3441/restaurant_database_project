@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import entities.EnderecoRestaurante;
 import entities.Restaurante;
-import services.ServicoEndereco;
+import services.EnderecoService;
 
 /**
  * Classe: MenuEnderecoRestaurante
@@ -24,7 +24,7 @@ public class MenuEnderecoRestaurante {
 
 	private Scanner sc = new Scanner(System.in);
 	private EnderecoRestaurante endereco;
-	private ServicoEndereco servicoendereco = new ServicoEndereco();
+	private EnderecoService servicoendereco = new EnderecoService();
 	
 	
 	public MenuEnderecoRestaurante() {

@@ -2,9 +2,9 @@ package ui;
 
 import java.sql.Connection;
 import java.util.Scanner;
-import database.AcessoDadosRestaurante;
+import database.RestauranteDAO;
 import entities.Restaurante;
-import services.ServicoRestaurante;
+import services.RestauranteService;
 
 /**
  * Classe: MenuRestaurante
@@ -22,7 +22,7 @@ import services.ServicoRestaurante;
 public class MenuRestaurante {
 	
 	private Scanner sc = new Scanner(System.in);
-	private ServicoRestaurante servicorestaurante;
+	private RestauranteService servicorestaurante;
 	
 	/**
 	 * Recebe uma conexão para permitir comunicação com banco de dados
@@ -30,7 +30,7 @@ public class MenuRestaurante {
 	 * @param conn
 	 */
 	public MenuRestaurante(Connection conn) {
-		this.servicorestaurante = new ServicoRestaurante(new AcessoDadosRestaurante(conn));
+		this.servicorestaurante = new RestauranteService(new RestauranteDAO(conn));
 	}
 	
 	/**
