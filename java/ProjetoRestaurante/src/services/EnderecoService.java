@@ -3,7 +3,7 @@ package services;
 import database.DatabaseConnection;
 import entities.EnderecoCliente;
 import entities.EnderecoRestaurante;
-import database.AcessoDadosEndereco;
+import database.EnderecoDAO;
 
 /**
  * Classe: ServicoEndereco
@@ -18,11 +18,11 @@ import database.AcessoDadosEndereco;
  * @since 27-04-2026
  */
 
-public class ServicoEndereco {
+public class EnderecoService {
 		
-	private AcessoDadosEndereco dao = new AcessoDadosEndereco(DatabaseConnection.getConnection());
+	private EnderecoDAO dao = new EnderecoDAO(DatabaseConnection.getConnection());
 	
-	public ServicoEndereco() {
+	public EnderecoService() {
 		
 	}
 	

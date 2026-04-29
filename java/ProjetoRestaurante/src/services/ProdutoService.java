@@ -1,6 +1,6 @@
 package services;
 
-import database.AcessoDadosProduto;
+import database.ProdutoDAO;
 import database.DatabaseConnection;
 import entities.Produto;
 
@@ -17,11 +17,11 @@ import entities.Produto;
  * @author Rodrigo
  * @since 27-04-2026
  */
-public class ServicoProduto {
+public class ProdutoService {
 	//conexão com o banco de dados que será usada em todas as operações
-	private AcessoDadosProduto dao = new AcessoDadosProduto(DatabaseConnection.getConnection());
+	private ProdutoDAO dao = new ProdutoDAO(DatabaseConnection.getConnection());
 	
-	public ServicoProduto() {
+	public ProdutoService() {
 		
 	}
 
@@ -67,6 +67,15 @@ public class ServicoProduto {
 	public Produto buscarProdutoPorNome(String nome) {
 		nome = nome.toLowerCase().trim();
 		return dao.retornarProdutoPorNome(nome);
+	}
+	
+	/**
+	 * 
+	 * @param codigo
+	 * @return
+	 */
+	public Produto buscarProdutoPorId(int codigo) {
+		return dao.retornarProdutoPorId(codigo);
 	}
 	
 	public boolean inserirProduto(Produto p) {

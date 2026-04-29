@@ -1,6 +1,6 @@
 package services;
 
-import database.AcessoDadosRestaurante;
+import database.RestauranteDAO;
 import entities.Restaurante;
 
 /**
@@ -17,15 +17,15 @@ import entities.Restaurante;
  * @since 27-04-2026
  */
 
-public class ServicoRestaurante {
+public class RestauranteService {
 	//conexão com o banco de dados que será usada em todas as operações
-	private AcessoDadosRestaurante dao;
+	private RestauranteDAO dao;
 	
 	/**
 	 * Construtor que recebe o objeto para conexão com a camada de dados
 	 * @param dao objeto AcessoDadosRestaurante
 	 */
-	public ServicoRestaurante(AcessoDadosRestaurante dao) {
+	public RestauranteService(RestauranteDAO dao) {
 		this.dao = dao;
 	}
 	

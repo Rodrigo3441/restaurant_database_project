@@ -1,6 +1,6 @@
 package services;
 
-import database.AcessoDadosCliente;
+import database.ClienteDAO;
 import entities.Cliente;
 
 /**
@@ -17,16 +17,16 @@ import entities.Cliente;
  * @since 24-04-2026
  */
 
-public class ServicoCliente {
+public class ClienteService {
 	//conexão com o banco de dados que será usada em todas as operações
-	private AcessoDadosCliente dao;
+	private ClienteDAO dao;
 	
 	/**
 	 * Construtor que recebe o objeto para conexão com a camada de dados
 	 * 
 	 * @param dao objeto AccesoDadosCliente
 	 */
-	public ServicoCliente(AcessoDadosCliente dao) {
+	public ClienteService(ClienteDAO dao) {
 		this.dao = dao;
 	}
 	
