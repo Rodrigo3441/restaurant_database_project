@@ -258,5 +258,15 @@ enr_nome = 'ggfdgfdgdfgfdg',
 enr_numero = 1231232132
 WHERE pk_fk_res_cnpj = '1234';
 
+-- consulta SQL para trazer os dados do produto + nome
+SELECT 
+p.prd_nome,
+pr.pdr_preco
+pr.prd_qtde_estoque,
+p.prd_descricao
+FROM PRODUTO_RESTAURANTE AS pr
+INNER JOIN PRODUTO AS p
+ON p.pk_prd_codigo = pr.pk_fk_prd_codigo;
+
 
 
