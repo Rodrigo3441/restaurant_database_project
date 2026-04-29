@@ -21,7 +21,7 @@ import entities.Produto;
  * @since 21-04-2026
  */
 
-public class AcessoDadosProduto {
+public class ProdutoDAO {
 	
 	private Connection conn;
 	
@@ -32,7 +32,7 @@ public class AcessoDadosProduto {
 	 * 
 	 * @param conn: objeto de conexão
 	 */
-	public AcessoDadosProduto(Connection conn) {
+	public ProdutoDAO(Connection conn) {
 		this.conn = conn;
 	}
 	
@@ -71,11 +71,8 @@ public class AcessoDadosProduto {
 	}
 	
 	/**
-	 * Método retornarProdutoPorId
-	 * 
 	 * Responsável por trazer as informações do produto da base de dados
 	 * com base no Id do produto
-	 *  
 	 * @param codigo: codigo do produto buscado
 	 * @return um objeto produto
 	 */
@@ -118,10 +115,8 @@ public class AcessoDadosProduto {
 	
 	/**
 	 * Método retornarProdutoPorId
-	 * 
 	 * Responsável por trazer as informações do produto da base de dados
 	 * com base no Id do produto
-	 *  
 	 * @param codigo: codigo do produto buscado
 	 * @return um objeto produto
 	 */
@@ -164,9 +159,7 @@ public class AcessoDadosProduto {
 	
 	/**
 	 * Método atualizarProduto
-	 * 
 	 * Responsável por atualizar as informações de um produto no banco de dados 
-	 * 
 	 * @param produto: objeto produto
 	 */
 	public boolean atualizarProduto(Produto produto) {
@@ -198,9 +191,7 @@ public class AcessoDadosProduto {
 	
 	/**
 	 * Método deletarProduto
-	 * 
 	 * Responsável por apagar um produto do banco de dados
-	 * 
 	 * @param codigo do produto
 	 * @return true ou false
 	 */

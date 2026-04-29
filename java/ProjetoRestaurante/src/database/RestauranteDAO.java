@@ -22,7 +22,7 @@ import entities.Restaurante;
  * @since 21-04-2026
  */
 
-public class AcessoDadosRestaurante {
+public class RestauranteDAO {
 	
 	private Connection conn;
 	
@@ -33,7 +33,7 @@ public class AcessoDadosRestaurante {
 	 * 
 	 * @param conn: objeto de conexão
 	 */
-	public AcessoDadosRestaurante(Connection conn) {
+	public RestauranteDAO(Connection conn) {
 		this.conn = conn;
 	}
 	

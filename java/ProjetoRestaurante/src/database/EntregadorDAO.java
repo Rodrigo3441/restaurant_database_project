@@ -21,7 +21,7 @@ import entities.Entregador;
  * @since 21-04-2026
  */
 
-public class AcessoDadosEntregador {
+public class EntregadorDAO {
 	
 	private Connection conn;
 	
@@ -32,14 +32,12 @@ public class AcessoDadosEntregador {
 	 * 
 	 * @param conn: objeto de conexão
 	 */
-	public AcessoDadosEntregador(Connection conn) {
+	public EntregadorDAO(Connection conn) {
 		this.conn = conn;
 	}
 	
 	/**
-	 * Método inserirEntregador
 	 * responsável por fazer a inserção de um novo entregador no banco de dados
-	 * 
 	 * @param entregador: objeto entregador
 	 */
 	public boolean inserirEntregador(Entregador entregador) {
@@ -76,11 +74,8 @@ public class AcessoDadosEntregador {
 	}
 	
 	/**
-	 * Método retornarEntregador
-	 * 
 	 * Responsável por trazer as informações do entregador da base de dados
 	 * para que possam ser utilizadas para atribuições nas entregas
-	 *  
 	 * @param cpf: cpf do entregador buscado
 	 * @return um objeto entregador
 	 */
@@ -120,10 +115,7 @@ public class AcessoDadosEntregador {
 	}
 	
 	/**
-	 * Método atualizarEntregador
-	 * 
 	 * Responsável por atualizar as informações de um entregador no banco de dados 
-	 * 
 	 * @param entregador: objeto entregador
 	 */
 	public boolean atualizarEntregador(Entregador entregador) {
@@ -160,10 +152,7 @@ public class AcessoDadosEntregador {
 	}
 	
 	/**
-	 * Método deletarEntregador
-	 * 
 	 * Responsável por apagar um entregador do banco de dados
-	 * 
 	 * @param cpf do entregador
 	 * @return true ou false
 	 */

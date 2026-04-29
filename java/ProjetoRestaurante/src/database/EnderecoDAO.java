@@ -22,7 +22,7 @@ import entities.EnderecoRestaurante;
  * @since 24-04-2026
  */
 
-public class AcessoDadosEndereco {
+public class EnderecoDAO {
 	
 	private Connection conn;
 	
@@ -33,7 +33,7 @@ public class AcessoDadosEndereco {
 	 * 
 	 * @param conn: objeto de conexão
 	 */
-	public AcessoDadosEndereco(Connection conn) {
+	public EnderecoDAO(Connection conn) {
 		this.conn = conn;
 	}
 	
@@ -73,11 +73,8 @@ public class AcessoDadosEndereco {
 	}
 	
 	/**
-	 * Método retornarEnderecoRestaurante
-	 * 
 	 * Responsável por trazer as informações do endereço do restaurante
-	 * para que possam ser utilizadas ao longo da sessão
-	 *  
+	 * para que possam ser utilizadas ao longo da sessão  
 	 * @param cnpj do restaurante
 	 * @return objeto do tipo EnderecoRestaurante ou false
 	 */
@@ -114,10 +111,7 @@ public class AcessoDadosEndereco {
 	}
 	
 	/**
-	 * Método atualizarEnderecoRestaurante
-	 * 
 	 * Responsável por atualizar as informações do endereço de um restaurante no banco de dados 
-	 * 
 	 * @param er: objeto EnderecoRestaurante
 	 */
 	public boolean atualizarEnderecoRestaurante(EnderecoRestaurante er) {
@@ -148,10 +142,7 @@ public class AcessoDadosEndereco {
 	}
 	
 	/**
-	 * Método inserirEnderecoCliente
-	 * 
 	 * Responsável for receber um objeto de endereço do cliente e inserir no banco de dados
-	 * 
 	 * @param ec objeto do tipo EnderecoCliente
 	 * @return true ou false
 	 */
@@ -183,11 +174,8 @@ public class AcessoDadosEndereco {
 	}
 	
 	/**
-	 * Método retornarEnderecoCliente
-	 * 
 	 * Responsável por trazer as informações do endereço do cliente
 	 * para que possam ser utilizadas ao longo da sessão
-	 *  
 	 * @param cpf do cliente
 	 * @return objeto do tipo EnderecoCliente ou false
 	 */
@@ -224,10 +212,7 @@ public class AcessoDadosEndereco {
 	}
 	
 	/**
-	 * Método atualizarEnderecoCliente
-	 * 
 	 * Responsável por atualizar as informações do endereço de um cliente no banco de dados 
-	 * 
 	 * @param ec: objeto EnderecoCliente
 	 */
 	public boolean atualizarEnderecoCliente(EnderecoCliente ec) {

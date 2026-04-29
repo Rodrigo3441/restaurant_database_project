@@ -21,7 +21,7 @@ import entities.Cliente;
  * @since 21-04-2026
  */
 
-public class AcessoDadosCliente {
+public class ClienteDAO {
 	
 	private Connection conn;
 	
@@ -32,12 +32,11 @@ public class AcessoDadosCliente {
 	 * 
 	 * @param conn: objeto de conexão
 	 */
-	public AcessoDadosCliente(Connection conn) {
+	public ClienteDAO(Connection conn) {
 		this.conn = conn;
 	}
 	
 	/**
-	 * Método inserirCliente
 	 * responsável por fazer a inserção de um novo cliente no banco de dados
 	 * 
 	 * @param restaurante: objeto restaurante
@@ -70,11 +69,8 @@ public class AcessoDadosCliente {
 	}
 	
 	/**
-	 * Método retornarCliente
-	 * 
 	 * Responsável por trazer as informações do cliente da base de dados
 	 * para que possam ser utilizadas ao longo da sessão
-	 *  
 	 * @param cpf: cpf do cliente buscado
 	 * @return um objeto cliente
 	 */
@@ -114,10 +110,7 @@ public class AcessoDadosCliente {
 	}
 	
 	/**
-	 * Método atualizarCliente
-	 * 
 	 * Responsável por atualizar as informações de um cliente no banco de dados 
-	 * 
 	 * @param cliente: objeto cliente
 	 */
 	public boolean atualizarCliente(Cliente cliente) {
@@ -154,10 +147,7 @@ public class AcessoDadosCliente {
 	}
 	
 	/**
-	 * Método deletarCliente
-	 * 
 	 * Responsável por apagar um cliente do banco de dados
-	 * 
 	 * @param cpf do cliente
 	 * @return true ou false
 	 */

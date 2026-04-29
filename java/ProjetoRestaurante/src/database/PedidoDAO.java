@@ -22,7 +22,7 @@ import entities.Pedido;
  * @since 21-04-2026
  */
 
-public class AcessoDadosPedido {
+public class PedidoDAO {
 	
 	private Connection conn;
 	
@@ -33,14 +33,12 @@ public class AcessoDadosPedido {
 	 * 
 	 * @param conn: objeto de conexão
 	 */
-	public AcessoDadosPedido(Connection conn) {
+	public PedidoDAO(Connection conn) {
 		this.conn = conn;
 	}
 	
 	/**
-	 * Método inserirPedido
 	 * responsável por fazer a inserção de um novo pedido no banco de dados
-	 * 
 	 * @param pedido: objeto pedido
 	 */
 	public boolean inserirPedido(Pedido pedido) {
@@ -71,11 +69,8 @@ public class AcessoDadosPedido {
 	}
 	
 	/**
-	 * Método retornarPedido
-	 * 
 	 * Responsável por trazer as informações do pedido da base de dados
 	 * para que possam ser utilizadas para fins de consulta
-	 *  
 	 * @param numero: numero do pedido buscado
 	 * @return um objeto do tipo pedido
 	 */
@@ -114,10 +109,7 @@ public class AcessoDadosPedido {
 	}
 	
 	/**
-	 * Método atualizarPedido
-	 * 
 	 * Responsável por atualizar as informações de um pedido no banco de dados 
-	 * 
 	 * @param pedido: objeto do tipo pedido
 	 */
 	public boolean atualizarPedido(Pedido pedido) {
@@ -146,10 +138,7 @@ public class AcessoDadosPedido {
 	}
 	
 	/**
-	 * Método deletarPedido
-	 * 
 	 * Responsável por apagar um pedido do banco de dados
-	 * 
 	 * @param numero do pedido
 	 * @return true ou false
 	 */
@@ -175,8 +164,6 @@ public class AcessoDadosPedido {
 	}
 	
 	/**
-	 * Metódo listarPedidos
-	 * 
 	 * Responsável por trazer informações de todos os pedidos do sistema
 	 * @return ArrayList com todos os restaurantes
 	 */
