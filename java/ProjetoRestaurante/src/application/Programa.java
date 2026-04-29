@@ -4,6 +4,7 @@ import java.sql.Connection;
 import database.DatabaseConnection;
 
 import ui.MenuPrincipal;
+import ui.MenuProdutoRestaurante;
 
 
 
@@ -18,6 +19,5 @@ public class Programa {
 		
 		MenuPrincipal mn = new MenuPrincipal(conn);
 		mn.mostrar();
-		
 	}
 }
