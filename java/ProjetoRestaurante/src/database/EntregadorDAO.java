@@ -1,9 +1,10 @@
-package database;
+  package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import entities.Entregador;
 
@@ -175,6 +176,46 @@ public class EntregadorDAO {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Responsável por trazer informações de todos os entregadores do sistema
+	 * @return ArrayList com todos os entregadores
+	 */
+	public ArrayList<Entregador> listarEntregadores(){
+		
+		//Lista para armazenar todos as instâncias de restaurante
+		ArrayList<Entregador> listaEntregadores = new ArrayList<Entregador>();
+		
+		String sqlQuery = "SELECT * FROM ENTREGADOR";
+		
+		//preparação da query antes da execução
+		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+			
+			ResultSet resultado = stmt.executeQuery();
+			
+			//armazenando todos os restaurantes encontrados na lista dinânica de restaurantes
+			while (resultado.next()) {
+				Entregador e = new Entregador();
+		
+				e.setCpf(resultado.getString("pk_etg_cpf"));
+				e.setPrimeiroNome(resultado.getString("etg_primeiro_nome"));
+				e.setNomeMeio(resultado.getString("etg_nome_meio"));
+				e.setUltimoNome(resultado.getString("etg_ultimo_nome"));
+				e.setTelefone(resultado.getString("etg_telefone"));
+				e.setVeiculo(resultado.getString("etg_veiculo"));
+				e.setDisponibilidade(resultado.getShort("etg_disponibilidade"));
+				
+				listaEntregadores.add(e);
+			}
+			
+			
+		} catch (SQLException e) {
+			System.err.println("Erro na operação de RESTAURANTE");
+		    e.printStackTrace();
+		}
+		
+		return listaEntregadores;
 	}
 	
 }

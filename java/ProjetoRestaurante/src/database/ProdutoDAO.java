@@ -37,9 +37,7 @@ public class ProdutoDAO {
 	}
 	
 	/**
-	 * Método inserirProduto
 	 * responsável por fazer a inserção de um novo produto no banco de dados
-	 * 
 	 * @param produto: objeto produto
 	 */
 	public boolean inserirProduto(Produto produto) {
@@ -114,10 +112,9 @@ public class ProdutoDAO {
 	}
 	
 	/**
-	 * Método retornarProdutoPorId
 	 * Responsável por trazer as informações do produto da base de dados
-	 * com base no Id do produto
-	 * @param codigo: codigo do produto buscado
+	 * com base no nome do produto
+	 * @param nome: nome do produto buscado
 	 * @return um objeto produto
 	 */
 	public Produto retornarProdutoPorNome(String nome) {
@@ -158,7 +155,6 @@ public class ProdutoDAO {
 	}
 	
 	/**
-	 * Método atualizarProduto
 	 * Responsável por atualizar as informações de um produto no banco de dados 
 	 * @param produto: objeto produto
 	 */
@@ -189,8 +185,7 @@ public class ProdutoDAO {
 		return false;
 	}
 	
-	/**
-	 * Método deletarProduto
+	/**s
 	 * Responsável por apagar um produto do banco de dados
 	 * @param codigo do produto
 	 * @return true ou false

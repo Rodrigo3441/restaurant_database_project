@@ -38,10 +38,7 @@ public class EnderecoDAO {
 	}
 	
 	/**
-	 * Método inserirEnderecoRestaurante
-	 * 
 	 * Responsável for receber um objeto de endereço do restaurante e inserir no banco de dados
-	 * 
 	 * @param er objeto do tipo EnderecoRestaurante
 	 * @return true ou false
 	 */

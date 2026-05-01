@@ -38,9 +38,7 @@ public class RestauranteDAO {
 	}
 	
 	/**
-	 * Método inserirRestaurante
 	 * responsável por fazer a inserção de um novo restaurante no banco de dados
-	 * 
 	 * @param restaurante: objeto restaurante
 	 */
 	public boolean inserirRestaurante(Restaurante restaurante) {
@@ -67,11 +65,8 @@ public class RestauranteDAO {
 	}
 	
 	/**
-	 * Método retornarRestaurante
-	 * 
 	 * Responsável por trazer as informações do restaurante da base de dados
 	 * para que possam ser utilizadas ao longo da sessão
-	 *  
 	 * @param cnpj: cnpj do Restaurante buscado
 	 * @return um objeto Restaurante
 	 */
@@ -115,10 +110,7 @@ public class RestauranteDAO {
 	}
 	
 	/**
-	 * Método atualizarRestaurante
-	 * 
 	 * Responsável por atualizar as informações de um restaurante no banco de dados 
-	 * 
 	 * @param restaurante: objeto restaurante
 	 */
 	public boolean atualizarRestaurante(Restaurante restaurante) {
@@ -151,10 +143,7 @@ public class RestauranteDAO {
 	}
 	
 	/**
-	 * Método deletarRestaurante
-	 * 
 	 * Responsável por apagar um restaurante do banco de dados
-	 * 
 	 * @param cnpj do restaurante
 	 * @return true ou false
 	 */
@@ -180,8 +169,6 @@ public class RestauranteDAO {
 	}
 	
 	/**
-	 * Metódo listarRestaurantes
-	 * 
 	 * Responsável por trazer informações de todos os restaurantes do sistema
 	 * @return ArrayList com todos os restaurantes
 	 */
