@@ -4,6 +4,16 @@ public class Entregador extends Usuario {
 	private String veiculo;
 	private Short disponibilidade;
 	
+	/**
+	 * Construtor com argumentos
+	 * @param cpf
+	 * @param primeiroNome
+	 * @param nomeMeio
+	 * @param ultimoNome
+	 * @param telefone
+	 * @param veiculo
+	 * @param disponibilidade
+	 */
 	public Entregador(String cpf, String primeiroNome, String nomeMeio, String ultimoNome, String telefone,
 			String veiculo, Short disponibilidade) {
 		super(cpf, primeiroNome, nomeMeio, ultimoNome, telefone);
@@ -11,6 +21,9 @@ public class Entregador extends Usuario {
 		this.disponibilidade = disponibilidade;
 	}
 	
+	/**
+	 * Construtor sem argumentos
+	 */
 	public Entregador() {
 		super();
 	}
@@ -35,8 +48,16 @@ public class Entregador extends Usuario {
 	 * 
 	 * @return
 	 */
-	public Short getDisponibilidade() {
+	public short getDisponibilidade() {
 		return disponibilidade;
+	}	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getDisponibilidadeString() {
+		return (this.disponibilidade == 0) ? "Livre" : "Ocupado";
 	}
 
 	/**
@@ -45,6 +66,23 @@ public class Entregador extends Usuario {
 	 */
 	public void setDisponibilidade(Short disponibilidade) {
 		this.disponibilidade = disponibilidade;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("Nome Completo: %s %s %s | "
+							+ "CPF: %s | "
+							+ "Telefone: %s | "
+							+ "Veículo: %s | "
+							+ "Disponibilidade: %s", 
+							primeiroNome, 
+							nomeMeio, 
+							ultimoNome, 
+							cpf,
+							telefone, 
+							veiculo, 
+							this.getDisponibilidadeString());
+		
 	}
 	
 	
