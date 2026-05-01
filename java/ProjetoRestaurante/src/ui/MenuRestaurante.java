@@ -273,7 +273,8 @@ public class MenuRestaurante {
 					menuperfil.mostrarMenuPerfil(r);
 					break;
 				case 2:
-					
+					MenuEntregadorRestaurante menuentregador = new MenuEntregadorRestaurante();
+					menuentregador.mostrarMenuEntregador();
 					break;
 				case 3:
 					MenuProdutoRestaurante menuproduto = new MenuProdutoRestaurante();
