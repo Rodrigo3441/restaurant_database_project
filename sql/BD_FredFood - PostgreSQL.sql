@@ -225,6 +225,8 @@ SELECT * FROM ITEM_PEDIDO;
 SELECT * FROM ENDERECO_CLIENTE;
 SELECT * FROM PRODUTO_RESTAURANTE;
 
+SELECT * FROM PRODUTO_RESTAURANTE;
+
 -- Query pra ver quantos produtos cada restaurante possui
 SELECT 
 pk_fk_res_cnpj,
@@ -256,16 +258,15 @@ enr_nome = 'ggfdgfdgdfgfdg',
 enr_numero = 1231232132
 WHERE pk_fk_res_cnpj = '1234';
 
--- consulta SQL para trazer os dados do produto + nome
+-- consulta SQL para trazer os 
 SELECT 
+pr.pk_fk_res_cnpj,
 p.prd_nome,
-pr.pdr_preco,
 pr.pdr_qtde_estoque,
-p.prd_descricao
+pr.pdr_preco
 FROM PRODUTO_RESTAURANTE AS pr
 INNER JOIN PRODUTO AS p
-ON p.pk_prd_codigo = pr.pk_fk_prd_codigo
-WHERE pk_fk_res_cnpj = ?;
+ON p.pk_prd_codigo = pr.pk_fk_prd_codigo;
 
 
 
