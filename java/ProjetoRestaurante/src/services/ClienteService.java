@@ -169,7 +169,7 @@ public class ClienteService {
 	 */
 	public boolean atualizarTelefone(Cliente c, String telefone) {
 		if (!telefoneValido(telefone)) {
-			throw new IllegalArgumentException("Utilize um nome válido: ");
+			throw new IllegalArgumentException("Utilize um telefone válido: ");
 		}
 		
 		c.setTelefone(telefone);
