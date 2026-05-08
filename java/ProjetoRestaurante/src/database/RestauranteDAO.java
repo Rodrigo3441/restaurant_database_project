@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import entities.Restaurante;
 
 /**
- * Classe: AcessoDadosRestaurante
+ * Classe: RestauranteDAO
  *
  * Descrição:
  * Classe responsável por gerenciar dados do restaurante
@@ -24,24 +24,13 @@ import entities.Restaurante;
 
 public class RestauranteDAO {
 	
-	private Connection conn;
-	
-	/**
-	 * Construtor
-	 * Recebe a conexão para que seja possível estabelecer
-	 * uma comunicação com o banco de dados
-	 * 
-	 * @param conn: objeto de conexão
-	 */
-	public RestauranteDAO(Connection conn) {
-		this.conn = conn;
-	}
-	
 	/**
 	 * responsável por fazer a inserção de um novo restaurante no banco de dados
-	 * @param restaurante: objeto restaurante
+	 * @param objeto de conexão
+	 * @param objeto restaurante
+	 * @return boolean
 	 */
-	public boolean inserirRestaurante(Restaurante restaurante) {
+	public boolean inserirRestaurante(Connection conn, Restaurante restaurante) {
 		String sqlQuery = "INSERT INTO RESTAURANTE (pk_res_cnpj, res_nome, res_telefone, res_senha) VALUES (?, ?, ?, ?)";
 		
 		//preparação da query antes da execução
@@ -66,11 +55,12 @@ public class RestauranteDAO {
 	
 	/**
 	 * Responsável por trazer as informações do restaurante da base de dados
-	 * para que possam ser utilizadas ao longo da sessão
+	 * para que possam ser utilizadas ao longo das operações
+	 * @param objeto de conexão
 	 * @param cnpj: cnpj do Restaurante buscado
 	 * @return um objeto Restaurante
 	 */
-	public Restaurante retornarRestaurante(String cnpj) {
+	public Restaurante retornarRestaurante(Connection conn, String cnpj) {
 		String sqlQuery = "SELECT * FROM RESTAURANTE WHERE pk_res_cnpj = ?";
 		
 		//preparação da query antes da execução
@@ -111,9 +101,11 @@ public class RestauranteDAO {
 	
 	/**
 	 * Responsável por atualizar as informações de um restaurante no banco de dados 
+	 * @param objeto de conexão
 	 * @param restaurante: objeto restaurante
+	 * @return boolean
 	 */
-	public boolean atualizarRestaurante(Restaurante restaurante) {
+	public boolean atualizarRestaurante(Connection conn, Restaurante restaurante) {
 		String sqlQuery = "UPDATE RESTAURANTE " +
 							"SET res_nome = ?, " +
 							"res_telefone = ?, " +
@@ -144,10 +136,11 @@ public class RestauranteDAO {
 	
 	/**
 	 * Responsável por apagar um restaurante do banco de dados
+	 * @param objeto de conexão
 	 * @param cnpj do restaurante
-	 * @return true ou false
+	 * @return boolean
 	 */
-	public boolean deletarRestaurante(String cnpj) {
+	public boolean deletarRestaurante(Connection conn, String cnpj) {
 		String sqlQuery = "DELETE FROM RESTAURANTE WHERE pk_res_cnpj = ?";
 		
 		//preparação da query antes da execução
@@ -170,9 +163,10 @@ public class RestauranteDAO {
 	
 	/**
 	 * Responsável por trazer informações de todos os restaurantes do sistema
-	 * @return ArrayList com todos os restaurantes
+	 * @param objeto de conexão
+	 * @return arraylist do tipo restaurante
 	 */
-	public ArrayList<Restaurante> listarRestaurantes(){
+	public ArrayList<Restaurante> listarRestaurantes(Connection conn){
 		
 		//Lista para armazenar todos as instâncias de restaurante
 		ArrayList<Restaurante> listaRestaurantes = new ArrayList<Restaurante>();

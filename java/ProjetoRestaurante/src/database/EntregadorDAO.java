@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import entities.Entregador;
 
 /**
- * Classe: AcessoDadosEntregador
+ * Classe: EntregadorDAO
  *
  * Descrição:
  * Classe responsável por gerenciar dados do Entregador
@@ -24,24 +24,13 @@ import entities.Entregador;
 
 public class EntregadorDAO {
 	
-	private Connection conn;
-	
-	/**
-	 * Construtor
-	 * Recebe a conexão para que seja possível estabelecer
-	 * uma comunicação com o banco de dados
-	 * 
-	 * @param conn: objeto de conexão
-	 */
-	public EntregadorDAO(Connection conn) {
-		this.conn = conn;
-	}
-	
 	/**
 	 * responsável por fazer a inserção de um novo entregador no banco de dados
-	 * @param entregador: objeto entregador
+	 * @param objeto de conexão
+	 * @param objeto entregador
+	 * @return boolean
 	 */
-	public boolean inserirEntregador(Entregador entregador) {
+	public boolean inserirEntregador(Connection conn, Entregador entregador) {
 		String sqlQuery = "INSERT INTO ENTREGADOR (" +
 						"pk_etg_cpf, etg_primeiro_nome, " +
 						"etg_nome_meio, " +
@@ -77,10 +66,11 @@ public class EntregadorDAO {
 	/**
 	 * Responsável por trazer as informações do entregador da base de dados
 	 * para que possam ser utilizadas para atribuições nas entregas
-	 * @param cpf: cpf do entregador buscado
-	 * @return um objeto entregador
+	 * @param objeto de conexão
+	 * @param cpf do entregador buscado
+	 * @return objeto entregador
 	 */
-	public Entregador retornarEntregador(String cpf) {
+	public Entregador retornarEntregador(Connection conn, String cpf) {
 		String sqlQuery = "SELECT * FROM ENTREGADOR WHERE pk_etg_cpf = ?";
 		
 		//preparação da query antes da execução
@@ -117,9 +107,11 @@ public class EntregadorDAO {
 	
 	/**
 	 * Responsável por atualizar as informações de um entregador no banco de dados 
-	 * @param entregador: objeto entregador
+	 * @param objeto de conexão
+	 * @param objeto entregador
+	 * @return boolean
 	 */
-	public boolean atualizarEntregador(Entregador entregador) {
+	public boolean atualizarEntregador(Connection conn, Entregador entregador) {
 		String sqlQuery = "UPDATE ENTREGADOR SET " +
 			            "etg_primeiro_nome = ?, " +
 			            "etg_nome_meio = ?, " +
@@ -154,10 +146,11 @@ public class EntregadorDAO {
 	
 	/**
 	 * Responsável por apagar um entregador do banco de dados
+	 * @param objeto de conexão
 	 * @param cpf do entregador
-	 * @return true ou false
+	 * @return boolean
 	 */
-	public boolean deletarEntregador(String cpf) {
+	public boolean deletarEntregador(Connection conn, String cpf) {
 		String sqlQuery = "DELETE FROM ENTREGADOR WHERE pk_etg_cpf = ?";
 		
 		//preparação da query antes da execução
@@ -180,9 +173,10 @@ public class EntregadorDAO {
 	
 	/**
 	 * Responsável por trazer informações de todos os entregadores do sistema
-	 * @return ArrayList com todos os entregadores
+	 * @param objeto de conexão
+	 * @return arraylist do tipo entregador
 	 */
-	public ArrayList<Entregador> listarEntregadores(){
+	public ArrayList<Entregador> listarEntregadores(Connection conn){
 		
 		//Lista para armazenar todos as instâncias de restaurante
 		ArrayList<Entregador> listaEntregadores = new ArrayList<Entregador>();

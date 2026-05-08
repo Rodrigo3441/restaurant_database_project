@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
+import entities.Cliente;
 import entities.Pedido;
+import entities.Restaurante;
 
 /**
- * Classe: AcessoDadosPedido
+ * Classe: PedidoDAO
  *
  * Descrição:
  * Classe responsável por gerenciar dados do pedido
@@ -24,57 +27,52 @@ import entities.Pedido;
 
 public class PedidoDAO {
 	
-	private Connection conn;
-	
 	/**
-	 * Construtor
-	 * Recebe a conexão para que seja possível estabelecer
-	 * uma comunicação com o banco de dados
-	 * 
-	 * @param conn: objeto de conexão
-	 */
-	public PedidoDAO(Connection conn) {
-		this.conn = conn;
-	}
-	
-	/**
-	 * responsável por fazer a inserção de um novo pedido no banco de dados
+	 * responsável por fazer a inserção de um novo pedido no banco de dados e retornar o id gerado
+	 * @param objeto de conexão
 	 * @param pedido: objeto pedido
+	 * @return int gerado como id do pedido
 	 */
-	public boolean inserirPedido(Pedido pedido) {
+	public int inserirPedido(Connection conn, Restaurante r, Cliente c) {
 		String sqlQuery = "INSERT INTO PEDIDO (ped_status, "
-				+ "fk_etg_cpf, "
 				+ "fk_res_cnpj, "
 				+ "fk_cli_cpf) "
-				+ "VALUES (?, ?, ?, ?)";
+				+ "VALUES (?, ?, ?)";
 		
 		//preparação da query antes da execução
-		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)){
 			
 			//vinculação dos atributos à query preparada
-			stmt.setString(1, pedido.getStatus());
-			stmt.setString(2, pedido.getCpfEntregador());
-			stmt.setString(3, pedido.getCnpjRestaurante());
-			stmt.setString(4, pedido.getCpfCliente());
+			stmt.setString(1, "Em preparo");
+			stmt.setString(2, r.getCnpj());
+			stmt.setString(3, c.getCpf());
 			
-			int linhasAfetadas = stmt.executeUpdate();
-			return linhasAfetadas > 0;
+			stmt.executeUpdate();
+			
+			//obtém a o id do pedido gerado
+			ResultSet resultado = stmt.getGeneratedKeys();
+			
+			if (resultado.next()) {
+				return resultado.getInt(1);
+			}
 			
 		} catch (SQLException e) {
 			System.err.println("Erro na operação de PEDIDO");
 		    e.printStackTrace();
 		}
 		
-		return false;
+		return -1;
+		
 	}
 	
 	/**
 	 * Responsável por trazer as informações do pedido da base de dados
 	 * para que possam ser utilizadas para fins de consulta
-	 * @param numero: numero do pedido buscado
-	 * @return um objeto do tipo pedido
+	 * @param objeto de conexão
+	 * @param numero do pedido buscado
+	 * @return objeto pedido
 	 */
-	public Pedido retornarPedido(int numero) {
+	public Pedido retornarPedido(Connection conn, int numero) {
 		String sqlQuery = "SELECT * FROM PEDIDO WHERE pk_ped_numero = ?";
 		
 		//preparação da query antes da execução
@@ -110,9 +108,11 @@ public class PedidoDAO {
 	
 	/**
 	 * Responsável por atualizar as informações de um pedido no banco de dados 
+	 * @param objeto de conexão
 	 * @param pedido: objeto do tipo pedido
+	 * @return boolean
 	 */
-	public boolean atualizarPedido(Pedido pedido) {
+	public boolean atualizarPedido(Connection conn, Pedido pedido) {
 		String sqlQuery = "UPDATE PEDIDO " +
 							"SET ped_status = ?, " +
 							"fk_etg_cpf = ? " +
@@ -139,10 +139,11 @@ public class PedidoDAO {
 	
 	/**
 	 * Responsável por apagar um pedido do banco de dados
+	 * @param objeto de conexão
 	 * @param numero do pedido
-	 * @return true ou false
+	 * @return boolean
 	 */
-	public boolean deletarPedido(int numero) {
+	public boolean deletarPedido(Connection conn, int numero) {
 		String sqlQuery = "DELETE FROM PEDIDO WHERE pk_ped_numero = ?";
 		
 		//preparação da query antes da execução
@@ -164,18 +165,25 @@ public class PedidoDAO {
 	}
 	
 	/**
-	 * Responsável por trazer informações de todos os pedidos do sistema
-	 * @return ArrayList com todos os restaurantes
+	 * Responsável por trazer informações de todos os pedidos do sistema para determinado restaurante
+	 * filtra os pedidos por status
+	 * @param objeto de conexão
+	 * @param cnpj do restaurante
+	 * @param status desejado
+	 * @return ArrayList com todos os pedidos
 	 */
-	public ArrayList<Pedido> listarPedidos(){
+	public ArrayList<Pedido> listarPedidos(Connection conn, String cnpj, String status){
 		
 		//Lista para armazenar todos as instâncias de pedido
 		ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
 		
-		String sqlQuery = "SELECT * FROM PEDIDO";
+		String sqlQuery = "SELECT * FROM PEDIDO WHERE fk_res_cnpj = ? AND ped_status = ?";
 		
 		//preparação da query antes da execução
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+			
+			stmt.setString(1, cnpj);
+			stmt.setString(2, status);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
@@ -188,6 +196,7 @@ public class PedidoDAO {
 				p.setCpfEntregador(resultado.getString("fk_etg_cpf"));
 				p.setCnpjRestaurante(resultado.getString("fk_res_cnpj"));
 				p.setCpfCliente(resultado.getString("fk_cli_cpf"));
+				p.setDataPedido(resultado.getTimestamp("ped_data").toLocalDateTime());
 				
 				listaPedidos.add(p);
 			}

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import entities.ProdutoRestaurante;
+import entities.Restaurante;
+import view.ItemPedidoView;
 import view.ProdutoRestauranteView;
 
 /**
@@ -13,7 +15,7 @@ import view.ProdutoRestauranteView;
  *
  * Descrição:
  * Classe responsável por gerenciar as associações de produtos do catálogo global
- * com cada restaurante individual (n:n)
+ * com cada restaurante individual (N:N)
  *
  * Responsabilidades:
  * - Conectar ao banco de dados
@@ -25,24 +27,13 @@ import view.ProdutoRestauranteView;
 
 public class ProdutoRestauranteDAO {
 	
-	private Connection conn;
-	
-	/**
-	 * Construtor
-	 * Recebe a conexão para que seja possível estabelecer
-	 * uma comunicação com o banco de dados
-	 * 
-	 * @param conn: objeto de conexão
-	 */
-	public ProdutoRestauranteDAO(Connection conn) {
-		this.conn = conn;
-	}
-	
 	/**
 	 * responsável por fazer a inserção na tabela associativa entre produto e restaurante no banco de dados
-	 * @param produto: objeto produto
+	 * @param objeto de conexão
+	 * @param objeto produto
+	 * @return boolean
 	 */
-	public boolean associarProdutoRestaurante(ProdutoRestaurante pr) {
+	public boolean associarProdutoRestaurante(Connection conn, ProdutoRestaurante pr) {
 		String sqlQuery = "INSERT INTO PRODUTO_RESTAURANTE (" +
 				"pk_fk_res_cnpj, " +
 				"pk_fk_prd_codigo, " +
@@ -72,10 +63,11 @@ public class ProdutoRestauranteDAO {
 	
 	/**
 	 * Responsável por trazer todos os produtos de determinado restaurante da base de dados
+	 * @param objeto de conexão
 	 * @param cnpj do restaurante em sessão
-	 * @return arraylist de produtos
+	 * @return arraylist tipo produto
 	 */
-	public ArrayList<ProdutoRestauranteView> retornarTodoProdutoRestaurante(String cnpj) {		
+	public ArrayList<ProdutoRestauranteView> retornarTodoProdutoRestaurante(Connection conn, String cnpj) {		
 		String sqlQuery = "SELECT p.prd_nome, "
 				+ "p.pk_prd_codigo,"
 				+ "pr.pdr_preco, "
@@ -122,10 +114,11 @@ public class ProdutoRestauranteDAO {
 	/**
 	 * Responsável por trazer as informações da tabela associativa entre produto e restaurante
 	 * sendo usada para verificar se um produto já está associado a um restaurante
-	 * @param codigo: codigo do produto buscado
-	 * @return true ou false
+	 * @param objeto de conexão
+	 * @param codigo do produto buscado
+	 * @return boolean
 	 */
-	public boolean produtoJaEstaCadastrado(String cnpj, int codigo) {
+	public boolean produtoJaEstaCadastrado(Connection conn, String cnpj, int codigo) {
 		String sqlQuery = "SELECT * FROM PRODUTO_RESTAURANTE WHERE pk_fk_res_cnpj = ? AND pk_fk_prd_codigo = ?";
 		
 		//preparação da query antes da execução
@@ -149,11 +142,12 @@ public class ProdutoRestauranteDAO {
 	
 	/**
 	 * Responsável por deletar um produto de um restaurante, o removendo do catálogo
+	 * @param objeto de conexão
 	 * @param cnpj do restaurante
 	 * @param codigo do produto
-	 * @return true or false
+	 * @return boolean
 	 */
-	public boolean deletarProduto(String cnpj, int codigo) {
+	public boolean deletarProduto(Connection conn, String cnpj, int codigo) {
 		String sqlQuery = "DELETE FROM PRODUTO_RESTAURANTE WHERE pk_fk_res_cnpj = ? AND pk_fk_prd_codigo = ?";
 		
 		//preparação da query antes da execução
@@ -171,6 +165,39 @@ public class ProdutoRestauranteDAO {
 			System.err.println("Erro na operação de PRODUTO_RESTAURANTE");
 		    e.printStackTrace();
 		}
+		
+		return false;
+	}
+	
+	/**
+	 * Atualiza o estoque de um produto do restaurante se realizar um pedido no sistema
+	 * @param objeto de conexão
+	 * @param cnpj do restaurante
+	 * @param item do carrinho do cliente
+	 * @return boolean
+	 */
+	public boolean diminuirEstoque(Connection conn, String cnpj, ItemPedidoView item) {
+		String sqlQuery = "UPDATE PRODUTO_RESTAURANTE " +
+						  "SET pdr_qtde_estoque = pdr_qtde_estoque - ? " +
+						  "WHERE pk_fk_res_cnpj = ? AND pk_fk_prd_codigo = ? AND pdr_qtde_estoque >= ?";
+
+		//preparação da query antes da execução
+		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+		
+			//vinculação dos atributos à query preparada
+			
+			stmt.setInt(1, item.getQuantidade());
+			stmt.setString(2, cnpj);
+			stmt.setInt(3, item.getCodigoProduto());
+			stmt.setInt(4, item.getQuantidade());
+						
+			int linhasAfetadas = stmt.executeUpdate();
+			return linhasAfetadas > 0;
+			
+		} catch (SQLException e) {
+			System.err.println("Erro na operação de PEDIDO");
+			e.printStackTrace();
+			}
 		
 		return false;
 	}

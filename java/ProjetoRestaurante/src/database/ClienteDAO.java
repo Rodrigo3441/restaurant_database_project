@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import entities.Cliente;
 
 /**
- * Classe: AcessoDadosCliente
+ * Classe: ClienteDAO
  *
  * Descrição:
  * Classe responsável por gerenciar dados do Cliente
@@ -23,25 +23,12 @@ import entities.Cliente;
 
 public class ClienteDAO {
 	
-	private Connection conn;
-	
-	/**
-	 * Construtor
-	 * Recebe a conexão para que seja possível estabelecer
-	 * uma comunicação com o banco de dados
-	 * 
-	 * @param conn: objeto de conexão
-	 */
-	public ClienteDAO(Connection conn) {
-		this.conn = conn;
-	}
-	
 	/**
 	 * responsável por fazer a inserção de um novo cliente no banco de dados
-	 * 
-	 * @param restaurante: objeto restaurante
+	 * @param objeto de conexão
+	 * @param objeto cliente
 	 */
-	public boolean inserirCliente(Cliente cliente) {
+	public boolean inserirCliente(Connection conn, Cliente cliente) {
 		String sqlQuery = "INSERT INTO CLIENTE (pk_cli_cpf, cli_primeiro_nome, cli_nome_meio, "
 				+ "cli_ultimo_nome, cli_telefone, cli_email, cli_senha) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
@@ -70,11 +57,12 @@ public class ClienteDAO {
 	
 	/**
 	 * Responsável por trazer as informações do cliente da base de dados
-	 * para que possam ser utilizadas ao longo da sessão
-	 * @param cpf: cpf do cliente buscado
-	 * @return um objeto cliente
+	 * para que possam ser utilizadas ao das operações
+	 * @param objeto de conexão
+	 * @param cpf do cliente buscado
+	 * @return objeto cliente
 	 */
-	public Cliente retornarCliente(String cpf) {
+	public Cliente retornarCliente(Connection conn, String cpf) {
 		String sqlQuery = "SELECT * FROM CLIENTE WHERE pk_cli_cpf = ?";
 		
 		//preparação da query antes da execução
@@ -111,9 +99,10 @@ public class ClienteDAO {
 	
 	/**
 	 * Responsável por atualizar as informações de um cliente no banco de dados 
-	 * @param cliente: objeto cliente
+	 * @param objeto de conexão
+	 * @param objeto cliente
 	 */
-	public boolean atualizarCliente(Cliente cliente) {
+	public boolean atualizarCliente(Connection conn, Cliente cliente) {
 		String sqlQuery = "UPDATE CLIENTE SET " +
 	            "cli_primeiro_nome = ?, " +
 	            "cli_nome_meio = ?, " +
@@ -148,10 +137,11 @@ public class ClienteDAO {
 	
 	/**
 	 * Responsável por apagar um cliente do banco de dados
+	 * @param objeto de conexão
 	 * @param cpf do cliente
-	 * @return true ou false
+	 * @return boolean
 	 */
-	public boolean deletarCliente(String cpf) {
+	public boolean deletarCliente(Connection conn, String cpf) {
 		String sqlQuery = "DELETE FROM CLIENTE WHERE pk_cli_cpf = ?";
 		
 		//preparação da query antes da execução

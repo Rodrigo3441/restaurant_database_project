@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import entities.Produto;
 
 /**
- * Classe: AcessoDadosProduto
+ * Classe: ProdutoDAO
  *
  * Descrição:
  * Classe responsável por gerenciar dados do produto
@@ -23,24 +23,13 @@ import entities.Produto;
 
 public class ProdutoDAO {
 	
-	private Connection conn;
-	
-	/**
-	 * Construtor
-	 * Recebe a conexão para que seja possível estabelecer
-	 * uma comunicação com o banco de dados
-	 * 
-	 * @param conn: objeto de conexão
-	 */
-	public ProdutoDAO(Connection conn) {
-		this.conn = conn;
-	}
-	
 	/**
 	 * responsável por fazer a inserção de um novo produto no banco de dados
-	 * @param produto: objeto produto
+	 * @param objeto de conexão
+	 * @param objeto produto
+	 * @return boolean
 	 */
-	public boolean inserirProduto(Produto produto) {
+	public boolean inserirProduto(Connection conn, Produto produto) {
 		String sqlQuery = "INSERT INTO PRODUTO (" +
 				"pk_prd_codigo, " +
 				"prd_nome, " +
@@ -71,10 +60,11 @@ public class ProdutoDAO {
 	/**
 	 * Responsável por trazer as informações do produto da base de dados
 	 * com base no Id do produto
-	 * @param codigo: codigo do produto buscado
-	 * @return um objeto produto
+	 * @param objeto de conexão
+	 * @param codigo do produto buscado
+	 * @return objeto produto
 	 */
-	public Produto retornarProdutoPorId(int codigo) {
+	public Produto retornarProdutoPorId(Connection conn, int codigo) {
 		String sqlQuery = "SELECT * FROM PRODUTO WHERE pk_prd_codigo = ?";
 		
 		//preparação da query antes da execução
@@ -114,10 +104,11 @@ public class ProdutoDAO {
 	/**
 	 * Responsável por trazer as informações do produto da base de dados
 	 * com base no nome do produto
-	 * @param nome: nome do produto buscado
-	 * @return um objeto produto
+	 * @param objeto de conexão
+	 * @param nome do produto buscado
+	 * @return objeto produto
 	 */
-	public Produto retornarProdutoPorNome(String nome) {
+	public Produto retornarProdutoPorNome(Connection conn, String nome) {
 		String sqlQuery = "SELECT * FROM PRODUTO WHERE prd_nome LIKE ?";
 		
 		//preparação da query antes da execução
@@ -156,9 +147,11 @@ public class ProdutoDAO {
 	
 	/**
 	 * Responsável por atualizar as informações de um produto no banco de dados 
-	 * @param produto: objeto produto
+	 * @param objeto de conexão
+	 * @param objeto produto
+	 * @return boolean
 	 */
-	public boolean atualizarProduto(Produto produto) {
+	public boolean atualizarProduto(Connection conn, Produto produto) {
 		String sqlQuery = "UPDATE PRODUTO SET "
 				+ "prd_nome = ?, "
 				+ "prd_descricao = ?, "
@@ -187,10 +180,11 @@ public class ProdutoDAO {
 	
 	/**s
 	 * Responsável por apagar um produto do banco de dados
+	 * @param objeto de conexão
 	 * @param codigo do produto
-	 * @return true ou false
+	 * @return boolean
 	 */
-	public boolean deletarProduto(int codigo) {
+	public boolean deletarProduto(Connection conn, int codigo) {
 		String sqlQuery = "DELETE FROM PRODUTO WHERE pk_prd_codigo = ?";
 		
 		//preparação da query antes da execução

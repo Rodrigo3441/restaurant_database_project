@@ -4,15 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import entities.Endereco;
 import entities.EnderecoCliente;
 import entities.EnderecoRestaurante;
 
 /**
- * Classe: AcessoDadosEndereco
+ * Classe: EnderecoDAO
  *
  * Descrição:
- * Classe responsável por gerenciar dados do Endereco
+ * Classe responsável por gerenciar dados dos endereços do cliente e do restaurante
  *
  * Responsabilidades:
  * - Conectar ao banco de dados
@@ -23,26 +23,14 @@ import entities.EnderecoRestaurante;
  */
 
 public class EnderecoDAO {
-	
-	private Connection conn;
-	
+		
 	/**
-	 * Construtor
-	 * Recebe a conexão para que seja possível estabelecer
-	 * uma comunicação com o banco de dados
-	 * 
-	 * @param conn: objeto de conexão
+	 * Responsável por receber um objeto de endereço do restaurante e inserir no banco de dados
+	 * @param objeto de conexão
+	 * @param objeto restaurante
+	 * @return boolean
 	 */
-	public EnderecoDAO(Connection conn) {
-		this.conn = conn;
-	}
-	
-	/**
-	 * Responsável for receber um objeto de endereço do restaurante e inserir no banco de dados
-	 * @param er objeto do tipo EnderecoRestaurante
-	 * @return true ou false
-	 */
-	public boolean inserirEnderecoRestaurante(EnderecoRestaurante er) {
+	public boolean inserirEnderecoRestaurante(Connection conn, Endereco er) {
 		String sqlQuery = "INSERT INTO ENDERECO_RESTAURANTE "
 				+ "(pk_fk_res_cnpj, "
 				+ "pk_enr_cep, "
@@ -53,7 +41,7 @@ public class EnderecoDAO {
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
 			//vinculação dos atributos à query preparada
-			stmt.setString(1, er.getCnpjRestaurante());
+			stmt.setString(1, er.getIdentificacao());
 			stmt.setString(2, er.getCep());
 			stmt.setString(3, er.getNome());
 			stmt.setInt(4, er.getNumero());
@@ -71,11 +59,12 @@ public class EnderecoDAO {
 	
 	/**
 	 * Responsável por trazer as informações do endereço do restaurante
-	 * para que possam ser utilizadas ao longo da sessão  
+	 * para que possam ser utilizadas ao longo das operações
+	 * @param objeto de conexão  
 	 * @param cnpj do restaurante
-	 * @return objeto do tipo EnderecoRestaurante ou false
+	 * @return objeto enderecorestaurante
 	 */
-	public EnderecoRestaurante retornarEnderecoRestaurante(String cnpj) {
+	public EnderecoRestaurante retornarEnderecoRestaurante(Connection conn, String cnpj) {
 		String sqlQuery = "SELECT * FROM ENDERECO_RESTAURANTE WHERE pk_fk_res_cnpj = ?";
 		
 		//preparação da query antes da execução
@@ -109,9 +98,10 @@ public class EnderecoDAO {
 	
 	/**
 	 * Responsável por atualizar as informações do endereço de um restaurante no banco de dados 
-	 * @param er: objeto EnderecoRestaurante
+	 * @param objeto de conexão
+	 * @param objeto enderecorestaurante
 	 */
-	public boolean atualizarEnderecoRestaurante(EnderecoRestaurante er) {
+	public boolean atualizarEnderecoRestaurante(Connection conn, Endereco er) {
 		String sqlQuery = "UPDATE ENDERECO_RESTAURANTE SET " +
 	            "pk_enr_cep = ?, " +
 	            "enr_nome = ?, " +
@@ -125,7 +115,7 @@ public class EnderecoDAO {
 			stmt.setString(1, er.getCep());
 	        stmt.setString(2, er.getNome());
 	        stmt.setInt(3, er.getNumero());
-	        stmt.setString(4, er.getCnpjRestaurante());
+	        stmt.setString(4, er.getIdentificacao());
 						
 			int linhasAfetadas = stmt.executeUpdate();
 			return linhasAfetadas > 0;
@@ -139,11 +129,12 @@ public class EnderecoDAO {
 	}
 	
 	/**
-	 * Responsável for receber um objeto de endereço do cliente e inserir no banco de dados
-	 * @param ec objeto do tipo EnderecoCliente
-	 * @return true ou false
+	 * Responsável por receber um objeto de endereço do cliente e inserir no banco de dados
+	 * @param objeto de conexão
+	 * @param objeto enderecocliente
+	 * @return boolean
 	 */
-	public boolean inserirEnderecoCliente(EnderecoCliente ec) {
+	public boolean inserirEnderecoCliente(Connection conn, Endereco ec) {
 		String sqlQuery = "INSERT INTO ENDERECO_CLIENTE "
 				+ "(pk_fk_cli_cpf, "
 				+ "pk_enc_cep, "
@@ -154,7 +145,7 @@ public class EnderecoDAO {
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
 			//vinculação dos atributos à query preparada
-			stmt.setString(1, ec.getCpfCliente());
+			stmt.setString(1, ec.getIdentificacao());
 			stmt.setString(2, ec.getCep());
 			stmt.setString(3, ec.getNome());
 			stmt.setInt(4, ec.getNumero());
@@ -172,11 +163,12 @@ public class EnderecoDAO {
 	
 	/**
 	 * Responsável por trazer as informações do endereço do cliente
-	 * para que possam ser utilizadas ao longo da sessão
+	 * para que possam ser utilizadas ao longo das operações
+	 * @param objeto de conexão
 	 * @param cpf do cliente
-	 * @return objeto do tipo EnderecoCliente ou false
+	 * @return objeto enderecocliente
 	 */
-	public EnderecoCliente retornarEnderecoCliente(String cpf) {
+	public EnderecoCliente retornarEnderecoCliente(Connection conn, String cpf) {
 		String sqlQuery = "SELECT * FROM ENDERECO_CLIENTE WHERE pk_fk_cli_cpf = ?";
 		
 		//preparação da query antes da execução
@@ -202,7 +194,7 @@ public class EnderecoDAO {
 			}
 									
 		} catch (SQLException e) {
-			System.err.println("Erro na operação de ENDERECO_RESTAURANTE");
+			System.err.println("Erro na operação de ENDERECO_CLIENTE");
 		    e.printStackTrace();
 		}
 		return null;
@@ -210,9 +202,11 @@ public class EnderecoDAO {
 	
 	/**
 	 * Responsável por atualizar as informações do endereço de um cliente no banco de dados 
-	 * @param ec: objeto EnderecoCliente
+	 * @param objeto de conexão
+	 * @param objeto enderecocliente
+	 * @return boolean
 	 */
-	public boolean atualizarEnderecoCliente(EnderecoCliente ec) {
+	public boolean atualizarEnderecoCliente(Connection conn, Endereco ec) {
 		String sqlQuery = "UPDATE ENDERECO_CLIENTE SET " +
 	            "pk_enc_cep = ?, " +
 	            "enc_nome = ?, " +
@@ -226,7 +220,7 @@ public class EnderecoDAO {
 			stmt.setString(1, ec.getCep());
 	        stmt.setString(2, ec.getNome());
 	        stmt.setInt(3, ec.getNumero());
-	        stmt.setString(4, ec.getCpfCliente());
+	        stmt.setString(4, ec.getIdentificacao());
 						
 			int linhasAfetadas = stmt.executeUpdate();
 			return linhasAfetadas > 0;
