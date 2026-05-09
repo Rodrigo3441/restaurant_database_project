@@ -1,7 +1,6 @@
 package services;
 
 import java.sql.Connection;
-
 import database.ClienteDAO;
 import entities.Cliente;
 
@@ -20,8 +19,8 @@ import entities.Cliente;
  */
 
 public class ClienteService {
-	//conexão com o banco de dados que será usada em todas as operações
 	private ClienteDAO dao;
+	private Connection conn;
 	
 	/**
 	 * Construtor que recebe o objeto para conexão com a camada de dados
@@ -29,13 +28,12 @@ public class ClienteService {
 	 * @param dao objeto AccesoDadosCliente
 	 */
 	public ClienteService(Connection conn) {
-		this.dao = new ClienteDAO(conn);
+		this.dao = new ClienteDAO();
+		this.conn = conn;
 	}
 	
 	/**
-	 * Método validarCpf
-	 * 
-	 * Responsável por verificar disponibilidade de CPF e se é válido
+	 * Responsável por verificar disponibilidade de CPF e se o mesmo é válido
 	 * @param cpf do cliente
 	 */
 	public void validarCpf(String cpf) {
@@ -49,7 +47,6 @@ public class ClienteService {
 	}
 	
 	/**
-	 * Método validarPrimeiroNome
 	 * Responsável por verificar integridade do primeiro nome
 	 * @param primeiroNome
 	 */
@@ -60,7 +57,6 @@ public class ClienteService {
 	}
 	
 	/**
-	 * Método validarNomeMeio
 	 * Responsável por verificar integridade do nome do meio
 	 * @param nomeMeio do cliente
 	 */
@@ -71,7 +67,6 @@ public class ClienteService {
 	}
 	
 	/**
-	 * Método validarUltimoNome
 	 * Responsável por verificar integridade do ultimo nome
 	 * @param ultimoNome do cliente
 	 */
@@ -82,7 +77,6 @@ public class ClienteService {
 	}
 	
 	/**
-	 * Método validarTelefone
 	 * Responsável por verificar integridade do telefone
 	 * @param telefone do cliente
 	 */
@@ -93,7 +87,6 @@ public class ClienteService {
 	}
 	
 	/**
-	 * Método validarEmail
 	 * Responsável por verificar integridade do email
 	 * @param email do cliente
 	 */
@@ -104,7 +97,6 @@ public class ClienteService {
 	}
 	
 	/**
-	 * Método validarSenha
 	 * Responsável por verificar integridade de senha
 	 * @param senha do cliente
 	 */
@@ -115,7 +107,6 @@ public class ClienteService {
 	}
 	
 	/**
-	 * Método atualizarPrimeiroNome
 	 * Atualiza primeiro nome do cliente
 	 * @param c objeto cliente
 	 * @param primeiroNome do cliente
@@ -127,11 +118,10 @@ public class ClienteService {
 		}
 		
 		c.setPrimeiroNome(primeiroNome);
-		return dao.atualizarCliente(c);
+		return dao.atualizarCliente(conn, c);
 	}
 	
 	/**
-	 * Método atualizarNomeMeio
 	 * Atualiza nome do meio do cliente
 	 * @param c objeto cliente
 	 * @param nomeMeio do cliente
@@ -143,11 +133,10 @@ public class ClienteService {
 		}
 		
 		c.setNomeMeio(nomeMeio);
-		return dao.atualizarCliente(c);
+		return dao.atualizarCliente(conn, c);
 	}
 	
 	/**
-	 * Método atualizarUltimoNome
 	 * Atualiza ultimo nome do cliente
 	 * @param c objeto cliente
 	 * @param ultimoNome do cliente
@@ -159,11 +148,10 @@ public class ClienteService {
 		}
 		
 		c.setUltimoNome(ultimoNome);
-		return dao.atualizarCliente(c);
+		return dao.atualizarCliente(conn, c);
 	}
 	
 	/**
-	 * Método atualizarTelefone
 	 * atualiza o telefone do cliente
 	 * @param c objeto cliente
 	 * @param telefone do cliente
@@ -175,11 +163,10 @@ public class ClienteService {
 		}
 		
 		c.setTelefone(telefone);
-		return dao.atualizarCliente(c);
+		return dao.atualizarCliente(conn, c);
 	}
 	
 	/**
-	 * Método atualizarEmail
 	 * atualiza o email do cliente
 	 * @param c objeto cliente
 	 * @param email do cliente
@@ -191,11 +178,10 @@ public class ClienteService {
 		}
 		
 		c.setEmail(email);
-		return dao.atualizarCliente(c);
+		return dao.atualizarCliente(conn, c);
 	}
 	
 	/**
-	 * Método atualizarSenha
 	 * Atualiza a senha do cliente
 	 * @param c objeto cliente
 	 * @param senha do cliente
@@ -207,7 +193,7 @@ public class ClienteService {
 		}
 		
 		c.setSenha(senha);
-		return dao.atualizarCliente(c);
+		return dao.atualizarCliente(conn, c);
 	}
 	
 	/**
@@ -216,7 +202,7 @@ public class ClienteService {
 	 * @return boolean
 	 */
 	public boolean cadastrarCliente(Cliente c) {
-		return dao.inserirCliente(c);
+		return dao.inserirCliente(conn, c);
 	}
 	
 	/**
@@ -225,7 +211,7 @@ public class ClienteService {
 	 * @return Cliente
 	 */
 	public Cliente retornarCliente(String cpf) {
-		return dao.retornarCliente(cpf);
+		return dao.retornarCliente(conn, cpf);
 	}
 	
 	private boolean cpfValido(String cpf) {	
@@ -233,13 +219,12 @@ public class ClienteService {
 	}
 	
 	private boolean cpfDisponivel(String cpf) {
-		return dao.retornarCliente(cpf) == null;
+		return dao.retornarCliente(conn, cpf) == null;
 	}
 	
 	private boolean primeiroNomeValido(String primeiroNome) {
 		return primeiroNome.length() >= 3 && primeiroNome.length() <= 20 && primeiroNome.matches("^[A-Za-zÀ-ÿ]+$");
 	}
-	
 
 	private boolean nomeMeioValido(String nomeMeio) {
 		return nomeMeio.length() >= 3 && nomeMeio.length() <= 20 && nomeMeio.matches("^[A-Za-zÀ-ÿ ]+$");

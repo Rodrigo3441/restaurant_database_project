@@ -21,19 +21,16 @@ import entities.Restaurante;
  */
 
 public class RestauranteService {
-	//conexão com o banco de dados que será usada em todas as operações
 	private RestauranteDAO dao;
+	private Connection conn;
 	
-	/**
-	 * Construtor que recebe o objeto para conexão com a camada de dados
-	 * @param dao objeto AcessoDadosRestaurante
-	 */
+	
 	public RestauranteService(Connection conn) {
-		this.dao = new RestauranteDAO(conn);
+		this.dao = new RestauranteDAO();
+		this.conn = conn;
 	}
 	
 	/**
-	 * Método validarCnpj
 	 * Responsável por verificar disponibilidade de CNPJ e se é válido
 	 * @param cnpj do restaurante
 	 */
@@ -48,7 +45,6 @@ public class RestauranteService {
 	}
 	
 	/**
-	 * Método validarNome
 	 * Responsável por verificar integridade do nome do restaurante
 	 * @param primeiroNome
 	 */
@@ -59,7 +55,6 @@ public class RestauranteService {
 	}
 	
 	/**
-	 * Método validarTelefone
 	 * Responsável por verificar integridade do telefone
 	 * @param telefone do restaurante
 	 */
@@ -70,7 +65,6 @@ public class RestauranteService {
 	}
 		
 	/**
-	 * Método validarSenha
 	 * Responsável por verificar integridade de senha
 	 * @param senha do restaurante
 	 */
@@ -81,11 +75,10 @@ public class RestauranteService {
 	}
 	
 	/**
-	 * Método atualizarNome
 	 * Atualiza nome do restaurante
 	 * @param r objeto restaurante
 	 * @param nome do restaurante
-	 * @return êxito ou não
+	 * @return boolean
 	 */
 	public boolean atualizarNome(Restaurante r, String nome) {
 		if (!nomeValido(nome)) {
@@ -93,15 +86,14 @@ public class RestauranteService {
 		}
 		
 		r.setNome(nome);
-		return dao.atualizarRestaurante(r);
+		return dao.atualizarRestaurante(conn, r);
 	}
 	
 	/**
-	 * Método atualizarTelefone
 	 * atualiza o telefone do restaurante
 	 * @param r objeto restaurante
 	 * @param telefone do restaurante
-	 * @return êxito ou não
+	 * @return boolean
 	 */
 	public boolean atualizarTelefone(Restaurante r, String telefone) {
 		if (!telefoneValido(telefone)) {
@@ -109,15 +101,14 @@ public class RestauranteService {
 		}
 		
 		r.setTelefone(telefone);
-		return dao.atualizarRestaurante(r);
+		return dao.atualizarRestaurante(conn, r);
 	}
 	
 	/**
-	 * Método atualizarSenha
 	 * Atualiza a senha do restaurante
 	 * @param r objeto restaurante
 	 * @param senha do restaurante
-	 * @return êxito ou não
+	 * @return boolean
 	 */
 	public boolean atualizarSenha(Restaurante r, String senha) {
 		if (!senhaValida(senha)) {
@@ -125,33 +116,33 @@ public class RestauranteService {
 		}
 		
 		r.setSenha(senha);
-		return dao.atualizarRestaurante(r);
+		return dao.atualizarRestaurante(conn, r);
 	}
 	
 	/**
-	 * Método cadastrarRestaurante
+	 * Realiza o cadastro de um restaurante no sistema
 	 * @param r objeto restaurante
-	 * @return êxito ou não
+	 * @return boolean
 	 */
 	public boolean cadastrarRestaurante(Restaurante r) {
-		return dao.inserirRestaurante(r);
+		return dao.inserirRestaurante(conn, r);
 	}
 	
 	/**
-	 * Método retornarRestaurante
+	 * Retorna um restaurante com base no CNPJ informado
 	 * @param cnpj do restaurante
 	 * @return objeto Restaurante
 	 */
 	public Restaurante retornarRestaurante(String cnpj) {
-		return dao.retornarRestaurante(cnpj);
+		return dao.retornarRestaurante(conn, cnpj);
 	}
 	
 	/**
-	 * Método listarRestaurantes
-	 * @return arraylist
+	 * Retorna uma lista com todos os restaurantes do sistema
+	 * @return arraylist do tipo Restaurante
 	 */
 	public ArrayList<Restaurante> listarRestaurantes(){
-		return dao.listarRestaurantes();
+		return dao.listarRestaurantes(conn);
 	}
 
 	private boolean cnpjValido(String cnpj) {	
@@ -159,7 +150,7 @@ public class RestauranteService {
 	}
 
 	private boolean cnpjDisponivel(String cnpj) {
-		return dao.retornarRestaurante(cnpj) == null;
+		return dao.retornarRestaurante(conn, cnpj) == null;
 	}
 	
 	private boolean nomeValido(String nome) {

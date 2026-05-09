@@ -1,6 +1,7 @@
 package services;
 
 import java.sql.Connection;
+import entities.Endereco;
 import entities.EnderecoCliente;
 import entities.EnderecoRestaurante;
 import database.EnderecoDAO;
@@ -19,47 +20,53 @@ import database.EnderecoDAO;
  */
 
 public class EnderecoService {
-		
 	private EnderecoDAO dao;
+	private Connection conn;
 	
 	public EnderecoService(Connection conn) {
-		this.dao = new EnderecoDAO(conn);
+		this.dao = new EnderecoDAO();
+		this.conn = conn;
 	}
 	
 	/**
 	 * Retorna o endereço do restaurante com base no CNPJ informado
 	 * @param cnpj do restaurante
-	 * @return um objeto restaurante
+	 * @return objeto restaurante
 	 */
 	public EnderecoRestaurante retornarEnderecoRestaurante(String cnpj) {
-		return dao.retornarEnderecoRestaurante(cnpj);
+		return dao.retornarEnderecoRestaurante(conn, cnpj);
 	}
 	
 	/**
-	 * 
-	 * @param cpf
-	 * @return
+	 * Retorna o endereço do cliente com base no CPF informado
+	 * @param cpf do cliente
+	 * @return objeto EnderecoCliente
 	 */
 	public EnderecoCliente retornarEnderecoCliente(String cpf) {
-		return dao.retornarEnderecoCliente(cpf);
+		return dao.retornarEnderecoCliente(conn, cpf);
 	}
 	
 	/**
-	 * 
-	 * @param er
-	 * @return
+	 * Realiza o cadastro de um endereço do restaurante no sistema
+	 * @param er objeto EndereçoRestaurante
+	 * @return boolean
 	 */
-	public boolean inserirEnderecoRestaurante(EnderecoRestaurante er) {
-		return dao.inserirEnderecoRestaurante(er);
-	}
-	
-	public boolean inserirEnderecoCliente(EnderecoCliente ec) {
-		return dao.inserirEnderecoCliente(ec);
+	public boolean inserirEnderecoRestaurante(Endereco er) {
+		return dao.inserirEnderecoRestaurante(conn, er);
 	}
 	
 	/**
-	 * 
-	 * @param cep
+	 * Realiza o cadastro de um endereço do cliente no sistema
+	 * @param ec objeto EndereçoCliente
+	 * @return boolean
+	 */
+	public boolean inserirEnderecoCliente(Endereco ec) {
+		return dao.inserirEnderecoCliente(conn, ec);
+	}
+	
+	/**
+	 * Valida se um CEP inserido é válido
+	 * @param cep do endereço
 	 */
 	public void validarCep(String cep) {
 		if (!cepValido(cep)) {
@@ -68,8 +75,8 @@ public class EnderecoService {
 	}
 	
 	/**
-	 * 
-	 * @param nome
+	 * Valida se o nome da rua do endereço é válido
+	 * @param nome da rua do endereço
 	 */
 	public void validarNome(String nome) {
 		if (!nomeValido(nome)) {
@@ -78,8 +85,8 @@ public class EnderecoService {
 	}
 	
 	/**
-	 * 
-	 * @param numero
+	 * Valida se o número do endereço é válido
+	 * @param numero do endereço
 	 */
 	public void validarNumero(int numero) {
 		if (!numeroValido(numero)) {
@@ -88,93 +95,93 @@ public class EnderecoService {
 	}
 	
 	/**
-	 * 
-	 * @param ec
-	 * @param cep
-	 * @return
+	 * Realiza a atualização do CEP do endereço do cliente no sistema
+	 * @param ec objeto EnderecoCliente
+	 * @param cep do endereço
+	 * @return boolean
 	 */
-	public boolean atualizarCepEnderecoCliente(EnderecoCliente ec, String cep) {
+	public boolean atualizarCepEnderecoCliente(Endereco ec, String cep) {
 		if (!cepValido(cep)) {
 			throw new IllegalArgumentException("Digite um CEP válido");
 		}
 		
 		ec.setCep(cep);
-		return dao.atualizarEnderecoCliente(ec);
+		return dao.atualizarEnderecoCliente(conn, ec);
 	}
 	
 	/**
-	 * 
-	 * @param ec
-	 * @param nome
-	 * @return
+	 * Realiza a atualização do nome da rua do endereço do cliente no sistema
+	 * @param ec objeto EnderecoCliente
+	 * @param nome da rua do cliente
+	 * @return boolean
 	 */
-	public boolean atualizarNomeEnderecoCliente(EnderecoCliente ec, String nome) {
+	public boolean atualizarNomeEnderecoCliente(Endereco ec, String nome) {
 		if (!nomeValido(nome)) {
 			throw new IllegalArgumentException("Digite um nome válido");
 		}
 		
 		ec.setNome(nome);
-		return dao.atualizarEnderecoCliente(ec);
+		return dao.atualizarEnderecoCliente(conn, ec);
 	}
 	
 	/**
-	 * 
-	 * @param ec
-	 * @param numero
-	 * @return
+	 * Realiza a atualização do número do endereço do cliente no sistema
+	 * @param ec objeto EnderecoCliente
+	 * @param numero do endereço cliente
+	 * @return boolean
 	 */
-	public boolean atualizarNumeroEnderecoCliente(EnderecoCliente ec, int numero) {
+	public boolean atualizarNumeroEnderecoCliente(Endereco ec, int numero) {
 		if (!numeroValido(numero)) {
 			throw new IllegalArgumentException("Digite um número válido");
 		}
 		
 		ec.setNumero(numero);
-		return dao.atualizarEnderecoCliente(ec);
+		return dao.atualizarEnderecoCliente(conn, ec);
 	}
 	
 	/**
-	 * 
-	 * @param er
-	 * @param cep
-	 * @return
+	 * Realiza a atualização do CEP do endereço do restaurante no sistema
+	 * @param er objeto EnderecoRestaurante
+	 * @param cep do endereço
+	 * @return boolean
 	 */
-	public boolean atualizarCepEnderecoRestaurante(EnderecoRestaurante er, String cep) {
+	public boolean atualizarCepEnderecoRestaurante(Endereco er, String cep) {
 		if (!cepValido(cep)) {
 			throw new IllegalArgumentException("Digite um CEP válido");
 		}
 		
 		er.setCep(cep);
-		return dao.atualizarEnderecoRestaurante(er);
+		return dao.atualizarEnderecoRestaurante(conn, er);
 	}
 	
 	/**
-	 * 
-	 * @param er
-	 * @param nome
-	 * @return
+	 * Realiza a atualização do nome da rua do endereço do restaurante no sistema
+	 * @param er objeto EnderecoRestaurante
+	 * @param nome da rua do restaurante
+	 * @return boolean
 	 */
-	public boolean atualizarNomeEnderecoRestaurante(EnderecoRestaurante er, String nome) {
+	public boolean atualizarNomeEnderecoRestaurante(Endereco er, String nome) {
 		if (!nomeValido(nome)) {
 			throw new IllegalArgumentException("Digite um nome válido");
 		}
 		
 		er.setNome(nome);
-		return dao.atualizarEnderecoRestaurante(er);
+		return dao.atualizarEnderecoRestaurante(conn, er);
 	}
 	
 	/**
-	 * 
-	 * @param er
-	 * @param numero
-	 * @return
+	 * Realiza a atualização do número do endereço do restaurante no sistema
+	 * @param er objeto EnderecoRestaurante
+	 * @param numero do endereço restaurante
+	 * @return boolean
 	 */
-	public boolean atualizarNumeroEnderecoRestaurante(EnderecoRestaurante er, int numero) {
+	public boolean atualizarNumeroEnderecoRestaurante(Endereco er, int numero) {
 		if (!numeroValido(numero)) {
 			throw new IllegalArgumentException("Digite um número válido");
 		}
 		
 		er.setNumero(numero);
-		return dao.atualizarEnderecoRestaurante(er);
+		return dao.atualizarEnderecoRestaurante(conn, er);
 	}
 	
 	private boolean cepValido(String cep) {

@@ -22,9 +22,11 @@ import entities.Entregador;
 public class EntregadorService {
 	//conexão com o banco de dados que será usada em todas as operações
 	private EntregadorDAO dao;
+	private Connection conn;
 	
 	public EntregadorService(Connection conn) {
-		this.dao = new EntregadorDAO(conn);
+		this.dao = new EntregadorDAO();
+		this.conn = conn;
 	}
 	
 	/**
@@ -95,7 +97,7 @@ public class EntregadorService {
 	 * Atualiza primeiro nome do entregador
 	 * @param e objeto entregador
 	 * @param primeiroNome do entregador
-	 * @return êxito ou não
+	 * @return boolean
 	 */
 	public boolean atualizarPrimeiroNome(Entregador e, String primeiroNome) {
 		if (!primeiroNomeValido(primeiroNome)) {
@@ -103,14 +105,14 @@ public class EntregadorService {
 		}
 		
 		e.setPrimeiroNome(primeiroNome);
-		return dao.atualizarEntregador(e);
+		return dao.atualizarEntregador(conn, e);
 	}
 	
 	/**
 	 * Atualiza nome do meio do entregador
 	 * @param e objeto entregador
 	 * @param nomeMeio do entregador
-	 * @return êxito ou não 
+	 * @return boolean 
 	 */
 	public boolean atualizarNomeMeio(Entregador e, String nomeMeio) {
 		if (!nomeMeioValido(nomeMeio)) {
@@ -118,14 +120,14 @@ public class EntregadorService {
 		}
 		
 		e.setNomeMeio(nomeMeio);
-		return dao.atualizarEntregador(e);
+		return dao.atualizarEntregador(conn, e);
 	}
 	
 	/**
 	 * Atualiza ultimo nome do entregador
 	 * @param e objeto entregador
 	 * @param ultimoNome do entregador
-	 * @return êxito ou não
+	 * @return boolean
 	 */
 	public boolean atualizarUltimoNome(Entregador e, String ultimoNome) {
 		if (!ultimoNomeValido(ultimoNome)) {
@@ -133,7 +135,7 @@ public class EntregadorService {
 		}
 		
 		e.setUltimoNome(ultimoNome);
-		return dao.atualizarEntregador(e);
+		return dao.atualizarEntregador(conn, e);
 	}
 	
 	/**
@@ -148,7 +150,7 @@ public class EntregadorService {
 		}
 		
 		e.setTelefone(telefone);
-		return dao.atualizarEntregador(e);
+		return dao.atualizarEntregador(conn, e);
 	}
 	
 	/**
@@ -163,7 +165,7 @@ public class EntregadorService {
 		}
 		
 		e.setVeiculo(placaVeiculo);
-		return dao.atualizarEntregador(e);
+		return dao.atualizarEntregador(conn, e);
 	}
 		
 	/**
@@ -172,7 +174,7 @@ public class EntregadorService {
 	 * @return boolean
 	 */
 	public boolean cadastrarEntregador(Entregador e) {
-		return dao.inserirEntregador(e);
+		return dao.inserirEntregador(conn, e);
 	}
 	
 	/**
@@ -181,7 +183,7 @@ public class EntregadorService {
 	 * @return Entregador
 	 */
 	public Entregador retornarEntregador(String cpf) {
-		return dao.retornarEntregador(cpf);
+		return dao.retornarEntregador(conn, cpf);
 	}
 	
 	/**
@@ -189,7 +191,7 @@ public class EntregadorService {
 	 * @return ArrayList
 	 */
 	public ArrayList<Entregador> listarEntregadores() {
-		return dao.listarEntregadores();
+		return dao.listarEntregadores(conn);
 	}
 	
 	/**
@@ -198,7 +200,7 @@ public class EntregadorService {
 	 * @return boolean
 	 */
 	public boolean removerEntregador(String cpf) {
-		return dao.deletarEntregador(cpf);
+		return dao.deletarEntregador(conn, cpf);
 	}
 	
 	private boolean cpfValido(String cpf) {	
@@ -206,7 +208,7 @@ public class EntregadorService {
 	}
 
 	private boolean cpfDisponivel(String cpf) {
-		return dao.retornarEntregador(cpf) == null;
+		return dao.retornarEntregador(conn, cpf) == null;
 	}
 	
 	private boolean primeiroNomeValido(String primeiroNome) {
@@ -226,9 +228,8 @@ public class EntregadorService {
 	}
 	
 	/**
-	 * Verifica se a placa do carro do entregador está no formato certo de 7 caracteres
-	 * e no padrão mercosul LLLNLNN
-	 * @param placaVeiculo
+	 * Verifica se a placa do veículo está no padrão Mercosul.
+	 * @param placaVeiculo placa do veículo a ser validada
 	 * @return boolean
 	 */
 	private boolean placaVeiculoValida(String placaVeiculo) {

@@ -6,18 +6,32 @@ import database.ProdutoRestauranteDAO;
 import entities.ProdutoRestaurante;
 import view.ProdutoRestauranteView;
 
+/**
+ * Classe: ProdutoRestauranteService
+ *
+ * Descrição:
+ * Classe responsável por gerenciar as regras de negócio do Produto de um Restaurante N:N
+ *
+ * Responsabilidades:
+ * - oferecer métodos de validação das informações
+ * - se comunicar com a camada de dados
+ *
+ * @author Rodrigo
+ * @since 04-05-2026
+ */
+
 public class ProdutoRestauranteService {
 
-	//conexão com o banco de dados que será usada em todas as operações
 	private ProdutoRestauranteDAO dao;
-	
+	private Connection conn;
 	
 	public ProdutoRestauranteService(Connection conn) {
-		this.dao = new ProdutoRestauranteDAO(conn);
+		this.dao = new ProdutoRestauranteDAO();
+		this.conn = conn;
 	}
 	
 	/**
-	 * 
+	 * Valida se a quantidade de estoque de um produto é válida
 	 * @param quantidadeEstoque
 	 */
 	public void validarQuantidadeEstoque(int quantidadeEstoque) {
@@ -27,8 +41,8 @@ public class ProdutoRestauranteService {
 	}
 	
 	/**
-	 * 
-	 * @param preco
+	 * Valida se o preço de um produto é válido
+	 * @param preco do produto
 	 */
 	public void validarPrecoProduto(double preco) {
 		if(!precoProdutoValido(preco)) {
@@ -37,8 +51,8 @@ public class ProdutoRestauranteService {
 	}
 	
 	/**
-	 * 
-	 * @param codigo
+	 * Valida se o código de um produto é válido
+	 * @param codigo do produto
 	 */
 	public void validarCodigoProduto(int codigo) {
 		if(!codigoProdutoValido(codigo)) {
@@ -47,35 +61,54 @@ public class ProdutoRestauranteService {
 	}
 	
 	/**
-	 * 
-	 * @param cnpj
-	 * @param codigo
-	 * @return
+	 * Verifica se um produto já está cadastrado no catálogo do restaurante
+	 * @param cnpj do restaurante
+	 * @param codigo do produto
+	 * @return boolean
 	 */
 	public boolean produtoJaEstaCadastrado(String cnpj, int codigo) {
-		return dao.produtoJaEstaCadastrado(cnpj, codigo);
+		return dao.produtoJaEstaCadastrado(conn, cnpj, codigo);
 	}
 	
 	/**
-	 * 
-	 * @param cnpj
-	 * @param codigo
-	 * @throws Exception
+	 * Realiza a remoção de um produto do catálogo do restaurante
+	 * @param cnpj do restaurante
+	 * @param codigo do produto
+	 * @throws Exception se algum erro ocorrer
 	 */
 	public void apagarProdutoRestaurante(String cnpj, int codigo) throws Exception {
-		if(!dao.deletarProduto(cnpj, codigo)) {
+		if(!dao.deletarProduto(conn, cnpj, codigo)) {
 			throw new Exception("Ocorreu um erro desconhecido ao apagar o produto.");		
 		} 
 		
 	}
 	
 	/**
-	 * 
-	 * @param pr
-	 * @return
+	 * Realiza a associação de um produto do catálogo global com o catálogo do restaurante
+	 * @param pr objeto ProdutoRestaurante
+	 * @return boolean
 	 */
 	public boolean associarProdutoRestaurante(ProdutoRestaurante pr) {
-		return dao.associarProdutoRestaurante(pr);
+		return dao.associarProdutoRestaurante(conn, pr);
+	}
+	
+	/**
+	 * Realiza a atualização da quantidade em estoque de um produto cadastrado em um restaurante
+	 * @param cnpj do restaurante
+	 * @param prView objeto com dados do produto
+	 * @param quantidadeEstoque do produto
+	 * @return boolean
+	 */
+	public boolean atualizarProdutoRestaurante(String cnpj, ProdutoRestauranteView prView, int quantidadeEstoque) {
+		
+		ProdutoRestaurante pr = new ProdutoRestaurante();
+		
+		pr.setCnpjRestaurante(cnpj);
+		pr.setCodigoProduto(prView.getCodigoProduto());
+		pr.setPreco(prView.getPrecoProduto());
+		pr.setQuantidadeEstoque(quantidadeEstoque);
+		
+		return dao.atualizarProdutoRestaurante(conn, pr);
 	}
 	
 	/**
@@ -85,7 +118,7 @@ public class ProdutoRestauranteService {
 	 * @return arraylista com todos os produtos do restaurante
 	 */
 	public ArrayList<ProdutoRestauranteView> retornarTodoProdutoRestaurante(String cnpj){
-		return dao.retornarTodoProdutoRestaurante(cnpj);
+		return dao.retornarTodoProdutoRestaurante(conn, cnpj);
 	}
 	
 	private boolean quantidadeEstoqueValida(int quantidadeEstoque) {
