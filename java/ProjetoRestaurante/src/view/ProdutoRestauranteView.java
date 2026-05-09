@@ -69,15 +69,15 @@ public class ProdutoRestauranteView {
 
 	@Override
 	public String toString() {
-		return " Código: " + codigoProduto +
-			   " |Nome: " + nomeProduto +
+		return "Nome: " + nomeProduto +
 		       " | Preço: R$ " + precoProduto +
 		       " | Estoque: " + quantidadeEstoque +
-		       " | Descrição: " + descricao;
+		       " | Descrição: " + descricao +
+			   " | Código: " + codigoProduto;
 	}
 	
 	public String formatarParaCliente() {
-		return " Nome: " + nomeProduto +
+		return "Nome: " + nomeProduto +
 			   " | Descrição: " + descricao +
 		       " | Preço: R$ " + precoProduto +
 		       " | Estoque: " + quantidadeEstoque;
