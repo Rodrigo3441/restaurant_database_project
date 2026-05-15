@@ -227,7 +227,7 @@ public class ClienteService {
 	}
 
 	private boolean nomeMeioValido(String nomeMeio) {
-		return nomeMeio.length() >= 3 && nomeMeio.length() <= 20 && nomeMeio.matches("^[A-Za-zÀ-ÿ ]+$");
+		return nomeMeio.length() >= 3 && nomeMeio.length() <= 40 && nomeMeio.matches("^[A-Za-zÀ-ÿ ]+$");
 	}
 
 	private boolean ultimoNomeValido(String ultimoNome) {
