@@ -1,15 +1,15 @@
 package entities;
 
 /**
- * Entidade: EnderecoRestaurante
+ * Entity: RestaurantAddress
  *
- * Descrição:
- * Representa o endereço associado a um restaurante do sistema.
+ * Description:
+ * Represents the address associated with a restaurant in the system.
  *
- * Responsabilidades:
- * - Armazenar informações de endereço do restaurante
- * - Associar o endereço ao CNPJ do restaurante
- * - Formatar os dados do endereço para exibição
+ * Responsibilities:
+ * - Store the restaurant's address information
+ * - Associate the address with the restaurant's CNPJ (tax ID)
+ * - Format the address data for display
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -19,7 +19,7 @@ public class RestaurantAddress extends Address {
 	private String cnpjRestaurante;
 	
 	/**
-	 * Construtor sem argumentos
+	 * No-argument constructor
 	 */
 	public RestaurantAddress() {
 		super();

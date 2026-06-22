@@ -4,16 +4,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Entidade: Pedido
+ * Entity: Order
  *
- * Descrição:
- * Representa um pedido realizado por um cliente no sistema.
+ * Description:
+ * Represents an order placed by a customer in the system.
  *
- * Responsabilidades:
- * - Armazenar informações gerais do pedido
- * - Associar cliente, restaurante e entregador ao pedido
- * - Controlar o status do pedido
- * - Registrar a data e hora da realização do pedido
+ * Responsibilities:
+ * - Store general order information
+ * - Associate customer, restaurant and delivery person with the order
+ * - Track the order status
+ * - Record the date and time when the order was placed
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -28,7 +28,7 @@ public class Order {
 	private LocalDateTime dataPedido;
 	
 	/**
-	 * Construtor sem argumentos
+	 * No-argument constructor
 	 */
 	public Order() {
 		
@@ -51,10 +51,10 @@ public class Order {
 	}
 
 	/**
-	 * retorna o CPF do entregador do pedido.
-	 * Caso não exista um entregador atribuido, retorna uma mensagem padrão
-	 * 
-	 * @return CPF do entregador ou mensagem informando ausência de entregador
+	 * Returns the delivery person's CPF for the order.
+	 * If no delivery person is assigned, returns a default message.
+	 *
+	 * @return delivery person's CPF or a message indicating no delivery person assigned
 	 */
 	public String getCpfEntregador() {
 		if (cpfEntregador == null) {

@@ -1,16 +1,16 @@
 package entities;
 
 /**
- * Entidade: Restaurante
+ * Entity: Restaurant
  *
- * Descrição:
- * Representa um restaurante cadastrado no sistema.
+ * Description:
+ * Represents a restaurant registered in the system.
  *
- * Responsabilidades:
- * - Armazenar informações do restaurante
- * - Manter dados de contato do restaurante
- * - Associar o restaurante a uma categoria
- * - Gerenciar dados de autenticação e acesso
+ * Responsibilities:
+ * - Store restaurant information
+ * - Maintain the restaurant's contact details
+ * - Associate the restaurant with a category
+ * - Manage authentication and access data
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -23,9 +23,7 @@ public class Restaurant {
 	private Integer idCategoria;
 	private String senha;
 	
-	/**
-	 * construtor sem argumentos
-	 */
+	// No-argument constructor
 	public Restaurant() {
 		
 	}

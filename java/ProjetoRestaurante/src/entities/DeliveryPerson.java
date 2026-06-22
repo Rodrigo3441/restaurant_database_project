@@ -1,16 +1,16 @@
 package entities;
 
 /**
- * Entidade: Entregador
+ * Entity: DeliveryPerson
  *
- * Descrição:
- * Representa um entregador cadastrado no sistema.
+ * Description:
+ * Represents a delivery person registered in the system.
  *
- * Responsabilidades:
- * - Armazenar informações pessoais do entregador
- * - Manter dados do veículo utilizado para entregas
- * - Controlar a disponibilidade do entregador
- * - Exibir informações formatadas do entregador
+ * Responsibilities:
+ * - Store personal information of the delivery person
+ * - Maintain vehicle data used for deliveries
+ * - Control the availability of the delivery person
+ * - Display formatted information of the delivery person
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -21,7 +21,7 @@ public class DeliveryPerson extends User {
 	private Short disponibilidade;
 		
 	/**
-	 * Construtor sem argumentos
+	 * No-argument constructor
 	 */
 	public DeliveryPerson() {
 		super();
@@ -40,8 +40,8 @@ public class DeliveryPerson extends User {
 	}	
 
 	/**
-	 * Retorna uma mensagem de disponibilidade do entregador baseado no índice de disponibilidade
-	 * @return uma string com os dois possíveis status de disponibilidade
+	 * Returns an availability message for the delivery person based on the availability index
+	 * @return a string with the two possible availability statuses
 	 */
 	public String getDisponibilidadeString() {
 		return (this.disponibilidade == 0) ? "Livre" : "Ocupado";

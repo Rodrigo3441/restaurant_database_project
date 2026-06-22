@@ -1,14 +1,14 @@
 package entities;
 
 /**
- * Classe Abstrata: Endereco
+ * Abstract Class: Address
  *
- * Descrição:
- * Representa uma entidade base para endereços do sistema.
+ * Description:
+ * Represents a base entity for addresses in the system.
  *
- * Responsabilidades:
- * - armazenar dados comuns dos endereços
- * - definir comportamentos compartilhados
+ * Responsibilities:
+ * - Store common address data
+ * - Define shared behaviors
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -20,17 +20,17 @@ public abstract class Address {
 	protected Integer numero;
 	
 	/**
-	 * Construtor sem argumentos
+	 * No-argument constructor
 	 */
 	protected Address() {
 		
 	}
 
 	/**
-	 * retorna o CEP do endereço.
-	 * Caso não exista CEP cadastrado, retorna uma mensagem padrão
+	 * Returns the postal code (CEP) of the address.
+	 * If no postal code is registered, returns a default message.
 	 * 
-	 * @return CEP do endereço ou mensagem informando ausência de CEP
+	 * @return Postal code of the address or message indicating no postal code
 	 */
 	public String getCep() {
 		if (cep != null) {
@@ -44,10 +44,10 @@ public abstract class Address {
 	}
 	
 	/**
-	 * Retorna o nome da rua.
-	 * Caso não exista nome cadastrado, retorna uma mensagem padrão.
+	 * Returns the street name.
+	 * If no street name is registered, returns a default message.
 	 *
-	 * @return nome da rua ou mensagem informando ausência de cadastro
+	 * @return Street name or message indicating no registration
 	 */
 	public String getNome() {
 		if (nome != null) {
@@ -61,10 +61,10 @@ public abstract class Address {
 	}
 
 	/**
-	 * Retorna o número do endereço.
-	 * Caso não exista número cadastrado, retorna 0.
+	 * Returns the address number.
+	 * If no address number is registered, returns 0.
 	 *
-	 * @return número do endereço ou 0
+	 * @return Address number or 0
 	 */
 	public Integer getNumero() {
 		if (numero != null) {
@@ -78,14 +78,14 @@ public abstract class Address {
 	}
 	
 	/**
-	 * Retorna uma string formatada do endereço
-	 * @return String de endereço formatada
+	 * Returns a formatted string representation of the address
+	 * @return Formatted address string
 	 */
 	public abstract String formatarEndereco();
 	
 	/**
-	 * Retorna a identificação de quem o endereço pertence
-	 * @return String com identificação cpf/cnpj
+	 * Returns the identification of the owner of the address
+	 * @return String with CPF/CNPJ identification
 	 */
 	public abstract String getIdentificacao();
 	

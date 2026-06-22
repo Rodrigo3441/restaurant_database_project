@@ -1,15 +1,15 @@
 package entities;
 
 /**
- * Entidade: EnderecoCliente
+ * Entity: CustomerAddress
  *
- * Descrição:
- * Representa o endereço associado a um cliente do sistema.
+ * Description:
+ * Represents an address associated with a system customer.
  *
- * Responsabilidades:
- * - Armazenar informações de endereço do cliente
- * - Associar o endereço ao CPF do cliente
- * - Formatar os dados do endereço para exibição
+ * Responsibilities:
+ * - Store the customer's address information
+ * - Associate the address with the customer's CPF identifier
+ * - Format address data for display
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -19,8 +19,7 @@ public class CustomerAddress extends Address {
 	private String cpfCliente;
 	
 	/**
-	 * Construtor sem argumentos
-	 * 
+	 * No-argument constructor
 	 */
 	public CustomerAddress() {
 		super();

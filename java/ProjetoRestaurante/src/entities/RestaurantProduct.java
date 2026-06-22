@@ -1,19 +1,19 @@
 package entities;
 
 /**
- * Entidade: ProdutoRestaurante
+ * Entity: RestaurantProduct
  *
- * Descrição:
- * Representa um produto disponibilizado por um restaurante no sistema.
+ * Description:
+ * Represents a product offered by a restaurant in the system.
  *
- * Responsabilidades:
- * - Associar produtos a restaurantes
- * - Armazenar informações de preço dos produtos
- * - Controlar a quantidade disponível em estoque
- * - Identificar produtos comercializados pelo restaurante
+ * Responsibilities:
+ * - Link products to restaurants
+ * - Store product pricing information
+ * - Track available stock quantity
+ * - Identify products sold by the restaurant
  *
- * @author Rodrigo
- * @since 20-04-2026
+ * Author: Rodrigo
+ * Since: 2026-04-20
  */
 
 public class RestaurantProduct {
@@ -23,9 +23,7 @@ public class RestaurantProduct {
 	private Double preco;
 	
 	
-	/**
-	 * Construtor sem argumentos
-	 */
+	// No-argument constructor
 	public RestaurantProduct() {
 		
 	}

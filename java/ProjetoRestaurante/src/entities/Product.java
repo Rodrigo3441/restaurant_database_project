@@ -1,15 +1,15 @@
 package entities;
 
 /**
- * Entidade: Produto
+ * Entity: Product
  *
- * Descrição:
- * Representa um produto cadastrado no sistema.
+ * Description:
+ * Represents a product registered in the system.
  *
- * Responsabilidades:
- * - Armazenar informações do produto
- * - Manter descrição e identificação do produto
- * - Associar o produto a uma categoria
+ * Responsibilities:
+ * - Store product information
+ * - Maintain product identification and description
+ * - Associate the product with a category
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -21,9 +21,7 @@ public class Product {
 	private String descricao;
 	private Integer idCategoria;
 	
-	/**
-	 * Construtor sem argumentos
-	 */
+	// No-argument constructor
 	public Product() {
 		
 	}

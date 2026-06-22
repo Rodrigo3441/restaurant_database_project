@@ -1,15 +1,15 @@
 package entities;
 
 /**
- * Entidade: ItemPedido
+ * Entity: OrderItem
  *
- * Descrição:
- * Representa um item associado a um pedido do sistema.
+ * Description:
+ * Represents an item associated with a system order.
  *
- * Responsabilidades:
- * - Armazenar informações do produto vinculado ao pedido
- * - Registrar a quantidade solicitada do produto
- * - Relacionar produtos aos pedidos realizados
+ * Responsibilities:
+ * - Store information about the product linked to the order
+ * - Record the requested quantity of the product
+ * - Associate products with completed orders
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -22,7 +22,7 @@ public class OrderItem {
 	
 	
 	/**
-	 * Construtor sem argumentos
+	 * No-argument constructor
 	 */
 	public OrderItem() {
 		

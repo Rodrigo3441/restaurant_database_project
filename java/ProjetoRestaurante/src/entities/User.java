@@ -1,14 +1,14 @@
 package entities;
 
 /**
- * Classe Abstrata: Usuario
+ * Abstract Class: User
  *
- * Descrição:
- * Representa uma entidade base para usuários do sistema.
+ * Description:
+ * Represents a base entity for system users.
  *
- * Responsabilidades:
- * - Armazenar informações pessoais dos usuários
- * - Definir atributos comuns compartilhados entre subclasses
+ * Responsibilities:
+ * - Store users' personal information
+ * - Define common attributes shared by subclasses
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -21,9 +21,7 @@ public abstract class User {
 	protected String ultimoNome;
 	protected String telefone;
 	
-	/**
-	 * Construtor sem argumentos
-	 */
+	// No-argument constructor
 	protected User() {
 		
 	}

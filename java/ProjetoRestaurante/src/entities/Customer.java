@@ -1,25 +1,24 @@
 package entities;
 
 /**
- * Entidade: Cliente
+ * Entity: Customer
  *
- * Descrição:
- * Representa um cliente cadastrado no sistema.
+ * Description:
+ * Represents a customer registered in the system.
  *
- * Responsabilidades:
- * - Armazenar informações pessoais do cliente
- * - Manter dados de autenticação e acesso
+ * Responsibilities:
+ * // Store the customer's personal information
+ * // Maintain authentication and access data
  *
  * @author Rodrigo
  * @since 20-04-2026
  */
-
 public class Customer extends User {
 	private String email;
 	private String senha;
-	
+    
 	/**
-	 * Construtor sem argumentos
+	 * No-argument constructor
 	 */
 	public Customer() {
 		super();
@@ -41,6 +40,4 @@ public class Customer extends User {
 		this.senha = senha;
 	}
 
-
-	
 }
