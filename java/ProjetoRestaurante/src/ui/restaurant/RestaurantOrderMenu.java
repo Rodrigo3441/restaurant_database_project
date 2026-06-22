@@ -11,13 +11,13 @@ import services.DeliveryPersonService;
 import services.OrderService;
 
 /**
- * Classe: MenuPedidoRestaurante
+ * Class: RestaurantOrderMenu
  *
- * Descrição:
- * Classe responsável por fornecer uma interface para que o restaurante possa gerenciar os seus pedidos
+ * Description:
+ * Class responsible for providing an interface for the restaurant to manage its orders
  *
- * Responsabilidades:
- * - oferecer menus interativos para o usuário
+ * Responsibilities:
+ * - present interactive menus to the user
  *
  * @author Rodrigo
  * @since 07-05-2026
@@ -35,8 +35,8 @@ public class RestaurantOrderMenu {
 	}
 		
 	/**
-	 * Exibe todos os pedidos do restaurante para que o restaurante possa gerenciar eles
-	 * @param r objeto restaurante
+	 * Displays all restaurant orders so the restaurant can manage them
+	 * @param r restaurant object
 	 */
 	public void mostrarMenuPedidos(Restaurant r) {
 		
@@ -59,7 +59,7 @@ public class RestaurantOrderMenu {
 					option = sc.nextInt();
 					sc.nextLine();
 					
-					//verificar se a opção do usuário está fora do intervalo permitido
+					// verify if user option is within allowed range
 					if (option >= 1 && option <= 4) {
 						break;
 					} else {
@@ -93,16 +93,15 @@ public class RestaurantOrderMenu {
 	}
 	
 	/**
-	 * fornece uma interface visual para que o restaurante possa gerenciar produtos
-	 * que ainda estão sendo preparados	
-	 * @param cnpj do restaurante
+	 * Provides a visual interface for the restaurant to manage orders that are still being prepared
+	 * @param cnpj restaurant cnpj
 	 */
 	private void gerenciarPedidosEmPreparo(String cnpj) {
 
-		//lista com todos os pedidos para permitir o acesso à primeira posição (pedido mais antigo)
+		// list with all orders to allow access to the first position (oldest order)
 		ArrayList<Order> listaPedidos = servicoPedido.retornarPedidosRestaurante(cnpj, "Em preparo");
 		
-		//impede operações se a lista estiver vazia
+		// prevent operations if the list is empty
 		if (listaPedidos.isEmpty()) {
 			System.out.println("Não há nenhum pedido sendo preparado no momento!");
 			return;
@@ -111,7 +110,7 @@ public class RestaurantOrderMenu {
 		System.out.println("EXIBINDO PEDIDOS EM PREPARO PELO RESTAURANTE: ");
 		System.out.println("\n============================================================================");
 		
-		//inverte a lista para exibir os pedidos mais antigos em cima
+		// reverse the list to show the oldest orders first
 		Collections.reverse(listaPedidos);
 		
 		for (Order p: listaPedidos) {
@@ -124,7 +123,7 @@ public class RestaurantOrderMenu {
 		System.out.printf("Próximo pedido a ter seu status alterado: %d\n", listaPedidos.get(0).getNumeroPedido());
 		System.out.print("Deseja atribuir um entregador ao pedido e atualizar o seu status? (s-sim/n-não): ");
 		
-		//usuário informa se deseja ou não remover o produto do carrinho
+		// ask the user if they want to assign a delivery person and update the order status
 		while (true) {
 			String escolha = sc.next().trim().toLowerCase();
 		
@@ -143,22 +142,22 @@ public class RestaurantOrderMenu {
 	}
 	
 	/**
-	 * faz a atribuição de um entregador a um pedido e atualiza o status de 0 (livre) para 1 (ocupado)
-	 * @param p objeto pedido
+	 * Assigns a delivery person to an order and updates availability status from 0 (free) to 1 (busy)
+	 * @param p order object
 	 */
 	private void atribuirEntregadorPedido(Order p) {
 		int index;
 		
-		//lista para armazenar todos os entregadores do sistema
+		// list to store all delivery persons in the system
 		ArrayList<DeliveryPerson> listaEntregadores = servicoEntregador.listarEntregadores();
 		
-		//impede qualquer operação se a lista de entregadores estiver vazia
+		// prevent operation if the delivery person list is empty
 		if (listaEntregadores.isEmpty()) {
 			System.out.println("Não há nenhum entregador disponível no momento!");
 			return;
 		}
 		
-		//remove todos os entregadores ocupados da lista para melhor visibilidade
+		// remove all occupied delivery persons from the list for better visibility
 		for (int i = 0; i < listaEntregadores.size(); i++) {
 			if (listaEntregadores.get(i).getDisponibilidade() == 1) {
 				listaEntregadores.remove(i);
@@ -176,14 +175,14 @@ public class RestaurantOrderMenu {
 		System.out.printf("Digite o índice do entregador que você deseja atribuir ao pedido %d: ", p.getNumeroPedido());
 		
 	
-		//campo para validação entrada pelo usuário
+		// field to validate user input
 		while (true) {
 		    try {
 		    	index = sc.nextInt();
-			    sc.nextLine();
-			    
-			    index--; //usuário enxerga de (1)à(N). Computador enxerga de (0)à(N-1)
-			    
+		    	sc.nextLine();
+		    	
+		    	index--; // user sees from (1) to (N). Computer sees from (0) to (N-1)
+		    	
 		        servicoPedido.validarIndex(listaEntregadores, index);
 		        break;
 		    } catch (IllegalArgumentException e) {
@@ -194,12 +193,12 @@ public class RestaurantOrderMenu {
 		    }
 		}
 		
-		//da lista de entregadores disponíveis armazena o entregador escolhido pelo restaurante
+		// from the available delivery persons list, store the chosen delivery person
 		DeliveryPerson entregador = listaEntregadores.get(index);
 		
 		
 		System.out.printf("Deseja confirmar a atribuição do entregador %s ao pedido %d? (s-sim/n-não): ", entregador.getCpf(), p.getNumeroPedido());
-		//restaurante confirma se deseja atribuir o entregador ao pedido
+		// restaurant confirms whether to assign the delivery person to the order
 		while (true) {
 			String escolha = sc.next().trim().toLowerCase();
 		
@@ -222,8 +221,8 @@ public class RestaurantOrderMenu {
 	}
 	
 	/**
-	 * fornece uma interface visual para que o restaurante possa marcar um pedido como concluído
-	 * @param cnpj do restaurante
+	 * Provides a visual interface for the restaurant to mark an order as completed
+	 * @param cnpj restaurant cnpj
 	 */
 	private void gerenciarPedidosEnviados(String cnpj) {
 		
@@ -237,7 +236,7 @@ public class RestaurantOrderMenu {
 		System.out.println("PRODUTOS QUE SAÍRAM PARA ENTREGA: ");
 		System.out.println("\n============================================================================");
 		
-		//inverte a lista para exibir os pedidos mais antigos em cima
+		// reverse the list to show the oldest orders first
 		Collections.reverse(listaPedidos);
 		
 		for (int i = 0; i < listaPedidos.size(); i++) {
@@ -249,7 +248,7 @@ public class RestaurantOrderMenu {
 		
 		System.out.print("Deseja marcar um pedido como concluído? (s-sim/n-não): ");
 		
-		//usuário informa se deseja ou não remover o produto do carrinho
+		// ask the user if they want to mark an order as completed
 		while (true) {
 			String escolha = sc.next().trim().toLowerCase();
 		
@@ -268,21 +267,21 @@ public class RestaurantOrderMenu {
 	}
 	
 	/**
-	 * recebe o índice de qual produto o restaurante deseja marcar como entregue
-	 * @param listaPedidos
+	 * Receives the index of the order the restaurant wants to mark as completed
+	 * @param listaPedidos list of orders
 	 */
 	private void marcarPedidoConcluido(ArrayList<Order> listaPedidos) {
 		int index;
 		System.out.print("Digite o índice do pedido que você deseja marcar como concluído: ");
 		
-		//campo para validação entrada pelo usuário
+		// field to validate user input
 		while (true) {
 		    try {
 		    	index = sc.nextInt();
-			    sc.nextLine();
-			    
-			    index--; //usuário enxerga de (1)à(N). Computador enxerga de (0)à(N-1)
-			    
+		    	sc.nextLine();
+		    	
+		    	index--; // user sees from (1) to (N). Computer sees from (0) to (N-1)
+		    	
 		        servicoPedido.validarIndex(listaPedidos, index);
 		        break;
 		    } catch (IllegalArgumentException e) {
@@ -297,7 +296,7 @@ public class RestaurantOrderMenu {
 		DeliveryPerson entregador = servicoEntregador.retornarEntregador(pedido.getCpfEntregador());
 		
 		System.out.printf("Deseja confirmar a conclusão do pedido %d? (s-sim/n-não): ", pedido.getNumeroPedido());
-		//restaurante confirma se deseja atribuir o entregador ao pedido
+		// restaurant confirms whether to mark the order as delivered
 		while (true) {
 			String escolha = sc.next().trim().toLowerCase();
 		
@@ -320,14 +319,14 @@ public class RestaurantOrderMenu {
 	}
 	
 	/**
-	 * mostra todos os pedidos que já foram marcados como entregue pelo restaurante
-	 * @param cnpj do restaurante
+	 * Shows all orders that have already been marked as delivered by the restaurant
+	 * @param cnpj restaurant cnpj
 	 */
 	private void visualizarPedidosConcluidos(String cnpj) {
 		
 		ArrayList<Order> listaPedidos = servicoPedido.retornarPedidosRestaurante(cnpj, "Entregue");
 		
-		//impede operações se a lista estiver vazia
+		// prevent operations if the list is empty
 		if (listaPedidos.isEmpty()) {
 			System.out.println("Não há pedidos realizados no restaurante!");
 			return;
@@ -336,7 +335,7 @@ public class RestaurantOrderMenu {
 		System.out.println("PEDIDOS QUE JÁ FORAM CONCLUÍDOS: ");
 		System.out.println("\n============================================================================");
 		
-		//inverte a lista para exibir os pedidos mais antigos em cima
+		// reverse the list to show the oldest orders first
 		Collections.reverse(listaPedidos);
 		
 		for (int i = 0; i < listaPedidos.size(); i++) {

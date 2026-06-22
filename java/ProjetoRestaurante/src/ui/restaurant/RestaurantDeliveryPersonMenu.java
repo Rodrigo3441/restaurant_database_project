@@ -7,14 +7,14 @@ import entities.DeliveryPerson;
 import services.DeliveryPersonService;
 
 /**
- * Classe: MenuEntregadorRestaurante
+ * Class: RestaurantDeliveryPersonMenu
  *
- * Descrição:
- * Classe responsável por oferecer a interface de gerenciamento dos entregadores
- * para os restaurantes do sistema
+ * Description:
+ * Class responsible for providing the delivery person management interface
+ * for restaurants in the system
  *
- * Responsabilidades:
- * - oferecer menus interativos para o restaurante
+ * Responsibilities:
+ * - provide interactive menus for the restaurant
  *
  * @author Rodrigo
  * @since 30-04-2026
@@ -33,16 +33,16 @@ public class RestaurantDeliveryPersonMenu {
 	}
 	
 	/**
-	 * Método mostrarMenuPrincipal
+	 * Method mostrarMenuEntregador
 	 * 
-	 * Responsável por oferecer opções inciais para o cliente acessar ou cadastrar uma conta
+	 * Responsible for offering the initial menu options for restaurant delivery person management
 	 * 
 	 */
 	public void mostrarMenuEntregador() {
 			
 			int option = 9;
 			
-			//validação da entrada de opção pelo usuário
+			// validate user's menu choice input
 			do {
 				
 				System.out.println("\nMENU GERENCIADOR DE ENTREGADORES");
@@ -67,7 +67,7 @@ public class RestaurantDeliveryPersonMenu {
 					option = -1;
 				}
 				
-				//acesso as opções do menu			
+				// access the menu options
 				switch (option) {
 					case 1:
 						this.fazerCadastro();
@@ -102,7 +102,7 @@ public class RestaurantDeliveryPersonMenu {
 	
 	
 	/**
-	 * Responsável por fornecer a interface de cadastro para um novo entregador
+	 * Responsible for providing the registration interface for a new delivery person
 	 * 
 	 */
 	private void fazerCadastro() {
@@ -116,7 +116,7 @@ public class RestaurantDeliveryPersonMenu {
 		
 		System.out.println("CADASTRO DE NOVO ENTREGADOR");
 		
-		//campo para validação de CPF
+		// field for CPF validation
 		while (true) {
 		    System.out.print("Digite o seu CPF (11 dígitos): ");
 		    cpf = sc.nextLine().trim();
@@ -129,7 +129,7 @@ public class RestaurantDeliveryPersonMenu {
 		    }
 		}
 		
-		//campo para validação do primeiro nome
+		// field for first name validation
 		while (true) {
 		    System.out.print("Digite o seu primeiro nome: ");
 		    primeiroNome = sc.nextLine().trim();
@@ -142,7 +142,7 @@ public class RestaurantDeliveryPersonMenu {
 		    }
 		}
 		
-		//campo para validação do ultimo nome
+		// field for last name validation
 		while (true) {
 		    System.out.print("Digite o seu último nome: ");
 		    ultimoNome = sc.nextLine().trim();
@@ -155,7 +155,7 @@ public class RestaurantDeliveryPersonMenu {
 		    }
 		}
 		
-		//campo para validação do nome do meio
+		// field for middle name validation
 		while (true) {
 		    System.out.print("Digite o seu nome do meio: ");
 		    nomeMeio = sc.nextLine().trim();
@@ -168,7 +168,7 @@ public class RestaurantDeliveryPersonMenu {
 		    }
 		}
 				
-		//campo para validação de telefone
+		// field for phone validation
 		while (true) {
 		    System.out.print("Digite o seu telefone: ");
 		    telefone = sc.nextLine().trim();
@@ -181,7 +181,7 @@ public class RestaurantDeliveryPersonMenu {
 		    }
 		}
 		
-		//campo para validação da placa do veículo
+		// field for vehicle plate validation
 		while (true) {
 		    System.out.print("Digite a placa do veículo do entregador: ");
 		    placaVeiculo = sc.nextLine().trim().toUpperCase();
@@ -206,13 +206,13 @@ public class RestaurantDeliveryPersonMenu {
 		
 		System.out.print("Deseja confirmar as informações? (s para sim/n para cancelar): ");
 		
-		//validação da escolha do usuário
+		// validate user's choice
 		while (true) {
 			
 			String opt = sc.next();
 			
 			if (opt.equals("s")) {
-				//instanciação de um novo Entregador e vinculação dos atributos			
+				// instantiate a new DeliveryPerson and set attributes			
 				DeliveryPerson e = new DeliveryPerson();
 				e.setCpf(cpf);
 				e.setPrimeiroNome(primeiroNome);
@@ -222,7 +222,7 @@ public class RestaurantDeliveryPersonMenu {
 				e.setVeiculo(placaVeiculo);
 				e.setDisponibilidade((short) 0);
 				
-				//chamada do método para cadastro e verificação se houve êxito na ação
+				// call the registration method and check if it succeeded
 				if(servicoentregador.cadastrarEntregador(e)) {
 					System.out.println("O entregador foi cadastrado com sucesso!");
 					
@@ -244,12 +244,12 @@ public class RestaurantDeliveryPersonMenu {
 	}
 	
 	/**
-	 * Lista todos os entregadores que estão cadastrados no sistema
+	 * List all delivery persons registered in the system
 	 */
 	private void listarEntregadores() {
 		ArrayList<DeliveryPerson> listaEntregadores = servicoentregador.listarEntregadores();
 
-		//Interrompe a execução quando não há produtos cadastrados
+		// stop execution when there are no delivery persons registered
 		if (listaEntregadores.isEmpty()) {
 			System.out.println("Não há nenhum entregador cadastrado no sistema!");
 			return;
@@ -257,7 +257,7 @@ public class RestaurantDeliveryPersonMenu {
 		
 		System.out.println("\nTODOS OS ENTREGADORES DO SISTEMA:");
 		System.out.println("================================================");
-		//Imprime cada produto para aquele restaurante
+		// print each delivery person for the restaurant
 		for (DeliveryPerson e: listaEntregadores) {
 			System.out.println(e);
 		}
@@ -267,8 +267,8 @@ public class RestaurantDeliveryPersonMenu {
 	
 
 	/**
-	 * Exibe a lista de todos os entregadores do sistema e pede ao restaurante para informar o cpf
-	 * que vai ser deletado do sistema
+	 * Displays the list of all delivery persons in the system and asks the restaurant to provide the CPF
+	 * that will be deleted from the system
 	 */
 	private void removerEntregador() {
 		
@@ -276,24 +276,24 @@ public class RestaurantDeliveryPersonMenu {
 		
 		System.out.print("Insira o CPF do entregador que você deseja remover do restaurante: ");
 		
-		//cpf do entregador a ser deletado
+		// CPF of the delivery person to be deleted
 		String cpf = sc.next().trim();
 		
-		//entregador alvo é armazenado para as operações serem realizadas
+		// store the target delivery person for operations
 		DeliveryPerson entregador = servicoentregador.retornarEntregador(cpf);
 		
 		if (entregador != null) {
 			System.out.println(entregador);
 			System.out.printf("Deseja apagar o entregador de cpf %s do seu restaurante? (s-sim/n-não): ",entregador.getCpf());
 			
-			//validação da escolha do usuário
+			// validate user's choice
 			while (true) {
 				
 				String opt = sc.next();
 				
 				if (opt.equals("s")) {
 				
-					//chamada do método para cadastro e verificação se houve êxito na ação
+					// call the deletion method and check if it succeeded
 					try {
 						servicoentregador.removerEntregador(cpf);
 						System.out.println("Entregador deletado do sistema com sucesso!");
@@ -321,8 +321,8 @@ public class RestaurantDeliveryPersonMenu {
 	}
 	
 	/**
-	 * Exibe a lista de todos os entregadores do sistema e pede ao restaurante para informar o cpf
-	 * do entregador da qual se deseja atualizar informações
+	 * Displays the list of all delivery persons in the system and asks the restaurant to provide the CPF
+	 * of the delivery person whose information should be updated
 	 */
 	private void atualizarEntregador() {
 		
@@ -330,10 +330,10 @@ public class RestaurantDeliveryPersonMenu {
 		
 		System.out.print("Insira o CPF do entregador que você deseja atualizar as informações: ");
 		
-		//cpf do entregador a ser deletado
+		// CPF of the delivery person to be updated
 		String cpf = sc.next().trim();
 		
-		//entregador alvo é armazenado para as operações serem realizadas
+		// store the target delivery person for operations
 		DeliveryPerson entregador = servicoentregador.retornarEntregador(cpf);
 		
 		if (entregador != null) {

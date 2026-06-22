@@ -7,13 +7,13 @@ import entities.Restaurant;
 import services.RestaurantService;
 
 /**
- * Classe: MenuPerfilRestaurante
+ * Class: RestaurantProfileMenu
  *
- * Descrição:
- * Classe responsável por oferecer a interface do sistema para o restaurante
+ * Description:
+ * Class responsible for providing the system interface for the restaurant
  *
- * Responsabilidades:
- * - oferecer menus interativos para o usuário
+ * Responsibilities:
+ * - provide interactive menus for the user
  *
  * @author Rodrigo
  * @since 27-04-2026
@@ -33,13 +33,13 @@ public class RestaurantProfileMenu {
 	
 
 	/**
-	 * Responsável por exibir as ações de personalização do perfil do restaurante
-	 * @param r objeto Restaurante
+	 * Responsible for displaying restaurant profile customization actions
+	 * @param r Restaurant object
 	 */
 	public void mostrarMenuPerfil(Restaurant r) {
 		int option = 9;
 		
-		//validação da entrada de opção pelo usuário
+		// validation of the user's option input
 		while (true) {
 			
 			System.out.println("\nMENU EDITAR PERFIL DO RESTAURANTE");
@@ -58,7 +58,7 @@ public class RestaurantProfileMenu {
 				option = sc.nextInt();
 				sc.nextLine();
 				
-				//verificar se a opção do usuário está fora do intervalo permitido
+				// check if the user's option is outside the allowed range
 				if (!(option >= 0 && option <= 6)) {
 					System.out.println("Digite uma opção válida: ");
 				}
@@ -69,7 +69,7 @@ public class RestaurantProfileMenu {
 				option = -1;
 			}
 			
-			//acesso as opções do menu			
+			// access menu options			
 			switch (option) {
 				case 1:
 					this.atualizarNome(r);
@@ -95,11 +95,11 @@ public class RestaurantProfileMenu {
 	}
 	
 	/**
-	 * Responsável por atualizar o nome do restaurante
-	 * @param r objeto restaurante
+	 * Responsible for updating the restaurant name
+	 * @param r restaurant object
 	 */
 	private void atualizarNome(Restaurant r) {
-		//campo para validação do nome do restaurante
+		// field for restaurant name validation
 		while (true) {
 			System.out.print("Insira o seu primeiro nome (3-40 letras): ");
 			
@@ -120,11 +120,11 @@ public class RestaurantProfileMenu {
 	}
 	
 	/**
-	 * Responsável por atualizar o telefone do restaurante
-	 * @param r objeto restaurante
+	 * Responsible for updating the restaurant phone
+	 * @param r restaurant object
 	 */
 	private void atualizarTelefone(Restaurant r) {
-		//campo para validação do telefone
+		// field for phone validation
 		while (true) {
 			System.out.print("Insira o novo telefone do restaurante (até 11 dígitos): ");
 			
@@ -144,11 +144,11 @@ public class RestaurantProfileMenu {
 	}
 	
 	/**
-	 * Responsável por atualizar a senha do restaurante 
+	 * Responsible for updating the restaurant password
 	 * @param r
 	 */
 	private void atualizarSenha(Restaurant r) {
-		//campo para validação da senha
+		// field for password validation
 		while (true) {
 			System.out.print("Insira a nova senha do restaurante: ");
 			

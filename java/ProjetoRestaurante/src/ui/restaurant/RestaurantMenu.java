@@ -6,13 +6,13 @@ import entities.Restaurant;
 import services.RestaurantService;
 
 /**
- * Classe: MenuRestaurante
+ * Class: RestaurantMenu
  *
- * Descrição:
- * Classe responsável por oferecer a interface do sistema para o restaurante
+ * Description:
+ * Class responsible for providing the system interface for restaurants
  *
- * Responsabilidades:
- * - oferecer menus interativos para o cliente
+ * Responsibilities:
+ * - provide interactive menus for the customer
  *
  * @author Rodrigo
  * @since 27-04-2026
@@ -25,7 +25,7 @@ public class RestaurantMenu {
 	private Scanner sc;
 	
 	/**
-	 * Recebe uma conexão para permitir comunicação com banco de dados
+	 * Receives a connection to allow communication with the database
 	 * 
 	 * @param conn
 	 */
@@ -36,13 +36,13 @@ public class RestaurantMenu {
 	}
 	
 	/**
-	 * Responsável por oferecer opções inciais para o restaurante acessar ou cadastrar uma conta
+	 * Responsible for presenting the initial options for the restaurant to log in or register an account
 	 */
 	public void mostrarMenuPrincipal() {
 			
 			int option = 9;
 			
-			//validação da entrada de opção pelo usuário
+			// validate the user's option input
 			while (true) {
 				
 				System.out.println("\nMENU RESTAURANTE");
@@ -59,7 +59,7 @@ public class RestaurantMenu {
 					option = sc.nextInt();
 					sc.nextLine();
 					
-					//verificar se a opção do usuário está fora do intervalo permitido
+					// check whether the user's option is outside the allowed range
 					if (!(option >= 0 && option <= 3)) {
 						System.out.println("Digite uma opção válida: ");
 					}
@@ -70,7 +70,7 @@ public class RestaurantMenu {
 					option = -1;
 				}
 				
-				//acesso as opções do menu			
+				// access menu options			
 				switch (option) {
 					case 1:
 						this.fazerLogin();
@@ -94,7 +94,7 @@ public class RestaurantMenu {
 	
 	
 	/**
-	 * Responsável por fornecer a interface de cadastro para o restaurante
+	 * Responsible for providing the registration interface for the restaurant
 	 */
 	private void fazerCadastro() {
 		
@@ -105,7 +105,7 @@ public class RestaurantMenu {
 		
 		System.out.println("\nCADASTRO DE NOVO RESTAURANTE");
 		
-		//campo para validação de CPF
+		// field for CNPJ validation
 		while (true) {
 		    System.out.print("Digite o seu CNPJ (14 dígitos): ");
 		    cnpj = sc.nextLine().trim();
@@ -118,7 +118,7 @@ public class RestaurantMenu {
 		    }
 		}
 		
-		//campo para validação do nome do restaurante
+		// field for restaurant name validation
 		while (true) {
 		    System.out.print("Digite o nome do restaurante: ");
 		    nome = sc.nextLine().trim();
@@ -131,7 +131,7 @@ public class RestaurantMenu {
 		    }
 		}
 				
-		//campo para validação de telefone
+		// field for phone validation
 		while (true) {
 		    System.out.print("Digite o telefone do restaurante: ");
 		    telefone = sc.nextLine().trim();
@@ -144,7 +144,7 @@ public class RestaurantMenu {
 		    }
 		}
 	
-		//campo para validação de senha
+		// field for password validation
 		while (true) {
 		    System.out.print("Digite a senha de acesso do restaurante: ");
 		    senha = sc.nextLine().trim();
@@ -167,20 +167,20 @@ public class RestaurantMenu {
 		
 		System.out.print("Deseja confirmar as informações? (s para sim/n para cancelar): ");
 		
-		//validação da escolha do usuário
+		// validate the user's choice
 		while (true) {
 			
 			String opt = sc.next();
 			
 			if (opt.equals("s")) {
-				//instanciação de um novo restaurante e vinculação dos atributos
+				// instantiate a new restaurant and set its attributes
 				Restaurant r = new Restaurant();
 				r.setCnpj(cnpj);
 				r.setNome(nome);
 				r.setTelefone(telefone);
 				r.setSenha(senha);
 				
-				//chamada do método para cadastro e verificação se houve êxito na ação
+				// call the registration method and verify whether it succeeded
 				if(servicorestaurante.cadastrarRestaurante(r)) {
 					System.out.println("Restaurante cadastrado com sucesso!");
 					
@@ -202,24 +202,24 @@ public class RestaurantMenu {
 	}
 	
 	/**
-	 * Responsável por receber credenciais do restaurante e passá-las para a camada de serviço
+	 * Responsible for receiving the restaurant credentials and passing them to the service layer
 	 */
 	private void fazerLogin() {
 		System.out.print("Digite o seu CNPJ para poder inciar sessão: ");
 		
 		String cnpj = sc.next().trim();
 		
-		//armazena todas as informações do restaurante
+		// store all restaurant information
 		Restaurant r = servicorestaurante.retornarRestaurante(cnpj);
 		
-		//verifica se houve retorno para um restaurante
+		// check whether a restaurant was returned
 		if(r != null) {
 
 			System.out.print("Digite a senha do restaurante: ");
 			
 			String senha = sc.next().trim();
 			
-			//verifica se o atributo senha de r confere com senha informada
+			// verify whether the restaurant password matches the entered password
 			if (r.getSenha().equals(senha)) {
 				System.out.println("Seja bem vindo, " + r.getNome() + "!");
 				this.menuRestauranteLogado(r);
@@ -234,8 +234,8 @@ public class RestaurantMenu {
 	}
 	
 	/**
-	 * Responsável por oferecer o menu de ações para o restaurante em sessão
-	 * @param r objeto restaurante
+	 * Responsible for offering the action menu for the logged-in restaurant
+	 * @param r restaurant object
 	 */
 	private void menuRestauranteLogado(Restaurant r) {
 		int option = -1;
@@ -257,7 +257,7 @@ public class RestaurantMenu {
 				
 				option = sc.nextInt();
 				
-				//verificar se a opção do usuário está fora do intervalo permitido
+				// check whether the user's option is outside the allowed range
 				if (!(option >= 0 && option <= 5)) {
 					System.out.println("Digite uma opção válida: ");
 				}

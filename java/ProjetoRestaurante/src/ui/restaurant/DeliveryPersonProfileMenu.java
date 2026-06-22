@@ -6,14 +6,14 @@ import entities.DeliveryPerson;
 import services.DeliveryPersonService;
 
 /**
- * Classe: MenuPerfilEntregador
+ * Class: DeliveryPersonProfileMenu
  *
- * Descrição:
- * Classe responsável por oferecer a interface do sistema para o restaurante
- * gerenciar as informações dos entregadores cadastrados
+ * Description:
+ * Class responsible for providing the system interface for the restaurant
+ * to manage the registered delivery person's information.
  *
- * Responsabilidades:
- * - oferecer menus interativos para o usuário
+ * Responsibilities:
+ * - provide interactive menus to the user
  *
  * @author Rodrigo
  * @since 30-04-2026
@@ -30,13 +30,13 @@ public class DeliveryPersonProfileMenu {
 	}
 	
 	/**
-	 * Responsável por exibir as ações de personalização do perfil
-	 * @param c objeto Cliente
+	 * Responsible for displaying profile customization actions
+	 * @param entregador delivery person object
 	 */
 	public void mostrarMenuPerfil(DeliveryPerson entregador) {
 		int option = 9;
 		
-		//validação da entrada de opção pelo usuário
+		// validate the user's menu option input
 		while (true) {
 			
 			System.out.println("\nMENU DE EDIÇÃO DE ENTREGADOR");
@@ -58,7 +58,7 @@ public class DeliveryPersonProfileMenu {
 				option = sc.nextInt();
 				sc.nextLine();
 				
-				//verificar se a opção do usuário está fora do intervalo permitido
+				// validate if the option is within the valid range
 				if (!(option >= 0 && option <= 6)) {
 					System.out.println("Digite uma opção válida: ");
 				}
@@ -69,7 +69,7 @@ public class DeliveryPersonProfileMenu {
 				option = -1;
 			}
 			
-			//acesso as opções do menu			
+			// execute the action corresponding to the user's option			
 			switch (option) {
 				case 1:
 					this.atualizarPrimeiroNome(entregador);
@@ -96,12 +96,12 @@ public class DeliveryPersonProfileMenu {
 	}
 	
 	/**
-	 * Responsável por atualizar o primeiro nome do entregador
-	 * @param entregador objeto entregador
+	 * Responsible for updating the delivery person's first name
+	 * @param entregador delivery person object
 	 */
 	private void atualizarPrimeiroNome(DeliveryPerson entregador) {
 
-		//campo para validação do primeiro nome
+		// field for first name validation
 		while (true) {
 			System.out.print("Insira o primeiro nome do entregador (3-20 letras): ");
 			
@@ -121,12 +121,12 @@ public class DeliveryPersonProfileMenu {
 	}
 	
 	/**
-	 * Responsável por atualizar o nome do meio do entregador
-	 * @param entregador objeto entregador
+	 * Responsible for updating the delivery person's middle name
+	 * @param entregador delivery person object
 	 */
 	private void atualizarNomeMeio(DeliveryPerson entregador) {
 
-		//campo para validação do nome do meio
+		// field for middle name validation
 		while (true) {
 			System.out.print("Insira o seu nome do meio (3-40 letras): ");
 			
@@ -147,12 +147,12 @@ public class DeliveryPersonProfileMenu {
 	}
 	
 	/**
-	 * Responsável por atualizar o ultimo nome do entregador
-	 * @param entregador objeto entregador
+	 * Responsible for updating the delivery person's last name
+	 * @param entregador delivery person object
 	 */
 	private void atualizarUltimoNome(DeliveryPerson entregador) {
 
-		//campo para validação do ultimo nome
+		// field for last name validation
 		while (true) {
 			System.out.print("Insira o seu ultimo nome (3-20 letras): ");
 			
@@ -172,12 +172,12 @@ public class DeliveryPersonProfileMenu {
 	}
 	
 	/**
-	 * Responsável por atualizar o telefone do entregador
-	 * @param entregador objeto entregador
+	 * Responsible for updating the delivery person's phone
+	 * @param entregador delivery person object
 	 */
 	private void atualizarTelefone(DeliveryPerson entregador) {
 
-		//campo para validação do telefone
+		// field for phone validation
 		while (true) {
 			System.out.print("Insira o seu novo telefone (até 11 dígitos): ");
 			
@@ -197,12 +197,12 @@ public class DeliveryPersonProfileMenu {
 	}
 		
 	/**
-	 * Responsável por atualizar a placa do veículo do entregador
-	 * @param entregador objeto entregador
+	 * Responsible for updating the delivery person's vehicle plate
+	 * @param entregador delivery person object
 	 */
 	private void atualizarPlacaVeiculo(DeliveryPerson entregador) {
 
-		//campo para validação do email
+		// field for vehicle plate validation
 		while (true) {
 			System.out.print("Insira a nova placa do veículo do entregador: ");
 			

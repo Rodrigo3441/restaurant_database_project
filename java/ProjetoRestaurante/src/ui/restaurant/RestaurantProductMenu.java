@@ -12,14 +12,14 @@ import services.RestaurantProductService;
 import view.RestaurantProductView;
 
 /**
- * Classe: MenuProdutoRestaurante
+ * Class: RestaurantProductMenu
  *
- * Descrição:
- * Classe responsável por fornecer uma interface para que o restaurante possa gerenciar os seus produtos
+ * Description:
+ * Class responsible for providing an interface for the restaurant to manage its products
  *
- * Responsabilidades:
- * - oferecer uma interface de comunicação dos dados
- * - se comunicar com a camada de serviço
+ * Responsibilities:
+ * - provide a data communication interface
+ * - communicate with the service layer
  *
  * @author Rodrigo
  * @since 27-04-2026
@@ -41,13 +41,13 @@ public class RestaurantProductMenu {
 	}
 	
 	/**
-	 * Exibir o menu para o restaurante poder gerenciar os produtos de seu catálogo
-	 * @param r objeto restaurante
+	 * Display the menu for the restaurant to manage its product catalog
+	 * @param r restaurant object
 	 */
 	public void mostrarMenuProdutos(Restaurant r) {
 		int option = 9;
 		
-		//validação da entrada de opção pelo usuário
+		// validate the user's menu option input
 		while (true) {
 			
 			System.out.println("\nMENU PRODUTOS DO RESTAURANTE");
@@ -69,7 +69,7 @@ public class RestaurantProductMenu {
 				System.out.print("Digite apenas números (1-3): ");
 			}
 			
-			//acesso as opções do menu			
+			// process the menu options
 			switch (option) {
 				case 1:
 					this.cadastrarProduto(r.getCnpj());
@@ -90,14 +90,15 @@ public class RestaurantProductMenu {
 	}
 	
 	/**
-	 * Exibir a interface para o restaurante poder cadastrar um produto em seu catálogo
-	 * Identifica se o produto já está cadastrado e será só associado, ou se será inserido do zero
-	 * @param cnpj do restaurante em sessão
+	 * Display the interface for the restaurant to add a product to its catalog
+	 * Determines whether the product is already globally registered and should only be associated,
+	 * or if it should be inserted from scratch
+	 * @param cnpj restaurant identifier in session
 	 */
 	private void cadastrarProduto(String cnpj) {
 		String nomeProduto;
 		
-		//campo para validação do nome do produto
+		// field for validating the product name
 		while (true) {
 			System.out.print("Insira o nome do produto que você deseja cadastrar (3-40 letras): ");
 			nomeProduto = sc.nextLine().trim().toLowerCase();
@@ -112,7 +113,7 @@ public class RestaurantProductMenu {
 		
 		Product p = servicoproduto.buscarProdutoPorNome(nomeProduto);
 		
-		//verificação se houve um produto com o mesmo nome retornado
+		// check whether a product with the same name was returned
 		if (p != null) {
 			if (servicoprodutorestaurante.produtoJaEstaCadastrado(cnpj, p.getCodigo())) {
 				System.out.println("Esse produto já está associado ao restaurante!");
@@ -123,7 +124,7 @@ public class RestaurantProductMenu {
 			
 			int option = 9;
 			
-			//validação da entrada de opção pelo usuário
+			// validate the decision option entered by the user
 			do {
 				try {
 					option = sc.nextInt();
@@ -135,7 +136,7 @@ public class RestaurantProductMenu {
 					option = -1;
 				}
 				
-				//acesso as opções de decisão			
+				// process decision options
 				switch (option) {
 					case 1:
 						this.associarProdutoRestaurante(p, cnpj);
@@ -147,7 +148,7 @@ public class RestaurantProductMenu {
 					    System.out.println("Digite uma opção válida (1 ou 2)");
 						
 				}
-	
+
 			} while (true);
 			
 		}
@@ -156,9 +157,8 @@ public class RestaurantProductMenu {
 	}
 		
 	/**
-	 * Se o nome de produto que o usuário digitou não for localizado na base de dados
-	 * Ele será "redirecionado" para esse método, cadastrando globalmente em produtos, e depois
-	 * associando ao restaurante
+	 * If the product name entered by the user is not found in the database,
+	 * this method is used to register it globally and then associate it with the restaurant
 	 * @param cnpj
 	 * @param nomeProduto
 	 */
@@ -166,7 +166,7 @@ public class RestaurantProductMenu {
 		int codigo;
 		String descricaoProduto;
 		
-		//campo para validação da descrição do produto
+		// field for validating the product description
 		while (true) {
 			System.out.print("Insira a descrição do produto: ");
 			descricaoProduto = sc.nextLine().trim().toLowerCase();
@@ -179,7 +179,7 @@ public class RestaurantProductMenu {
 		    }
 		}
 		
-		//campo para validação do código do produto
+		// field for validating the product code
 		while (true) {
 			System.out.print("Insira o código do produto no catálogo global (Um valor numérico): ");
 			
@@ -203,24 +203,24 @@ public class RestaurantProductMenu {
 		
 		System.out.print("Deseja confirmar as informações? (s para sim/n para cancelar): ");
 		
-		//validação da escolha do usuário
+		// validate the user's choice
 		while (true) {
 			
 			String opt = sc.next();
 			
 			if (opt.equals("s")) {
-				//instanciação de um novo produto e vinculação dos atributos
+				// instantiate a new product and assign attributes
 				Product p = new Product();
 				
 				p.setCodigo(codigo);
 				p.setNome(nomeProduto);
 				p.setDescricao(descricaoProduto);
 				
-				//chamada do método para cadastro e verificação se houve êxito na ação
+				// call the registration method and verify success
 				if(servicoproduto.inserirProduto(p)) {
 					System.out.println("Produto cadastrado no catálogo global com sucesso!");
 					
-					//após cadastrar globalmente, chama método para vincular ao restaurante
+					// after registering globally, associate with the restaurant
 					this.associarProdutoRestaurante(p, cnpj);
 					
 				} else {
@@ -241,15 +241,15 @@ public class RestaurantProductMenu {
 	}
 	
 	/**
-	 * associa um produto do catálogo global de produtos à um determinado restaurante
-	 * @param p objeto produto
-	 * @param cnpj do restaurante
+	 * Associate a product from the global catalog with a specific restaurant
+	 * @param p product object
+	 * @param cnpj restaurant identifier
 	 */
 	private void associarProdutoRestaurante(Product p, String cnpj) {
 		int quantidadeEstoque;
 		double preco;
 		
-		//campo para validação da quantidade em estoque do produto
+		// field for validating the product stock quantity
 		while (true) {
 			System.out.printf("Insira a quantidade atual em estoque do produto %s: ", p.getNome());
 			
@@ -267,7 +267,7 @@ public class RestaurantProductMenu {
 		    }
 		}
 		
-		//campo para validação do preço do produto
+		// field for validating the product price
 		while (true) {
 			System.out.printf("Insira o preço do produto %s: ", p.getNome());
 			
@@ -295,13 +295,13 @@ public class RestaurantProductMenu {
 		
 		System.out.print("Deseja confirmar as informações? (s para sim/n para cancelar): ");
 		
-		//validação da escolha do usuário
+		// validate the user's choice
 		while (true) {
 			
 			String opt = sc.next();
 			
 			if (opt.equals("s")) {
-				//instanciação de um novo produto e vinculação dos atributos
+				// instantiate a new restaurant product and assign attributes
 				RestaurantProduct pr = new RestaurantProduct();
 				
 				pr.setCnpjRestaurante(cnpj);
@@ -309,7 +309,7 @@ public class RestaurantProductMenu {
 				pr.setQuantidadeEstoque(quantidadeEstoque);
 				pr.setPreco(preco);
 				
-				//chamada do método para cadastro e verificação se houve êxito na ação
+				// call the association method and verify success
 				if(servicoprodutorestaurante.associarProdutoRestaurante(pr)) {
 					System.out.println("Produto associado ao catálogo do restaurante com sucesso!");
 					return;
@@ -333,14 +333,14 @@ public class RestaurantProductMenu {
 	}
 	
 	/**
-	 * Exibe todos os produtos associados ao restaurante em sessão
-	 * @param cnpj do restaurante
+	 * Display all products associated with the restaurant in session
+	 * @param cnpj restaurant identifier
 	 */
 	public void gerenciarProdutosCadastrados(String cnpj) {
 		int option = 0;
 		ArrayList<RestaurantProductView> listaProdutos = servicoprodutorestaurante.retornarTodoProdutoRestaurante(cnpj);
 
-		//Interrompe a execução quando não há produtos cadastrados
+		// stop execution when there are no registered products
 		if (listaProdutos.isEmpty()) {
 			System.out.println("Não há produtos cadastrados para o restaurante!");
 			return;
@@ -348,7 +348,7 @@ public class RestaurantProductMenu {
 		
 		System.out.println("EXIBINDO TODOS OS PRODUTOS DO RESTAURANTE:");
 		
-		//Imprime cada produto para aquele restaurante com um índice
+		// print each product for that restaurant with an index
 		System.out.println("\n============================================================================");
 		for (int i = 0; i < listaProdutos.size(); i++) {
 			System.out.println(i+1 + "- " + listaProdutos.get(i));
@@ -375,7 +375,7 @@ public class RestaurantProductMenu {
 				sc.nextLine();
 			}
 			
-			//acesso as opções do menu para o usuário		
+			// process the menu options for the user
 			switch (option) {					
 				case 1:
 					this.atualizarQuantidadeEstoque(cnpj, listaProdutos);
@@ -397,9 +397,9 @@ public class RestaurantProductMenu {
 	}
 	
 	/**
-	 * fornece a interação para que o restaurante possa atualizar a quantidade do estoque de determinado produto
-	 * @param cnpj do restaurante
-	 * @param listaProdutos todos os produtos do restaurante
+	 * Provide the interaction for the restaurant to update the stock quantity of a specific product
+	 * @param cnpj restaurant identifier
+	 * @param listaProdutos all products of the restaurant
 	 */
 	private void atualizarQuantidadeEstoque(String cnpj, ArrayList<RestaurantProductView> listaProdutos) {
 		int index;
@@ -407,13 +407,13 @@ public class RestaurantProductMenu {
 		
 		System.out.println("Digite o índice do produto que você deseja atualizar: ");
 		
-		//campo para validação entrada pelo usuário
+		// field for validating user input
 		while (true) {
 		    try {
 		    	index = sc.nextInt();
 			    sc.nextLine();
 			    
-			    index--; //usuário enxerga de (1)à(N). Computador enxerga de (0)à(N-1)
+			    index--; // user sees from 1 to N, computer uses 0 to N-1
 			    
 		        servicoPedido.validarIndex(listaProdutos, index);
 		        break;
@@ -430,7 +430,7 @@ public class RestaurantProductMenu {
 		
 		System.out.printf("Digite a nova quantidade em estoque do produto %s: ", produtoAlvo.getNomeProduto());
 		
-		//campo para validação da quantidade em estoque do produto
+		// field for validating the product's stock quantity
 		while (true) {
 		
 		    try {
@@ -448,7 +448,7 @@ public class RestaurantProductMenu {
 		}
 		
 		System.out.printf("Deseja confirmar a atualização da quantidade em estoque do produto %s? (s-sim/n-não): ", produtoAlvo.getNomeProduto());
-		//restaurante confirma se deseja atribuir o entregador ao pedido
+		// the restaurant confirms whether to update the stock quantity
 		while (true) {
 			String escolha = sc.next().trim().toLowerCase();
 		
@@ -472,20 +472,20 @@ public class RestaurantProductMenu {
 	}
 	
 	/**
-	 * Permite que o restaurante informe o código de um produto e o remova do seu catálogo
-	 * @param cnpj do restaurante em sessão
+	 * Allow the restaurant to provide a product code and remove it from its catalog
+	 * @param cnpj restaurant identifier in session
 	 */
 	private void removerProduto(String cnpj) {
 		int codigo;
 		System.out.print("Insira o código do produto que você deseja remover do restaurante: ");
 		
-		//campo para validação do código do produto
+		// field for validating the product code
 		while (true) {
 	
 		    try {	
 		    	codigo = sc.nextInt();
 				sc.nextLine();
-				    
+			    	
 		        servicoprodutorestaurante.validarCodigoProduto(codigo);
 		        break;
 		    } catch (IllegalArgumentException e) {
@@ -501,14 +501,14 @@ public class RestaurantProductMenu {
 		if (alvo != null) {
 			System.out.printf("Deseja apagar o produto %s do seu restaurante? (s-sim/n-não): ",alvo.getNome());
 			
-			//validação da escolha do usuário
+			// validate the user's choice
 			while (true) {
 				
 				String opt = sc.next();
 				
 				if (opt.equals("s")) {
 				
-					//chamada do método para cadastro e verificação se houve êxito na ação
+					// try to remove the product from the restaurant's catalog and verify success
 					try {
 						servicoprodutorestaurante.apagarProdutoRestaurante(cnpj, codigo);
 						System.out.println("Produto deletado do restaurante com sucesso!");

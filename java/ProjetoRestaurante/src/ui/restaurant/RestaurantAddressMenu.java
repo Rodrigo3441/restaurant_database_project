@@ -9,14 +9,14 @@ import entities.Restaurant;
 import services.AddressService;
 
 /**
- * Classe: MenuEnderecoRestaurante
+ * Class: RestaurantAddressMenu
  *
- * Descrição:
- * Classe responsável por fornecer opções para o restaurante gerenciar o endereço
+ * Description:
+ * Class responsible for providing options for the restaurant to manage its address
  *
- * Responsabilidades:
- * - fornecer interface
- * - comunicar com a camada serviço
+ * Responsibilities:
+ * - provide user interface
+ * - communicate with the service layer
  *
  * @author Rodrigo
  * @since 27-04-2026
@@ -35,16 +35,16 @@ public class RestaurantAddressMenu {
 	}
 
 	/**
-	 * Responsável por exibir a interface de endereço para o restaurante pode gerenciar
-	 * tem dois estados:
-	 * se o restaurante possui um endereço exibe um menu, caso contrário outro
-	 * @param r objeto restaurante
+	 * Responsible for displaying the address interface for the restaurant to manage
+	 * has two states:
+	 * if the restaurant has an address displays one menu, otherwise another
+	 * @param r restaurant object
 	 */
 	public void mostrar(Restaurant r) {
 		
 		int option = 9;
 		
-		//armazena o endereço do cliente
+		//stores the restaurant's address
 		enderecoRestaurante = servicoendereco.retornarEnderecoRestaurante(r.getCnpj());
 		
 		if (enderecoRestaurante == null) {
@@ -58,14 +58,14 @@ public class RestaurantAddressMenu {
 			
 			System.out.print("Informe a ação desejada: ");
 			
-			//escolha para menu sem endereço cadastrado 
+			//choice for menu without registered address 
 			do {
 				try {
 					
 					option = sc.nextInt();
 					sc.nextLine();
 					
-					//verificar se a opção do usuário está fora do intervalo permitido
+					//check if the user's option is outside the allowed range
 					if (!(option > 0 && option <= 2)) {
 						System.out.println("Digite uma opção válida: ");
 					}
@@ -102,13 +102,13 @@ public class RestaurantAddressMenu {
 				
 				System.out.print("Informe a ação desejada: ");
 				
-				// escolha para menu com endereço já cadastrado
+				// choice for menu with address already registered
 				try {
 					
 					option = sc.nextInt();
 					sc.nextLine();
 					
-					//verificar se a opção do usuário está fora do intervalo permitido
+					//check if the user's option is outside the allowed range
 					if (!(option > 0 && option <= 4)) {
 						System.out.println("Digite uma opção válida: ");
 					}
@@ -119,7 +119,7 @@ public class RestaurantAddressMenu {
 					option = -1;
 				}
 
-				//acesso as opções do menu			
+				//access the menu options			
 				switch (option) {
 					case 1:
 						this.atualizarCepRestaurante(enderecoRestaurante);
@@ -146,15 +146,15 @@ public class RestaurantAddressMenu {
 	}	
 	
 	/**
-	 * Implementa o cadastro de um endereço para um restaurante
-	 * @param r objeto restaurante
+	 * Implements address registration for a restaurant
+	 * @param r restaurant object
 	 */
 	private void cadastrarEndereco(Restaurant r) {
 		String cep;
 		String nome;
 		int numero;
 	
-		//campo para validação do CEP
+		//field for CEP validation
 		while (true) {
 		    System.out.print("Digite o CEP da rua do restaurante (8 dígitos): ");
 		    cep = sc.nextLine().trim();
@@ -167,7 +167,7 @@ public class RestaurantAddressMenu {
 		    }
 		}
 		
-		//campo para validação do nome da rua
+		//field for street name validation
 		while (true) {
 		    System.out.print("Digite o nome da rua do restaurante: ");
 		    nome = sc.nextLine().trim();
@@ -180,7 +180,7 @@ public class RestaurantAddressMenu {
 		    }
 		}
 		
-		// validação do número da rua do restaurante
+		// validation of the restaurant's street number
 		while (true) {
 		    System.out.print("Digite o número do restaurante: ");
 	
@@ -206,13 +206,13 @@ public class RestaurantAddressMenu {
 		
 		System.out.print("Deseja confirmar as informações? (s para sim/n para cancelar): ");
 		
-		//validação da escolha do usuário
+		//validation of user choice
 		while (true) {
 			
 			String opt = sc.next();
 			
 			if (opt.equals("s")) {
-				//instanciação de um novo enderecorestaurante e vinculação dos atributos
+				//instantiation of a new restaurant address and linking of attributes
 				RestaurantAddress er = new RestaurantAddress();
 				er.setCep(cep);
 				er.setCnpjRestaurante(r.getCnpj());
@@ -220,7 +220,7 @@ public class RestaurantAddressMenu {
 				er.setNumero(numero);
 				
 				
-				//chamada do método para cadastro e verificação se houve êxito na ação
+				//call the method to register and check if the action was successful
 				if(servicoendereco.inserirEnderecoRestaurante(er)) {
 					System.out.println("Endereço do restaurante cadastrado com sucesso!");
 					return;
@@ -244,11 +244,11 @@ public class RestaurantAddressMenu {
 	}
 
 	/**
-	 * Edição do endereço do restaurante
-	 * @param er objeto enderecoRestaurante
+	 * Edit the restaurant's address
+	 * @param er restaurant address object
 	 */
 	private void atualizarCepRestaurante(Address er) {
-		//campo para validação do CEP
+		//field for CEP validation
 		while (true) {
 			System.out.print("Digite o novo CEP do restaurante (8 dígitos): ");
 			
@@ -269,12 +269,12 @@ public class RestaurantAddressMenu {
 	}
 	
 	/**
-	 * Implementa a edição do nome do endereço
-	 * @param er objeto enderecorestaurante
+	 * Implements editing the address name
+	 * @param er restaurant address object
 	 */
 	private void atualizarNomeEnderecoRestaurante(Address er) {
 		
-		//campo para validação do nome da rua
+		//field for street name validation
 		while (true) {
 			System.out.print("Digite o novo nome da sua rua: ");
 			
@@ -294,12 +294,12 @@ public class RestaurantAddressMenu {
 	}
 	
 	/**
-	 * Implementa a edição do número do endereço
-	 * @param er objeto enderecorestaurante
+	 * Implements editing the address number
+	 * @param er restaurant address object
 	 */
 	private void atualizarNumeroEnderecoRestaurante(Address er) {
 		
-		//campo para validação do número da rua
+		//field for street number validation
 		while (true) {
 			System.out.print("Digite o novo número da sua rua: ");
 	
