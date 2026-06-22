@@ -8,14 +8,14 @@ import java.sql.SQLException;
 import entities.Product;
 
 /**
- * Classe: ProdutoDAO
+ * Class: ProductDAO
  *
- * Descrição:
- * Classe responsável por gerenciar dados do produto
+ * Description:
+ * Data access object responsible for managing product records.
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Connect to the database
+ * - Perform CRUD operations on product data
  *
  * @author Rodrigo
  * @since 21-04-2026
@@ -24,10 +24,10 @@ import entities.Product;
 public class ProductDAO {
 	
 	/**
-	 * responsável por fazer a inserção de um novo produto no banco de dados
-	 * @param objeto de conexão
-	 * @param objeto produto
-	 * @return boolean
+	 * Inserts a new product into the database.
+	 * @param conn database connection
+	 * @param produto product object to insert
+	 * @return true if insert succeeded, false otherwise
 	 */
 	public boolean inserirProduto(Connection conn, Product produto) {
 		String sqlQuery = "INSERT INTO PRODUTO (" +
@@ -37,10 +37,10 @@ public class ProductDAO {
 				"fk_prd_id_catg) " +
 				"VALUES (?, ?, ?, ?)";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setInt(1, produto.getCodigo());
 			stmt.setString(2, produto.getNome());
 			stmt.setString(3, produto.getDescricao());
@@ -58,25 +58,24 @@ public class ProductDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações do produto da base de dados
-	 * com base no Id do produto
-	 * @param objeto de conexão
-	 * @param codigo do produto buscado
-	 * @return objeto produto
+	 * Retrieves a product from the database by its id.
+	 * @param conn database connection
+	 * @param codigo product id to search for
+	 * @return Product object if found, otherwise null
 	 */
 	public Product retornarProdutoPorId(Connection conn, int codigo) {
 		String sqlQuery = "SELECT * FROM PRODUTO WHERE pk_prd_codigo = ?";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setInt(1, codigo);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca pelo cpnj, instancia um objeto restaurante
-			//com os atributos do resultado
+			// if there is a result from the search by id, instantiate a Product
+			// with the attributes from the result
 			if (resultado.next()) {
 				Product p = new Product();
 							
@@ -102,25 +101,25 @@ public class ProductDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações do produto da base de dados
-	 * com base no nome do produto
-	 * @param objeto de conexão
-	 * @param nome do produto buscado
-	 * @return objeto produto
+	 * Retrieves a product from the database by matching its name.
+	 * Uses SQL LIKE to perform a partial match.
+	 * @param conn database connection
+	 * @param nome name (or partial name) of the product to search for
+	 * @return Product object if a match is found, otherwise null
 	 */
 	public Product retornarProdutoPorNome(Connection conn, String nome) {
 		String sqlQuery = "SELECT * FROM PRODUTO WHERE prd_nome LIKE ?";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, "%" + nome + "%");
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca pelo cpnj, instancia um objeto restaurante
-			//com os atributos do resultado
+			// if there is a result from the name search, instantiate a Product
+			// with the attributes from the result
 			if (resultado.next()) {
 				Product p = new Product();
 							
@@ -146,10 +145,10 @@ public class ProductDAO {
 	}
 	
 	/**
-	 * Responsável por atualizar as informações de um produto no banco de dados 
-	 * @param objeto de conexão
-	 * @param objeto produto
-	 * @return boolean
+	 * Updates an existing product's information in the database.
+	 * @param conn database connection
+	 * @param produto product object with updated values
+	 * @return true if update succeeded, false otherwise
 	 */
 	public boolean atualizarProduto(Connection conn, Product produto) {
 		String sqlQuery = "UPDATE PRODUTO SET "
@@ -158,10 +157,10 @@ public class ProductDAO {
 				+ "fk_prd_id_catg = ? "
 				+ "WHERE pk_prd_codigo = ?";
 
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, produto.getNome());
 	        stmt.setString(2, produto.getDescricao());
 	        stmt.setObject(3, produto.getIdCategoria());
@@ -178,22 +177,22 @@ public class ProductDAO {
 		return false;
 	}
 	
-	/**s
-	 * Responsável por apagar um produto do banco de dados
-	 * @param objeto de conexão
-	 * @param codigo do produto
-	 * @return boolean
+	/**
+	 * Deletes a product from the database by id.
+	 * @param conn database connection
+	 * @param codigo id of the product to delete
+	 * @return true if delete succeeded, false otherwise
 	 */
 	public boolean deletarProduto(Connection conn, int codigo) {
 		String sqlQuery = "DELETE FROM PRODUTO WHERE pk_prd_codigo = ?";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setInt(1, codigo);
 			
-			//execução da query e validação de êxito
+			// execute the query and validate success
 			int linhasAfetadas = stmt.executeUpdate();
 			return linhasAfetadas > 0;
 

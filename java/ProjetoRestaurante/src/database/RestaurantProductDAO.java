@@ -10,15 +10,15 @@ import view.OrderItemView;
 import view.RestaurantProductView;
 
 /**
- * Classe: ProdutoRestauranteDAO
+ * Class: RestaurantProductDAO
  *
- * Descrição:
- * Classe responsável por gerenciar as associações de produtos do catálogo global
- * com cada restaurante individual (N:N)
+ * Description:
+ * DAO responsible for managing associations between global catalog products
+ * and individual restaurants (many-to-many relationship).
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Connect to the database
+ * - Perform data manipulations related to restaurant-product associations
  *
  * @author Rodrigo
  * @since 28-04-2026
@@ -27,10 +27,10 @@ import view.RestaurantProductView;
 public class RestaurantProductDAO {
 	
 	/**
-	 * responsável por fazer a inserção na tabela associativa entre produto e restaurante no banco de dados
-	 * @param objeto de conexão
-	 * @param objeto produto
-	 * @return boolean
+	 * Inserts a restaurant-product association into the associative table.
+	 * @param conn database connection
+	 * @param pr RestaurantProduct object to insert
+	 * @return true if insertion succeeded, false otherwise
 	 */
 	public boolean associarProdutoRestaurante(Connection conn, RestaurantProduct pr) {
 		String sqlQuery = "INSERT INTO PRODUTO_RESTAURANTE (" +
@@ -40,10 +40,10 @@ public class RestaurantProductDAO {
 				"pdr_preco) " +
 				"VALUES (?, ?, ?, ?)";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, pr.getCnpjRestaurante());
 			stmt.setInt(2, pr.getCodigoProduto());
 			stmt.setInt(3, pr.getQuantidadeEstoque());
@@ -61,10 +61,10 @@ public class RestaurantProductDAO {
 	}
 	
 	/**
-	 * Responsável por trazer todos os produtos de determinado restaurante da base de dados
-	 * @param objeto de conexão
-	 * @param cnpj do restaurante em sessão
-	 * @return arraylist tipo produto
+	 * Retrieves all products for a given restaurant from the database.
+	 * @param conn database connection
+	 * @param cnpj the restaurant's CNPJ (identifier)
+	 * @return list of RestaurantProductView representing the restaurant's products
 	 */
 	public ArrayList<RestaurantProductView> retornarTodoProdutoRestaurante(Connection conn, String cnpj) {		
 		String sqlQuery = "SELECT p.prd_nome, "
@@ -77,19 +77,19 @@ public class RestaurantProductDAO {
 				+ "ON p.pk_prd_codigo = pr.pk_fk_prd_codigo "
 				+ "WHERE pk_fk_res_cnpj = ?";
 		
-		//Lista para armazenar todos as instâncias de restaurante
+		// list to store all restaurant product instances
 		ArrayList<RestaurantProductView> listaProdutos = new ArrayList<RestaurantProductView>();
 				
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, cnpj);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca de produto pelo cpnj, adiciona cada produto
-			//com os atributos do resultado na lista de produtos
+			// if there are results for products by CNPJ, add each product
+			// with the result attributes to the product list
 			while (resultado.next()) {
 				RestaurantProductView pr = new RestaurantProductView();
 				pr.setCodigoProduto(resultado.getInt("pk_prd_codigo"));
@@ -111,19 +111,19 @@ public class RestaurantProductDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações da tabela associativa entre produto e restaurante
-	 * sendo usada para verificar se um produto já está associado a um restaurante
-	 * @param objeto de conexão
-	 * @param codigo do produto buscado
-	 * @return boolean
+	 * Checks whether a product is already associated with a restaurant.
+	 * @param conn database connection
+	 * @param cnpj restaurant identifier
+	 * @param codigo product code to check
+	 * @return true if the association exists, false otherwise
 	 */
 	public boolean produtoJaEstaCadastrado(Connection conn, String cnpj, int codigo) {
 		String sqlQuery = "SELECT * FROM PRODUTO_RESTAURANTE WHERE pk_fk_res_cnpj = ? AND pk_fk_prd_codigo = ?";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, cnpj);
 			stmt.setInt(2, codigo);
 			
@@ -140,23 +140,23 @@ public class RestaurantProductDAO {
 	}
 	
 	/**
-	 * Responsável por deletar um produto de um restaurante, o removendo do catálogo
-	 * @param objeto de conexão
-	 * @param cnpj do restaurante
-	 * @param codigo do produto
-	 * @return boolean
+	 * Deletes a product association from a restaurant, removing it from the restaurant's catalog.
+	 * @param conn database connection
+	 * @param cnpj restaurant identifier
+	 * @param codigo product code to delete
+	 * @return true if deletion succeeded, false otherwise
 	 */
 	public boolean deletarProduto(Connection conn, String cnpj, int codigo) {
 		String sqlQuery = "DELETE FROM PRODUTO_RESTAURANTE WHERE pk_fk_res_cnpj = ? AND pk_fk_prd_codigo = ?";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, cnpj);
 			stmt.setInt(2, codigo);
 			
-			//execução da query e validação de êxito
+			// execute the query and validate success
 			int linhasAfetadas = stmt.executeUpdate();
 			return linhasAfetadas > 0;
 
@@ -175,10 +175,10 @@ public class RestaurantProductDAO {
 				"WHERE pk_fk_res_cnpj = ? "
 				+ "AND pk_fk_prd_codigo = ?";
 
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 		
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setInt(1, pr.getQuantidadeEstoque());
 			stmt.setDouble(2, pr.getPreco());
 			stmt.setString(3, pr.getCnpjRestaurante());
@@ -196,21 +196,21 @@ public class RestaurantProductDAO {
 	}
 	
 	/**
-	 * Atualiza o estoque de um produto do restaurante se realizar um pedido no sistema
-	 * @param objeto de conexão
-	 * @param cnpj do restaurante
-	 * @param item do carrinho do cliente
-	 * @return boolean
+	 * Decreases the stock of a restaurant product when an order is placed.
+	 * @param conn database connection
+	 * @param cnpj restaurant identifier
+	 * @param item order item containing product code and quantity
+	 * @return true if stock was successfully decreased, false otherwise
 	 */
 	public boolean diminuirEstoque(Connection conn, String cnpj, OrderItemView item) {
 		String sqlQuery = "UPDATE PRODUTO_RESTAURANTE " +
 						  "SET pdr_qtde_estoque = pdr_qtde_estoque - ? " +
 						  "WHERE pk_fk_res_cnpj = ? AND pk_fk_prd_codigo = ? AND pdr_qtde_estoque >= ?";
 
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 		
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			
 			stmt.setInt(1, item.getQuantidade());
 			stmt.setString(2, cnpj);

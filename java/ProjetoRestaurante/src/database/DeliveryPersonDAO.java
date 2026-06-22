@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import entities.DeliveryPerson;
 
 /**
- * Classe: EntregadorDAO
+ * Class: DeliveryPersonDAO
  *
- * Descrição:
- * Classe responsável por gerenciar dados do Entregador
+ * Description:
+ * Class responsible for managing DeliveryPerson data
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Connect to the database
+ * - Perform data manipulations
  *
  * @author Rodrigo
  * @since 21-04-2026
@@ -25,9 +25,9 @@ import entities.DeliveryPerson;
 public class DeliveryPersonDAO {
 	
 	/**
-	 * responsável por fazer a inserção de um novo entregador no banco de dados
-	 * @param objeto de conexão
-	 * @param objeto entregador
+	 * Responsible for inserting a new delivery person into the database
+	 * @param conn connection object
+	 * @param entregador delivery person object
 	 * @return boolean
 	 */
 	public boolean inserirEntregador(Connection conn, DeliveryPerson entregador) {
@@ -40,10 +40,10 @@ public class DeliveryPersonDAO {
 						"etg_disponibilidade) " +
 						"VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind the attributes to the prepared query
 			stmt.setString(1, entregador.getCpf());
 			stmt.setString(2, entregador.getPrimeiroNome());
 			stmt.setString(3, entregador.getNomeMeio());
@@ -64,25 +64,25 @@ public class DeliveryPersonDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações do entregador da base de dados
-	 * para que possam ser utilizadas para atribuições nas entregas
-	 * @param objeto de conexão
-	 * @param cpf do entregador buscado
-	 * @return objeto entregador
+	 * Responsible for retrieving the delivery person's information from the database
+	 * so it can be used for assigning deliveries
+	 * @param conn connection object
+	 * @param cpf cpf of the searched delivery person
+	 * @return delivery person object
 	 */
 	public DeliveryPerson retornarEntregador(Connection conn, String cpf) {
 		String sqlQuery = "SELECT * FROM ENTREGADOR WHERE pk_etg_cpf = ?";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind the attributes to the prepared query
 			stmt.setString(1, cpf);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca pelo cpf, instancia um objeto entregador
-			//com os atributos do resultado
+				// if there is a result for the cpf search, instantiate a delivery person
+				// object with the result attributes
 			if (resultado.next()) {
 				DeliveryPerson e = new DeliveryPerson();
 							
@@ -106,9 +106,9 @@ public class DeliveryPersonDAO {
 	}
 	
 	/**
-	 * Responsável por atualizar as informações de um entregador no banco de dados 
-	 * @param objeto de conexão
-	 * @param objeto entregador
+	 * Responsible for updating a delivery person's information in the database
+	 * @param conn connection object
+	 * @param entregador delivery person object
 	 * @return boolean
 	 */
 	public boolean atualizarEntregador(Connection conn, DeliveryPerson entregador) {
@@ -121,10 +121,10 @@ public class DeliveryPersonDAO {
 			            "etg_disponibilidade = ? " +
 			            "WHERE pk_etg_cpf = ?";
 
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind the attributes to the prepared query
 			stmt.setString(1, entregador.getPrimeiroNome());
 	        stmt.setString(2, entregador.getNomeMeio());
 	        stmt.setString(3, entregador.getUltimoNome());
@@ -145,21 +145,21 @@ public class DeliveryPersonDAO {
 	}
 	
 	/**
-	 * Responsável por apagar um entregador do banco de dados
-	 * @param objeto de conexão
-	 * @param cpf do entregador
+	 * Responsible for deleting a delivery person from the database
+	 * @param conn connection object
+	 * @param cpf cpf of the delivery person
 	 * @return boolean
 	 */
 	public boolean deletarEntregador(Connection conn, String cpf) {
 		String sqlQuery = "DELETE FROM ENTREGADOR WHERE pk_etg_cpf = ?";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind the attributes to the prepared query
 			stmt.setString(1, cpf);
 			
-			//execução da query e validação de êxito
+			// query execution
 			int linhasAfetadas = stmt.executeUpdate();
 			return linhasAfetadas > 0;
 
@@ -172,23 +172,23 @@ public class DeliveryPersonDAO {
 	}
 	
 	/**
-	 * Responsável por trazer informações de todos os entregadores do sistema
-	 * @param objeto de conexão
-	 * @return arraylist do tipo entregador
+	 * Responsible for retrieving information for all delivery persons in the system
+	 * @param conn connection object
+	 * @return ArrayList of delivery persons
 	 */
 	public ArrayList<DeliveryPerson> listarEntregadores(Connection conn){
 		
-		//Lista para armazenar todos as instâncias de restaurante
+		// List to store all DeliveryPerson instances
 		ArrayList<DeliveryPerson> listaEntregadores = new ArrayList<DeliveryPerson>();
 		
 		String sqlQuery = "SELECT * FROM ENTREGADOR";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//armazenando todos os restaurantes encontrados na lista dinânica de restaurantes
+				// storing all found delivery persons in the dynamic list
 			while (resultado.next()) {
 				DeliveryPerson e = new DeliveryPerson();
 		

@@ -12,14 +12,14 @@ import entities.Order;
 import entities.Restaurant;
 
 /**
- * Classe: PedidoDAO
+ * Class: OrderDAO
  *
- * Descrição:
- * Classe responsável por gerenciar dados do pedido
+ * Description:
+ * DAO class responsible for managing order data.
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Connect to the database
+ * - Perform CRUD operations on order records
  *
  * @author Rodrigo
  * @since 21-04-2026
@@ -28,10 +28,11 @@ import entities.Restaurant;
 public class OrderDAO {
 	
 	/**
-	 * responsável por fazer a inserção de um novo pedido no banco de dados e retornar o id gerado
-	 * @param objeto de conexão
-	 * @param pedido: objeto pedido
-	 * @return int gerado como id do pedido
+	 * Inserts a new order into the database and returns the generated id.
+	 * @param conn database connection
+	 * @param r Restaurant associated with the order
+	 * @param c Customer who placed the order
+	 * @return generated order id, or -1 on failure
 	 */
 	public int inserirPedido(Connection conn, Restaurant r, Customer c) {
 		String sqlQuery = "INSERT INTO PEDIDO (ped_status, "
@@ -39,17 +40,17 @@ public class OrderDAO {
 				+ "fk_cli_cpf) "
 				+ "VALUES (?, ?, ?)";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared statement
 			stmt.setString(1, "Em preparo");
 			stmt.setString(2, r.getCnpj());
 			stmt.setString(3, c.getCpf());
 			
 			stmt.executeUpdate();
 			
-			//obtém a o id do pedido gerado
+			// obtain the generated order id
 			ResultSet resultado = stmt.getGeneratedKeys();
 			
 			if (resultado.next()) {
@@ -66,25 +67,23 @@ public class OrderDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações do pedido da base de dados
-	 * para que possam ser utilizadas para fins de consulta
-	 * @param objeto de conexão
-	 * @param numero do pedido buscado
-	 * @return objeto pedido
+	 * Retrieves order information from the database for lookup purposes.
+	 * @param conn database connection
+	 * @param numero order number to fetch
+	 * @return Order object or null if not found
 	 */
 	public Order retornarPedido(Connection conn, int numero) {
 		String sqlQuery = "SELECT * FROM PEDIDO WHERE pk_ped_numero = ?";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared statement
 			stmt.setInt(1, numero);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca pelo cnpj, instancia um objeto restaurante
-			//com os atributos do resultado
+			// if a result is found, instantiate an Order object with the result attributes
 			if (resultado.next()) {
 				Order p = new Order();
 				
@@ -107,10 +106,10 @@ public class OrderDAO {
 	}
 	
 	/**
-	 * Responsável por atualizar as informações de um pedido no banco de dados 
-	 * @param objeto de conexão
-	 * @param pedido: objeto do tipo pedido
-	 * @return boolean
+	 * Updates an order record in the database.
+	 * @param conn database connection
+	 * @param pedido Order object with updated data
+	 * @return true if update affected at least one row
 	 */
 	public boolean atualizarPedido(Connection conn, Order pedido) {
 		String sqlQuery = "UPDATE PEDIDO " +
@@ -118,10 +117,10 @@ public class OrderDAO {
 							"fk_etg_cpf = ? " +
 							"WHERE pk_ped_numero = ?";
 
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared statement
 			stmt.setString(1, pedido.getStatus());
 			stmt.setString(2, pedido.getCpfEntregador());
 			stmt.setInt(3, pedido.getNumeroPedido());
@@ -138,21 +137,21 @@ public class OrderDAO {
 	}
 	
 	/**
-	 * Responsável por apagar um pedido do banco de dados
-	 * @param objeto de conexão
-	 * @param numero do pedido
-	 * @return boolean
+	 * Deletes an order from the database.
+	 * @param conn database connection
+	 * @param numero order number to delete
+	 * @return true if deletion affected at least one row
 	 */
 	public boolean deletarPedido(Connection conn, int numero) {
 		String sqlQuery = "DELETE FROM PEDIDO WHERE pk_ped_numero = ?";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared statement
 			stmt.setInt(1, numero);
 			
-			//execução da query e validação de êxito
+			// execute the query and check success
 			int linhasAfetadas = stmt.executeUpdate();
 			return linhasAfetadas > 0;
 
@@ -165,21 +164,20 @@ public class OrderDAO {
 	}
 	
 	/**
-	 * Responsável por trazer informações de todos os pedidos do sistema para determinado restaurante
-	 * filtra os pedidos por status
-	 * @param objeto de conexão
-	 * @param cnpj do restaurante
-	 * @param status desejado
-	 * @return ArrayList com todos os pedidos
+	 * Retrieves all orders for a given restaurant filtered by status.
+	 * @param conn database connection
+	 * @param cnpj restaurant CNPJ
+	 * @param status desired order status
+	 * @return ArrayList of orders
 	 */
 	public ArrayList<Order> listarPedidosPorRestaurante(Connection conn, String cnpj, String status){
 		
-		//Lista para armazenar todos as instâncias de pedido
+		// List to store all order instances
 		ArrayList<Order> listaPedidos = new ArrayList<Order>();
 		
 		String sqlQuery = "SELECT * FROM PEDIDO WHERE fk_res_cnpj = ? AND ped_status = ? ORDER BY ped_data ASC";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
 			stmt.setString(1, cnpj);
@@ -187,7 +185,7 @@ public class OrderDAO {
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//armazenando todos os restaurantes encontrados na lista dinânica de pedidos
+			// store each found order in the dynamic list
 			while (resultado.next()) {
 				Order p = new Order();
 				
@@ -211,26 +209,26 @@ public class OrderDAO {
 	}
 	
 	/**
-	 * responsável por trazer informações de todos os pedidos que um cliente já fez no sistema
-	 * @param objeto de conexão
-	 * @param cpf do cliente
-	 * @return ArrayList com todos os pedidos
+	 * Retrieves all orders placed by a specific customer.
+	 * @param conn database connection
+	 * @param cpf customer CPF
+	 * @return ArrayList of orders
 	 */
 	public ArrayList<Order> listarPedidosPorCliente(Connection conn, String cpf){
 		
-		//Lista para armazenar todos as instâncias de pedido
+		// List to store all order instances
 		ArrayList<Order> listaPedidos = new ArrayList<Order>();
 		
 		String sqlQuery = "SELECT * FROM PEDIDO WHERE fk_cli_cpf = ? ORDER BY ped_data DESC";
 		
-		//preparação da query antes da execução
+			// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
 			stmt.setString(1, cpf);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//armazenando todos os restaurantes encontrados na lista dinânica de pedidos
+			// store each found order in the dynamic list
 			while (resultado.next()) {
 				Order p = new Order();
 				

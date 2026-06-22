@@ -9,15 +9,15 @@ import entities.OrderItem;
 import view.OrderItemView;
 
 /**
- * Classe: ItemPedidoDAO
+ * Class: OrderItemDAO
  *
- * Descrição:
- * Classe responsável por gerenciar as associações de produtos do catálogo do restaurante
- * com cada pedido (N:N)
+ * Description:
+ * Responsible for managing the association between the restaurant's product
+ * catalog and each order (many-to-many relationship).
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Connect to the database
+ * - Perform data operations for order items
  *
  * @author Rodrigo
  * @since 07-05-2026
@@ -26,10 +26,10 @@ import view.OrderItemView;
 public class OrderItemDAO {
 	
 	/**
-	 * cadastra um item do pedido dos clientes no banco de dados
-	 * @param objeto de conexão
-	 * @param objeto itempedido
-	 * @return boolean
+	 * Inserts a customer order item into the database.
+	 * @param conn database connection
+	 * @param ip order item object
+	 * @return true if insert succeeded, false otherwise
 	 */
 	public boolean inserirItemPedido(Connection conn, OrderItem ip) {
 		String sqlQuery = "INSERT INTO ITEM_PEDIDO ("
@@ -38,10 +38,10 @@ public class OrderItemDAO {
 						+ "itp_quantidade) VALUES "
 						+ "(?, ?, ?)";
 		
-		//preparação da query antes da execução
+			// prepare the statement before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+				// bind attributes to the prepared statement
 			stmt.setInt(1, ip.getNumeroPedido());
 			stmt.setInt(2, ip.getCodigoProduto());
 			stmt.setInt(3, ip.getQuantidade());
@@ -58,10 +58,10 @@ public class OrderItemDAO {
 	}
 	
 	/**
-	 * retorna todos os itens de um pedido para exibição no menu do cliente
-	 * @param objeto de conexão
-	 * @param codigoPedido
-	 * @return ArrayList do tipo ItemPedidoView
+	 * Returns all items for a given order for display in the customer menu.
+	 * @param conn database connection
+	 * @param codigoPedido order identifier
+	 * @return ArrayList of OrderItemView
 	 */
 	public ArrayList<OrderItemView> retornarItensPedido(Connection conn, int codigoPedido) {		
 		String sqlQuery = "SELECT "
@@ -75,13 +75,13 @@ public class OrderItemDAO {
 						+ "ON p.pk_prd_codigo = pr.pk_fk_prd_codigo "
 						+ "WHERE ip.pk_fk_ped_numero = ?;";
 		
-		//Lista para armazenar todos as instâncias de itens do pedido
+		// List to store all order item view instances
 		ArrayList<OrderItemView> listaItemPedido = new ArrayList<OrderItemView>();
 				
-		//preparação da query antes da execução
+		// prepare the statement before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared statement
 			stmt.setInt(1, codigoPedido);
 			
 			ResultSet resultado = stmt.executeQuery();

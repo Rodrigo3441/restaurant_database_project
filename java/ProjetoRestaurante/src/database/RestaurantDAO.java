@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import entities.Restaurant;
 
 /**
- * Classe: RestauranteDAO
+ * Class: RestaurantDAO
  *
- * Descrição:
- * Classe responsável por gerenciar dados do restaurante
+ * Description:
+ * DAO responsible for managing restaurant data
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Connect to the database
+ * - Perform data operations
  *
  * @author Rodrigo
  * @since 21-04-2026
@@ -25,18 +25,18 @@ import entities.Restaurant;
 public class RestaurantDAO {
 	
 	/**
-	 * responsável por fazer a inserção de um novo restaurante no banco de dados
-	 * @param objeto de conexão
-	 * @param objeto restaurante
-	 * @return boolean
+	 * Inserts a new restaurant into the database.
+	 * @param conn database connection
+	 * @param restaurante restaurant object to insert
+	 * @return true if insert succeeded, false otherwise
 	 */
 	public boolean inserirRestaurante(Connection conn, Restaurant restaurante) {
 		String sqlQuery = "INSERT INTO RESTAURANTE (pk_res_cnpj, res_nome, res_telefone, res_senha) VALUES (?, ?, ?, ?)";
 		
-		//preparação da query antes da execução
+		// preparing the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// binding attributes to the prepared statement
 			stmt.setString(1, restaurante.getCnpj());
 			stmt.setString(2, restaurante.getNome());
 			stmt.setString(3, restaurante.getTelefone());
@@ -54,25 +54,24 @@ public class RestaurantDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações do restaurante da base de dados
-	 * para que possam ser utilizadas ao longo das operações
-	 * @param objeto de conexão
-	 * @param cnpj: cnpj do Restaurante buscado
-	 * @return um objeto Restaurante
+	 * Retrieves restaurant information from the database for use in operations.
+	 * @param conn database connection
+	 * @param cnpj CNPJ of the restaurant to retrieve
+	 * @return a Restaurant object if found, otherwise null
 	 */
 	public Restaurant retornarRestaurante(Connection conn, String cnpj) {
 		String sqlQuery = "SELECT * FROM RESTAURANTE WHERE pk_res_cnpj = ?";
 		
-		//preparação da query antes da execução
+			// preparing the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// binding attributes to the prepared statement
 			stmt.setString(1, cnpj);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca pelo cnpj, instancia um objeto restaurante
-			//com os atributos do resultado
+			// if there is a result for the CNPJ, instantiate a Restaurant object
+			// with the attributes from the result
 			if (resultado.next()) {
 				Restaurant r = new Restaurant();
 				
@@ -81,7 +80,7 @@ public class RestaurantDAO {
 				r.setTelefone(resultado.getString("res_telefone"));
 				r.setSenha(resultado.getString("res_senha"));
 				
-				// categoria do restaurante pode ser null
+				// restaurant category may be null
 				int categoria = resultado.getInt("fk_res_id_catg");
 				if (!resultado.wasNull()) {
 					r.setIdCategoria(categoria);
@@ -100,10 +99,10 @@ public class RestaurantDAO {
 	}
 	
 	/**
-	 * Responsável por atualizar as informações de um restaurante no banco de dados 
-	 * @param objeto de conexão
-	 * @param restaurante: objeto restaurante
-	 * @return boolean
+	 * Updates a restaurant's information in the database.
+	 * @param conn database connection
+	 * @param restaurante restaurant object with updated data
+	 * @return true if update succeeded, false otherwise
 	 */
 	public boolean atualizarRestaurante(Connection conn, Restaurant restaurante) {
 		String sqlQuery = "UPDATE RESTAURANTE " +
@@ -113,10 +112,10 @@ public class RestaurantDAO {
 							"res_senha = ? " +
 							"WHERE pk_res_cnpj = ?";
 
-		//preparação da query antes da execução
+		// preparing the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// binding attributes to the prepared statement
 			stmt.setString(1, restaurante.getNome());
 			stmt.setString(2, restaurante.getTelefone());
 			stmt.setObject(3, restaurante.getIdCategoria());
@@ -135,21 +134,21 @@ public class RestaurantDAO {
 	}
 	
 	/**
-	 * Responsável por apagar um restaurante do banco de dados
-	 * @param objeto de conexão
-	 * @param cnpj do restaurante
-	 * @return boolean
+	 * Deletes a restaurant from the database.
+	 * @param conn database connection
+	 * @param cnpj CNPJ of the restaurant to delete
+	 * @return true if delete succeeded, false otherwise
 	 */
 	public boolean deletarRestaurante(Connection conn, String cnpj) {
 		String sqlQuery = "DELETE FROM RESTAURANTE WHERE pk_res_cnpj = ?";
 		
-		//preparação da query antes da execução
+		// preparing the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// binding attributes to the prepared statement
 			stmt.setString(1, cnpj);
 			
-			//execução da query e validação de êxito
+			// execute the query and validate success
 			int linhasAfetadas = stmt.executeUpdate();
 			return linhasAfetadas > 0;
 
@@ -162,9 +161,9 @@ public class RestaurantDAO {
 	}
 	
 	/**
-	 * Responsável por trazer informações de todos os restaurantes do sistema
-	 * @param objeto de conexão
-	 * @return arraylist do tipo restaurante
+	 * Retrieves information for all restaurants in the system.
+	 * @param conn database connection
+	 * @return ArrayList of Restaurant objects
 	 */
 	public ArrayList<Restaurant> listarRestaurantes(Connection conn){
 		
@@ -173,12 +172,12 @@ public class RestaurantDAO {
 		
 		String sqlQuery = "SELECT * FROM RESTAURANTE";
 		
-		//preparação da query antes da execução
+		// preparing the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//armazenando todos os restaurantes encontrados na lista dinânica de restaurantes
+			// storing all found restaurants into the dynamic restaurant list
 			while (resultado.next()) {
 				Restaurant r = new Restaurant();
 				
