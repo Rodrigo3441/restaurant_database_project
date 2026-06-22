@@ -7,14 +7,14 @@ import ui.customer.CustomerMenu;
 import ui.restaurant.RestaurantMenu;
 
 /**
- * Classe: MenuPrincipal
+ * Class: MainMenu
  *
- * Descrição:
- * Classe responsável por exibir o menu principal de interação do usuário com o sistema
+ * Description:
+ * Responsible for displaying the main user interaction menu of the system.
  *
- * Responsabilidades:
- * - Exibir opções de acesso para Clientes e Restaurantes
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Show access options for Customers and Restaurants
+ * - Perform basic navigation between menus
  *
  * @author Rodrigo
  * @since 23-04-2026
@@ -26,8 +26,10 @@ public class MainMenu {
 	private Connection conn;
 	
 	/**
-	 * 
-	 * @param conn
+	 * Constructor
+	 *
+	 * @param conn Database connection used by menus
+	 * @param sc   Scanner for reading user input
 	 */
 	public MainMenu(Connection conn, Scanner sc) {
 		this.conn = conn;
@@ -35,17 +37,16 @@ public class MainMenu {
 	}
 	
 	/**
-	 * Método mostrar
-	 * 
-	 * Responsável por exibir o menu na tela para os usuários do sistema
-	 * sejam Clientes ou Restaurantes
-	 * 
+	 * Display method
+	 *
+	 * Responsible for showing the main menu on the screen for system users,
+	 * whether Customers or Restaurants.
 	 */
 	public void mostrar() {
 		
 		int option = 9;
 		
-		//validação da entrada de opção pelo usuário
+		// validate user's menu option input
 		while (true) {
 			
 			System.out.println("\nMENU PRINCIPAL");
@@ -63,7 +64,7 @@ public class MainMenu {
 				
 				option = sc.nextInt();
 				
-				//verificar se a opção do usuário está fora do intervalo permitido
+				// check if the user's option is outside the allowed range
 				if (!(option >= 0 && option <= 3)) {
 					System.out.println("Digite uma opção válida: ");
 				}
@@ -74,7 +75,7 @@ public class MainMenu {
 				option = -1;
 			}
 			
-			//acesso as opções do menu			
+			// handle menu options
 			switch (option) {
 				case 1:
 					CustomerMenu menucliente = new CustomerMenu(conn, sc);
