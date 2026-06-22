@@ -15,7 +15,7 @@ package entities;
  * @since 20-04-2026
  */
 
-public class ItemPedido {
+public class OrderItem {
 	private Integer numeroPedido;
 	private Integer codigoProduto;
 	private Integer quantidade;
@@ -24,7 +24,7 @@ public class ItemPedido {
 	/**
 	 * Construtor sem argumentos
 	 */
-	public ItemPedido() {
+	public OrderItem() {
 		
 	}
 

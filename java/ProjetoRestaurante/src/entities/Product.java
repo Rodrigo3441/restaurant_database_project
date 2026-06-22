@@ -15,7 +15,7 @@ package entities;
  * @since 20-04-2026
  */
 
-public class Produto {
+public class Product {
 	private Integer codigo;
 	private String nome;
 	private String descricao;
@@ -24,7 +24,7 @@ public class Produto {
 	/**
 	 * Construtor sem argumentos
 	 */
-	public Produto() {
+	public Product() {
 		
 	}
 

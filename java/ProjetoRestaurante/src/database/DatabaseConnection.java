@@ -5,14 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Classe: DatabaseConnection
+ * Class: DatabaseConnection
  *
- * Descrição:
- * Classe responsável por gerenciar a conexão com o banco de dados
+ * Description:
+ * Manages the database connection
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Tratar exceção em caso de falha na conexão
+ * Responsibilities:
+ * - Connect to the database
+ * - Handle exceptions on connection failure
  *
  * @author Rodrigo
  * @since 20-04-2026
@@ -25,15 +25,15 @@ public class DatabaseConnection {
 	private static final String PASSWORD = "root";
 	
 	/**
-	 * obtém uma conexão com o banco de dados
-	 * 
-	 * @return objeto Connection
+	 * Gets a database connection
+	 *
+	 * @return Connection object
 	 */
 	public static Connection getConnection() {
 		try {
 			return DriverManager.getConnection(URL, USER, PASSWORD);
-		} catch	(SQLException e){
-				throw new RuntimeException("Erro ao conectar no banco de dados", e);
+		} catch (SQLException e) {
+			throw new RuntimeException("An error occurred while connecting to the database", e);
 		}
 	}
 }

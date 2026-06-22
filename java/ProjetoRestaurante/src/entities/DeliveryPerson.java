@@ -16,14 +16,14 @@ package entities;
  * @since 20-04-2026
  */
 
-public class Entregador extends Usuario {
+public class DeliveryPerson extends User {
 	private String veiculo;
 	private Short disponibilidade;
 		
 	/**
 	 * Construtor sem argumentos
 	 */
-	public Entregador() {
+	public DeliveryPerson() {
 		super();
 	}
 

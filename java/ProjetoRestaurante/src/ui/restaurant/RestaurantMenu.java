@@ -1,9 +1,9 @@
-package ui.restaurante;
+package ui.restaurant;
 
 import java.sql.Connection;
 import java.util.Scanner;
-import entities.Restaurante;
-import services.RestauranteService;
+import entities.Restaurant;
+import services.RestaurantService;
 
 /**
  * Classe: MenuRestaurante
@@ -18,9 +18,9 @@ import services.RestauranteService;
  * @since 27-04-2026
  */
 
-public class MenuRestaurante {
+public class RestaurantMenu {
 	
-	private RestauranteService servicorestaurante;
+	private RestaurantService servicorestaurante;
 	private Connection conn;
 	private Scanner sc;
 	
@@ -29,8 +29,8 @@ public class MenuRestaurante {
 	 * 
 	 * @param conn
 	 */
-	public MenuRestaurante(Connection conn, Scanner sc) {
-		this.servicorestaurante = new RestauranteService(conn);
+	public RestaurantMenu(Connection conn, Scanner sc) {
+		this.servicorestaurante = new RestaurantService(conn);
 		this.conn = conn;
 		this.sc = sc;
 	}
@@ -174,7 +174,7 @@ public class MenuRestaurante {
 			
 			if (opt.equals("s")) {
 				//instanciação de um novo restaurante e vinculação dos atributos
-				Restaurante r = new Restaurante();
+				Restaurant r = new Restaurant();
 				r.setCnpj(cnpj);
 				r.setNome(nome);
 				r.setTelefone(telefone);
@@ -210,7 +210,7 @@ public class MenuRestaurante {
 		String cnpj = sc.next().trim();
 		
 		//armazena todas as informações do restaurante
-		Restaurante r = servicorestaurante.retornarRestaurante(cnpj);
+		Restaurant r = servicorestaurante.retornarRestaurante(cnpj);
 		
 		//verifica se houve retorno para um restaurante
 		if(r != null) {
@@ -237,7 +237,7 @@ public class MenuRestaurante {
 	 * Responsável por oferecer o menu de ações para o restaurante em sessão
 	 * @param r objeto restaurante
 	 */
-	private void menuRestauranteLogado(Restaurante r) {
+	private void menuRestauranteLogado(Restaurant r) {
 		int option = -1;
 		
 		while (true) {
@@ -270,19 +270,19 @@ public class MenuRestaurante {
 			
 			switch (option) {
 				case 1:
-					MenuPerfilRestaurante menuPerfil = new MenuPerfilRestaurante(servicorestaurante, conn, sc);
+					RestaurantProfileMenu menuPerfil = new RestaurantProfileMenu(servicorestaurante, conn, sc);
 					menuPerfil.mostrarMenuPerfil(r);
 					break;
 				case 2:
-					MenuEntregadorRestaurante menuEntregador = new MenuEntregadorRestaurante(conn, sc);
+					RestaurantDeliveryPersonMenu menuEntregador = new RestaurantDeliveryPersonMenu(conn, sc);
 					menuEntregador.mostrarMenuEntregador();
 					break;
 				case 3:
-					MenuProdutoRestaurante menuProduto = new MenuProdutoRestaurante(conn, sc);
+					RestaurantProductMenu menuProduto = new RestaurantProductMenu(conn, sc);
 					menuProduto.mostrarMenuProdutos(r);
 					break;
 				case 4:
-					MenuPedidoRestaurante menuPedido = new MenuPedidoRestaurante(conn, sc);
+					RestaurantOrderMenu menuPedido = new RestaurantOrderMenu(conn, sc);
 					menuPedido.mostrarMenuPedidos(r);
 					break;
 				case 5:

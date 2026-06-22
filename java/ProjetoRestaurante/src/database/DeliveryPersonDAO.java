@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import entities.Entregador;
+import entities.DeliveryPerson;
 
 /**
  * Classe: EntregadorDAO
@@ -22,7 +22,7 @@ import entities.Entregador;
  * @since 21-04-2026
  */
 
-public class EntregadorDAO {
+public class DeliveryPersonDAO {
 	
 	/**
 	 * responsável por fazer a inserção de um novo entregador no banco de dados
@@ -30,7 +30,7 @@ public class EntregadorDAO {
 	 * @param objeto entregador
 	 * @return boolean
 	 */
-	public boolean inserirEntregador(Connection conn, Entregador entregador) {
+	public boolean inserirEntregador(Connection conn, DeliveryPerson entregador) {
 		String sqlQuery = "INSERT INTO ENTREGADOR (" +
 						"pk_etg_cpf, etg_primeiro_nome, " +
 						"etg_nome_meio, " +
@@ -70,7 +70,7 @@ public class EntregadorDAO {
 	 * @param cpf do entregador buscado
 	 * @return objeto entregador
 	 */
-	public Entregador retornarEntregador(Connection conn, String cpf) {
+	public DeliveryPerson retornarEntregador(Connection conn, String cpf) {
 		String sqlQuery = "SELECT * FROM ENTREGADOR WHERE pk_etg_cpf = ?";
 		
 		//preparação da query antes da execução
@@ -84,7 +84,7 @@ public class EntregadorDAO {
 			//se houver resultado da busca pelo cpf, instancia um objeto entregador
 			//com os atributos do resultado
 			if (resultado.next()) {
-				Entregador e = new Entregador();
+				DeliveryPerson e = new DeliveryPerson();
 							
 				e.setCpf(resultado.getString("pk_etg_cpf"));
 				e.setPrimeiroNome(resultado.getString("etg_primeiro_nome"));
@@ -111,7 +111,7 @@ public class EntregadorDAO {
 	 * @param objeto entregador
 	 * @return boolean
 	 */
-	public boolean atualizarEntregador(Connection conn, Entregador entregador) {
+	public boolean atualizarEntregador(Connection conn, DeliveryPerson entregador) {
 		String sqlQuery = "UPDATE ENTREGADOR SET " +
 			            "etg_primeiro_nome = ?, " +
 			            "etg_nome_meio = ?, " +
@@ -176,10 +176,10 @@ public class EntregadorDAO {
 	 * @param objeto de conexão
 	 * @return arraylist do tipo entregador
 	 */
-	public ArrayList<Entregador> listarEntregadores(Connection conn){
+	public ArrayList<DeliveryPerson> listarEntregadores(Connection conn){
 		
 		//Lista para armazenar todos as instâncias de restaurante
-		ArrayList<Entregador> listaEntregadores = new ArrayList<Entregador>();
+		ArrayList<DeliveryPerson> listaEntregadores = new ArrayList<DeliveryPerson>();
 		
 		String sqlQuery = "SELECT * FROM ENTREGADOR";
 		
@@ -190,7 +190,7 @@ public class EntregadorDAO {
 			
 			//armazenando todos os restaurantes encontrados na lista dinânica de restaurantes
 			while (resultado.next()) {
-				Entregador e = new Entregador();
+				DeliveryPerson e = new DeliveryPerson();
 		
 				e.setCpf(resultado.getString("pk_etg_cpf"));
 				e.setPrimeiroNome(resultado.getString("etg_primeiro_nome"));

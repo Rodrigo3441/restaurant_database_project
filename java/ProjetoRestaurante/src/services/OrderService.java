@@ -3,17 +3,17 @@ package services;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import database.EntregadorDAO;
-import database.ItemPedidoDAO;
-import database.PedidoDAO;
-import entities.Cliente;
-import entities.Entregador;
-import entities.ItemPedido;
-import entities.Pedido;
-import entities.Restaurante;
-import view.ItemPedidoView;
-import view.ProdutoRestauranteView;
-import database.ProdutoRestauranteDAO;
+import database.DeliveryPersonDAO;
+import database.OrderItemDAO;
+import database.OrderDAO;
+import entities.Customer;
+import entities.DeliveryPerson;
+import entities.OrderItem;
+import entities.Order;
+import entities.Restaurant;
+import view.OrderItemView;
+import view.RestaurantProductView;
+import database.RestaurantProductDAO;
 
 /**
  * Classe: PedidoService
@@ -29,19 +29,19 @@ import database.ProdutoRestauranteDAO;
  * @since 04-05-2026
  */
 
-public class PedidoService {
+public class OrderService {
 	private Connection conn;
-	private PedidoDAO pedidoDAO;
-	private ProdutoRestauranteDAO produtoRestauranteDAO;
-	private EntregadorDAO entregadorDAO;
-	private ItemPedidoDAO itemPedidoDAO;
+	private OrderDAO pedidoDAO;
+	private RestaurantProductDAO produtoRestauranteDAO;
+	private DeliveryPersonDAO entregadorDAO;
+	private OrderItemDAO itemPedidoDAO;
 
 
-	public PedidoService(Connection conn) {
-		this.pedidoDAO = new PedidoDAO();
-		this.produtoRestauranteDAO = new ProdutoRestauranteDAO();
-		this.itemPedidoDAO = new ItemPedidoDAO();
-		this.entregadorDAO = new EntregadorDAO();
+	public OrderService(Connection conn) {
+		this.pedidoDAO = new OrderDAO();
+		this.produtoRestauranteDAO = new RestaurantProductDAO();
+		this.itemPedidoDAO = new OrderItemDAO();
+		this.entregadorDAO = new DeliveryPersonDAO();
 		this.conn = conn;
 	}
 	
@@ -61,7 +61,7 @@ public class PedidoService {
 	 * @param produtoTemp
 	 * @param quantidade
 	 */
-	public void validarQuantidade(ProdutoRestauranteView produtoTemp, int quantidade) {
+	public void validarQuantidade(RestaurantProductView produtoTemp, int quantidade) {
 		if (!quantidadeValida(produtoTemp, quantidade)){
 			throw new IllegalArgumentException("Digite uma quantidade válida");
 		}
@@ -73,8 +73,8 @@ public class PedidoService {
 	 * @param quantidade
 	 * @return ItemPedidoView
 	 */
-	public ItemPedidoView criarItemPedido(ProdutoRestauranteView produtoTemp, int quantidade) {
-		ItemPedidoView ip = new ItemPedidoView();
+	public OrderItemView criarItemPedido(RestaurantProductView produtoTemp, int quantidade) {
+		OrderItemView ip = new OrderItemView();
 		ip.setNome(produtoTemp.getNomeProduto());
 		ip.setPreco(produtoTemp.getPrecoProduto());
 		ip.setCodigo(produtoTemp.getCodigoProduto());
@@ -89,7 +89,7 @@ public class PedidoService {
 	 * @return índice do produto na lista
 	 */
 	public int retornarPosicaoItemCarrinho(
-		ArrayList<ItemPedidoView> carrinhoCompras, 
+		ArrayList<OrderItemView> carrinhoCompras, 
 		int codigoProduto
 	) {
 		for (int i = 0; i < carrinhoCompras.size(); i++) {
@@ -107,8 +107,8 @@ public class PedidoService {
 	 * @param codigoProduto código do produto a ser buscado
 	 * @return o produto correspondente ao código informado, ou null caso não seja encontrado
 	 */
-	public ProdutoRestauranteView retornarProdutoPeloCodigo(
-		ArrayList<ProdutoRestauranteView> listaProdutos,
+	public RestaurantProductView retornarProdutoPeloCodigo(
+		ArrayList<RestaurantProductView> listaProdutos,
 		int codigoProduto
 	) {
 		for (int i = 0; i < listaProdutos.size(); i++) {
@@ -147,12 +147,12 @@ public class PedidoService {
 	 * @param carrinhoCompras do cliente
 	 */
 	public void cadastrarPedido(
-		Restaurante r, 
-		Cliente c, 
-		ArrayList<ItemPedidoView> carrinhoCompras
+		Restaurant r, 
+		Customer c, 
+		ArrayList<OrderItemView> carrinhoCompras
 	) {
 		//pedidoDAO local sem argumentos que usará a conexão com autoCommit desativado
-		PedidoDAO pedidoDAO = new PedidoDAO();
+		OrderDAO pedidoDAO = new OrderDAO();
 		
 		try {
 			//desativa o salvamento automático do banco de dados
@@ -161,7 +161,7 @@ public class PedidoService {
 			//cadastra o pedido e pega a chave primária gerada para cadastrar items
 			int idPedido = pedidoDAO.inserirPedido(conn, r, c);
 			
-			for (ItemPedidoView item: carrinhoCompras) {
+			for (OrderItemView item: carrinhoCompras) {
 				
 				//diminui a quantidade comprada do estoque e armazena o resultado para checar
 				boolean estoqueAtualizado = produtoRestauranteDAO.diminuirEstoque(conn, r.getCnpj(), item);
@@ -171,7 +171,7 @@ public class PedidoService {
 				}
 				
 				//instancia um ItemPedido que será inserido no N:N e vincula os parametros
-				ItemPedido ip = new ItemPedido();
+				OrderItem ip = new OrderItem();
 				ip.setNumeroPedido(idPedido);
 				ip.setCodigoProduto(item.getCodigoProduto());
 				ip.setQuantidade(item.getQuantidade());
@@ -210,7 +210,7 @@ public class PedidoService {
 	 * @param status do pedido
 	 * @return ArrayList do tipo pedido
 	 */
-	public ArrayList<Pedido> retornarPedidosRestaurante(String cnpj, String status){
+	public ArrayList<Order> retornarPedidosRestaurante(String cnpj, String status){
 		return pedidoDAO.listarPedidosPorRestaurante(conn, cnpj, status);
 	}
 	
@@ -219,7 +219,7 @@ public class PedidoService {
 	 * @param cpf do cliente
 	 * @return ArrayList do tipo pedido
 	 */
-	public ArrayList<Pedido> retornarPedidosCliente(String cpf){
+	public ArrayList<Order> retornarPedidosCliente(String cpf){
 		return pedidoDAO.listarPedidosPorCliente(conn, cpf);
 	}
 	
@@ -228,7 +228,7 @@ public class PedidoService {
 	 * @param codigoPedido
 	 * @return ArrayList do tipo ItemPedidoView com todos os itens de um pedido
 	 */
-	public ArrayList<ItemPedidoView> retornarItensPedido(int codigoPedido){
+	public ArrayList<OrderItemView> retornarItensPedido(int codigoPedido){
 		return itemPedidoDAO.retornarItensPedido(conn, codigoPedido);
 	}
 	
@@ -241,7 +241,7 @@ public class PedidoService {
 	 * @param statusPedido novo status do pedido
 	 * @return boolean
 	 */
-	public boolean atualizarEntregaPedido(Pedido p, Entregador e, short eDisp, String statusPedido) {
+	public boolean atualizarEntregaPedido(Order p, DeliveryPerson e, short eDisp, String statusPedido) {
 
 	    try {
 
@@ -307,7 +307,7 @@ public class PedidoService {
 		return index >= 0 && index < lista.size();
 	}
 	
-	private boolean quantidadeValida(ProdutoRestauranteView produtoTemp, int quantidade) {
+	private boolean quantidadeValida(RestaurantProductView produtoTemp, int quantidade) {
 		return quantidade > 0 && quantidade <= produtoTemp.getQuantidadeEstoque(); 
 	}
 	

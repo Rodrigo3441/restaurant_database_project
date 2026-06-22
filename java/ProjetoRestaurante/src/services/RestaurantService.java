@@ -3,8 +3,8 @@ package services;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import database.RestauranteDAO;
-import entities.Restaurante;
+import database.RestaurantDAO;
+import entities.Restaurant;
 
 /**
  * Classe: ServicoRestaurante
@@ -20,13 +20,13 @@ import entities.Restaurante;
  * @since 27-04-2026
  */
 
-public class RestauranteService {
-	private RestauranteDAO dao;
+public class RestaurantService {
+	private RestaurantDAO dao;
 	private Connection conn;
 	
 	
-	public RestauranteService(Connection conn) {
-		this.dao = new RestauranteDAO();
+	public RestaurantService(Connection conn) {
+		this.dao = new RestaurantDAO();
 		this.conn = conn;
 	}
 	
@@ -80,7 +80,7 @@ public class RestauranteService {
 	 * @param nome do restaurante
 	 * @return boolean
 	 */
-	public boolean atualizarNome(Restaurante r, String nome) {
+	public boolean atualizarNome(Restaurant r, String nome) {
 		if (!nomeValido(nome)) {
 			throw new IllegalArgumentException("Utilize um nome válido: ");
 		}
@@ -95,7 +95,7 @@ public class RestauranteService {
 	 * @param telefone do restaurante
 	 * @return boolean
 	 */
-	public boolean atualizarTelefone(Restaurante r, String telefone) {
+	public boolean atualizarTelefone(Restaurant r, String telefone) {
 		if (!telefoneValido(telefone)) {
 			throw new IllegalArgumentException("Utilize um nome válido: ");
 		}
@@ -110,7 +110,7 @@ public class RestauranteService {
 	 * @param senha do restaurante
 	 * @return boolean
 	 */
-	public boolean atualizarSenha(Restaurante r, String senha) {
+	public boolean atualizarSenha(Restaurant r, String senha) {
 		if (!senhaValida(senha)) {
 			throw new IllegalArgumentException("Utilize uma senha válida: ");
 		}
@@ -124,7 +124,7 @@ public class RestauranteService {
 	 * @param r objeto restaurante
 	 * @return boolean
 	 */
-	public boolean cadastrarRestaurante(Restaurante r) {
+	public boolean cadastrarRestaurante(Restaurant r) {
 		return dao.inserirRestaurante(conn, r);
 	}
 	
@@ -133,7 +133,7 @@ public class RestauranteService {
 	 * @param cnpj do restaurante
 	 * @return objeto Restaurante
 	 */
-	public Restaurante retornarRestaurante(String cnpj) {
+	public Restaurant retornarRestaurante(String cnpj) {
 		return dao.retornarRestaurante(conn, cnpj);
 	}
 	
@@ -141,7 +141,7 @@ public class RestauranteService {
 	 * Retorna uma lista com todos os restaurantes do sistema
 	 * @return arraylist do tipo Restaurante
 	 */
-	public ArrayList<Restaurante> listarRestaurantes(){
+	public ArrayList<Restaurant> listarRestaurantes(){
 		return dao.listarRestaurantes(conn);
 	}
 

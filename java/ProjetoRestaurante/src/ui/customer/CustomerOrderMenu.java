@@ -1,13 +1,13 @@
-package ui.cliente;
+package ui.customer;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import entities.Cliente;
-import entities.Pedido;
-import services.PedidoService;
-import view.ItemPedidoView;
+import entities.Customer;
+import entities.Order;
+import services.OrderService;
+import view.OrderItemView;
 
 /**
  * Classe: MenuPedidoCliente
@@ -22,13 +22,13 @@ import view.ItemPedidoView;
  * @since 08-05-2026
  */
 
-public class MenuPedidoCliente {
+public class CustomerOrderMenu {
 	
-	private PedidoService servicoPedido;
+	private OrderService servicoPedido;
 	private Scanner sc;
 	
-	public MenuPedidoCliente(Connection conn, Scanner sc) {
-		this.servicoPedido = new PedidoService(conn);
+	public CustomerOrderMenu(Connection conn, Scanner sc) {
+		this.servicoPedido = new OrderService(conn);
 		this.sc = sc;		
 	}
 	
@@ -36,10 +36,10 @@ public class MenuPedidoCliente {
 	 * Exibe todos os pedidos que o cliente já realizou no sistema
 	 * @param c objeto Cliente
 	 */
-	public void mostrarPedidosCliente(Cliente c) {
+	public void mostrarPedidosCliente(Customer c) {
 		int option;
 		
-		ArrayList<Pedido> listaPedidos = servicoPedido.retornarPedidosCliente(c.getCpf());
+		ArrayList<Order> listaPedidos = servicoPedido.retornarPedidosCliente(c.getCpf());
 		
 		if (listaPedidos.isEmpty()) {
 			System.out.println("Você ainda não possui pedidos no sistema!");
@@ -100,7 +100,7 @@ public class MenuPedidoCliente {
 	 * Exibe todos os itens que estão em determinado pedido
 	 * @param listaPedidos lista com todos os pedidos
 	 */
-	private void detalharPedido(ArrayList<Pedido> listaPedidos) {
+	private void detalharPedido(ArrayList<Order> listaPedidos) {
 		int index;
 		double valorTotal = 0;
 		System.out.print("Digite o índice do pedido que você deseja visualizar detalhes: ");
@@ -127,12 +127,12 @@ public class MenuPedidoCliente {
 		int codigoPedido = listaPedidos.get(index).getNumeroPedido();
 		
 		//armazena todos os itens do pedido que o usuário escolheu
-		ArrayList<ItemPedidoView> listaItensPedido = servicoPedido.retornarItensPedido(codigoPedido);
+		ArrayList<OrderItemView> listaItensPedido = servicoPedido.retornarItensPedido(codigoPedido);
 		
 		System.out.printf("\nEXIBINDO ITENS DO PEDIDO %d:\n", codigoPedido);
 		System.out.println("============================================================================");
 		
-		for (ItemPedidoView ip: listaItensPedido) {
+		for (OrderItemView ip: listaItensPedido) {
 			System.out.println("Produto: " + ip.getNome() + " | Quantidade: " + ip.getQuantidade() + " | Preço Unidade: " + ip.getPreco());
 			valorTotal += ip.getQuantidade() * ip.getPreco();
 		}

@@ -1,10 +1,10 @@
 package services;
 
 import java.sql.Connection;
-import entities.Endereco;
-import entities.EnderecoCliente;
-import entities.EnderecoRestaurante;
-import database.EnderecoDAO;
+import entities.Address;
+import entities.CustomerAddress;
+import entities.RestaurantAddress;
+import database.AddressDAO;
 
 /**
  * Classe: ServicoEndereco
@@ -19,12 +19,12 @@ import database.EnderecoDAO;
  * @since 27-04-2026
  */
 
-public class EnderecoService {
-	private EnderecoDAO dao;
+public class AddressService {
+	private AddressDAO dao;
 	private Connection conn;
 	
-	public EnderecoService(Connection conn) {
-		this.dao = new EnderecoDAO();
+	public AddressService(Connection conn) {
+		this.dao = new AddressDAO();
 		this.conn = conn;
 	}
 	
@@ -33,7 +33,7 @@ public class EnderecoService {
 	 * @param cnpj do restaurante
 	 * @return objeto restaurante
 	 */
-	public EnderecoRestaurante retornarEnderecoRestaurante(String cnpj) {
+	public RestaurantAddress retornarEnderecoRestaurante(String cnpj) {
 		return dao.retornarEnderecoRestaurante(conn, cnpj);
 	}
 	
@@ -42,7 +42,7 @@ public class EnderecoService {
 	 * @param cpf do cliente
 	 * @return objeto EnderecoCliente
 	 */
-	public EnderecoCliente retornarEnderecoCliente(String cpf) {
+	public CustomerAddress retornarEnderecoCliente(String cpf) {
 		return dao.retornarEnderecoCliente(conn, cpf);
 	}
 	
@@ -51,7 +51,7 @@ public class EnderecoService {
 	 * @param er objeto EndereçoRestaurante
 	 * @return boolean
 	 */
-	public boolean inserirEnderecoRestaurante(Endereco er) {
+	public boolean inserirEnderecoRestaurante(Address er) {
 		return dao.inserirEnderecoRestaurante(conn, er);
 	}
 	
@@ -60,7 +60,7 @@ public class EnderecoService {
 	 * @param ec objeto EndereçoCliente
 	 * @return boolean
 	 */
-	public boolean inserirEnderecoCliente(Endereco ec) {
+	public boolean inserirEnderecoCliente(Address ec) {
 		return dao.inserirEnderecoCliente(conn, ec);
 	}
 	
@@ -100,7 +100,7 @@ public class EnderecoService {
 	 * @param cep do endereço
 	 * @return boolean
 	 */
-	public boolean atualizarCepEnderecoCliente(Endereco ec, String cep) {
+	public boolean atualizarCepEnderecoCliente(Address ec, String cep) {
 		if (!cepValido(cep)) {
 			throw new IllegalArgumentException("Digite um CEP válido");
 		}
@@ -115,7 +115,7 @@ public class EnderecoService {
 	 * @param nome da rua do cliente
 	 * @return boolean
 	 */
-	public boolean atualizarNomeEnderecoCliente(Endereco ec, String nome) {
+	public boolean atualizarNomeEnderecoCliente(Address ec, String nome) {
 		if (!nomeValido(nome)) {
 			throw new IllegalArgumentException("Digite um nome válido");
 		}
@@ -130,7 +130,7 @@ public class EnderecoService {
 	 * @param numero do endereço cliente
 	 * @return boolean
 	 */
-	public boolean atualizarNumeroEnderecoCliente(Endereco ec, int numero) {
+	public boolean atualizarNumeroEnderecoCliente(Address ec, int numero) {
 		if (!numeroValido(numero)) {
 			throw new IllegalArgumentException("Digite um número válido");
 		}
@@ -145,7 +145,7 @@ public class EnderecoService {
 	 * @param cep do endereço
 	 * @return boolean
 	 */
-	public boolean atualizarCepEnderecoRestaurante(Endereco er, String cep) {
+	public boolean atualizarCepEnderecoRestaurante(Address er, String cep) {
 		if (!cepValido(cep)) {
 			throw new IllegalArgumentException("Digite um CEP válido");
 		}
@@ -160,7 +160,7 @@ public class EnderecoService {
 	 * @param nome da rua do restaurante
 	 * @return boolean
 	 */
-	public boolean atualizarNomeEnderecoRestaurante(Endereco er, String nome) {
+	public boolean atualizarNomeEnderecoRestaurante(Address er, String nome) {
 		if (!nomeValido(nome)) {
 			throw new IllegalArgumentException("Digite um nome válido");
 		}
@@ -175,7 +175,7 @@ public class EnderecoService {
 	 * @param numero do endereço restaurante
 	 * @return boolean
 	 */
-	public boolean atualizarNumeroEnderecoRestaurante(Endereco er, int numero) {
+	public boolean atualizarNumeroEnderecoRestaurante(Address er, int numero) {
 		if (!numeroValido(numero)) {
 			throw new IllegalArgumentException("Digite um número válido");
 		}

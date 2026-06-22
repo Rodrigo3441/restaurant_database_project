@@ -1,12 +1,12 @@
-package ui.cliente;
+package ui.customer;
 
 import java.sql.Connection;
 import java.util.Scanner;
 
-import entities.Cliente;
-import entities.Endereco;
-import entities.EnderecoCliente;
-import services.EnderecoService;
+import entities.Customer;
+import entities.Address;
+import entities.CustomerAddress;
+import services.AddressService;
 
 /**
  * Classe: MenuEnderecoCliente
@@ -22,15 +22,15 @@ import services.EnderecoService;
  * @since 27-04-2026
  */
 
-public class MenuEnderecoCliente {
+public class CustomerAddressMenu {
 	
 	private Scanner sc;
-	private Endereco enderecoCliente;
-	private EnderecoService servicoendereco;
+	private Address enderecoCliente;
+	private AddressService servicoendereco;
 	
 	
-	public MenuEnderecoCliente(Connection conn, Scanner sc) {
-		this.servicoendereco = new EnderecoService(conn);
+	public CustomerAddressMenu(Connection conn, Scanner sc) {
+		this.servicoendereco = new AddressService(conn);
 		this.sc = sc;
 	}
 
@@ -40,7 +40,7 @@ public class MenuEnderecoCliente {
 	 * se o cliente possui um endereço exibe um menu, caso contrário outro
 	 * @param c objeto cliente
 	 */
-	public void mostrar(Cliente c) {
+	public void mostrar(Customer c) {
 		
 		int option = 9;
 		
@@ -145,7 +145,7 @@ public class MenuEnderecoCliente {
 	 * Implementa o cadastro de um endereço para um cliente
 	 * @param c objeto cliente
 	 */
-	private void cadastrarEndereco(Cliente c) {
+	private void cadastrarEndereco(Customer c) {
 		String cep;
 		String nome;
 		int numero;
@@ -208,7 +208,7 @@ public class MenuEnderecoCliente {
 			
 			if (opt.equals("s")) {
 				//instanciação de um novo enderecocliente e vinculação dos atributos
-				EnderecoCliente ec = new EnderecoCliente();
+				CustomerAddress ec = new CustomerAddress();
 				ec.setCep(cep);
 				ec.setCpfCliente(c.getCpf());
 				ec.setNome(nome);
@@ -242,7 +242,7 @@ public class MenuEnderecoCliente {
 	 * Implementa a atualização do CEP
 	 * @param ec objeto enderecoCliente
 	 */
-	private void atualizarCepCliente(Endereco ec) {
+	private void atualizarCepCliente(Address ec) {
 		
 		//campo para validação do CEP
 		while (true) {
@@ -268,7 +268,7 @@ public class MenuEnderecoCliente {
 	 * Implementa a atualização do nome do endereço
 	 * @param ec objeto enderecocliente
 	 */
-	private void atualizarNomeEnderecoCliente(Endereco ec) {
+	private void atualizarNomeEnderecoCliente(Address ec) {
 		
 		//campo para validação do nome da rua
 		while (true) {
@@ -293,7 +293,7 @@ public class MenuEnderecoCliente {
 	 * Implementa a atualização do número do endereço do cliente
 	 * @param ec objeto enderecocliente
 	 */
-	private void atualizarNumeroEnderecoCliente(Endereco ec) {
+	private void atualizarNumeroEnderecoCliente(Address ec) {
 		
 		//campo para validação do número da rua
 		while (true) {

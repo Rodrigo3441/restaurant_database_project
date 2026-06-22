@@ -1,10 +1,10 @@
-package ui.restaurante;
+package ui.restaurant;
 
 import java.sql.Connection;
 import java.util.Scanner;
 
-import entities.Restaurante;
-import services.RestauranteService;
+import entities.Restaurant;
+import services.RestaurantService;
 
 /**
  * Classe: MenuPerfilRestaurante
@@ -19,13 +19,13 @@ import services.RestauranteService;
  * @since 27-04-2026
  */
 
-public class MenuPerfilRestaurante {
+public class RestaurantProfileMenu {
 	
-	private RestauranteService servicorestaurante;
+	private RestaurantService servicorestaurante;
 	private Connection conn;
 	private Scanner sc;
 	
-	public MenuPerfilRestaurante(RestauranteService servicorestaurante, Connection conn, Scanner sc) {
+	public RestaurantProfileMenu(RestaurantService servicorestaurante, Connection conn, Scanner sc) {
 		this.servicorestaurante = servicorestaurante;
 		this.conn = conn;
 		this.sc = sc;
@@ -36,7 +36,7 @@ public class MenuPerfilRestaurante {
 	 * Responsável por exibir as ações de personalização do perfil do restaurante
 	 * @param r objeto Restaurante
 	 */
-	public void mostrarMenuPerfil(Restaurante r) {
+	public void mostrarMenuPerfil(Restaurant r) {
 		int option = 9;
 		
 		//validação da entrada de opção pelo usuário
@@ -81,7 +81,7 @@ public class MenuPerfilRestaurante {
 					this.atualizarSenha(r);
 					break;
 				case 4:
-					MenuEnderecoRestaurante menuendereco = new MenuEnderecoRestaurante(conn, sc);
+					RestaurantAddressMenu menuendereco = new RestaurantAddressMenu(conn, sc);
 					menuendereco.mostrar(r);
 					break;
 				case 5:
@@ -98,7 +98,7 @@ public class MenuPerfilRestaurante {
 	 * Responsável por atualizar o nome do restaurante
 	 * @param r objeto restaurante
 	 */
-	private void atualizarNome(Restaurante r) {
+	private void atualizarNome(Restaurant r) {
 		//campo para validação do nome do restaurante
 		while (true) {
 			System.out.print("Insira o seu primeiro nome (3-40 letras): ");
@@ -123,7 +123,7 @@ public class MenuPerfilRestaurante {
 	 * Responsável por atualizar o telefone do restaurante
 	 * @param r objeto restaurante
 	 */
-	private void atualizarTelefone(Restaurante r) {
+	private void atualizarTelefone(Restaurant r) {
 		//campo para validação do telefone
 		while (true) {
 			System.out.print("Insira o novo telefone do restaurante (até 11 dígitos): ");
@@ -147,7 +147,7 @@ public class MenuPerfilRestaurante {
 	 * Responsável por atualizar a senha do restaurante 
 	 * @param r
 	 */
-	private void atualizarSenha(Restaurante r) {
+	private void atualizarSenha(Restaurant r) {
 		//campo para validação da senha
 		while (true) {
 			System.out.print("Insira a nova senha do restaurante: ");

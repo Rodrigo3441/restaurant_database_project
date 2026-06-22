@@ -1,10 +1,10 @@
-package ui.restaurante;
+package ui.restaurant;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
-import entities.Entregador;
-import services.EntregadorService;
+import entities.DeliveryPerson;
+import services.DeliveryPersonService;
 
 /**
  * Classe: MenuEntregadorRestaurante
@@ -20,14 +20,14 @@ import services.EntregadorService;
  * @since 30-04-2026
  */
 
-public class MenuEntregadorRestaurante {
+public class RestaurantDeliveryPersonMenu {
 	
 	private Scanner sc;
-	private EntregadorService servicoentregador;
+	private DeliveryPersonService servicoentregador;
 	private Connection conn;
 	
-	public MenuEntregadorRestaurante(Connection conn, Scanner sc) {
-		this.servicoentregador = new EntregadorService(conn);
+	public RestaurantDeliveryPersonMenu(Connection conn, Scanner sc) {
+		this.servicoentregador = new DeliveryPersonService(conn);
 		this.conn = conn;
 		this.sc = sc;
 	}
@@ -213,7 +213,7 @@ public class MenuEntregadorRestaurante {
 			
 			if (opt.equals("s")) {
 				//instanciação de um novo Entregador e vinculação dos atributos			
-				Entregador e = new Entregador();
+				DeliveryPerson e = new DeliveryPerson();
 				e.setCpf(cpf);
 				e.setPrimeiroNome(primeiroNome);
 				e.setNomeMeio(nomeMeio);
@@ -247,7 +247,7 @@ public class MenuEntregadorRestaurante {
 	 * Lista todos os entregadores que estão cadastrados no sistema
 	 */
 	private void listarEntregadores() {
-		ArrayList<Entregador> listaEntregadores = servicoentregador.listarEntregadores();
+		ArrayList<DeliveryPerson> listaEntregadores = servicoentregador.listarEntregadores();
 
 		//Interrompe a execução quando não há produtos cadastrados
 		if (listaEntregadores.isEmpty()) {
@@ -258,7 +258,7 @@ public class MenuEntregadorRestaurante {
 		System.out.println("\nTODOS OS ENTREGADORES DO SISTEMA:");
 		System.out.println("================================================");
 		//Imprime cada produto para aquele restaurante
-		for (Entregador e: listaEntregadores) {
+		for (DeliveryPerson e: listaEntregadores) {
 			System.out.println(e);
 		}
 		System.out.println("================================================\n");
@@ -280,7 +280,7 @@ public class MenuEntregadorRestaurante {
 		String cpf = sc.next().trim();
 		
 		//entregador alvo é armazenado para as operações serem realizadas
-		Entregador entregador = servicoentregador.retornarEntregador(cpf);
+		DeliveryPerson entregador = servicoentregador.retornarEntregador(cpf);
 		
 		if (entregador != null) {
 			System.out.println(entregador);
@@ -334,10 +334,10 @@ public class MenuEntregadorRestaurante {
 		String cpf = sc.next().trim();
 		
 		//entregador alvo é armazenado para as operações serem realizadas
-		Entregador entregador = servicoentregador.retornarEntregador(cpf);
+		DeliveryPerson entregador = servicoentregador.retornarEntregador(cpf);
 		
 		if (entregador != null) {
-			MenuPerfilEntregador menu = new MenuPerfilEntregador(conn, sc);
+			DeliveryPersonProfileMenu menu = new DeliveryPersonProfileMenu(conn, sc);
 			menu.mostrarMenuPerfil(entregador);
 			
 		} else {

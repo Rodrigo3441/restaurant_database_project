@@ -1,8 +1,8 @@
 package services;
 
 import java.sql.Connection;
-import database.ClienteDAO;
-import entities.Cliente;
+import database.CustomerDAO;
+import entities.Customer;
 
 /**
  * Classe: ServicoCliente
@@ -18,8 +18,8 @@ import entities.Cliente;
  * @since 24-04-2026
  */
 
-public class ClienteService {
-	private ClienteDAO dao;
+public class CustomerService {
+	private CustomerDAO dao;
 	private Connection conn;
 	
 	/**
@@ -27,8 +27,8 @@ public class ClienteService {
 	 * 
 	 * @param dao objeto AccesoDadosCliente
 	 */
-	public ClienteService(Connection conn) {
-		this.dao = new ClienteDAO();
+	public CustomerService(Connection conn) {
+		this.dao = new CustomerDAO();
 		this.conn = conn;
 	}
 	
@@ -112,7 +112,7 @@ public class ClienteService {
 	 * @param primeiroNome do cliente
 	 * @return êxito ou não
 	 */
-	public boolean atualizarPrimeiroNome(Cliente c, String primeiroNome) {
+	public boolean atualizarPrimeiroNome(Customer c, String primeiroNome) {
 		if (!primeiroNomeValido(primeiroNome)) {
 			throw new IllegalArgumentException("Utilize um nome válido: ");
 		}
@@ -127,7 +127,7 @@ public class ClienteService {
 	 * @param nomeMeio do cliente
 	 * @return êxito ou não 
 	 */
-	public boolean atualizarNomeMeio(Cliente c, String nomeMeio) {
+	public boolean atualizarNomeMeio(Customer c, String nomeMeio) {
 		if (!nomeMeioValido(nomeMeio)) {
 			throw new IllegalArgumentException("Utilize um nome válido: ");
 		}
@@ -142,7 +142,7 @@ public class ClienteService {
 	 * @param ultimoNome do cliente
 	 * @return êxito ou não
 	 */
-	public boolean atualizarUltimoNome(Cliente c, String ultimoNome) {
+	public boolean atualizarUltimoNome(Customer c, String ultimoNome) {
 		if (!ultimoNomeValido(ultimoNome)) {
 			throw new IllegalArgumentException("Utilize um nome válido: ");
 		}
@@ -157,7 +157,7 @@ public class ClienteService {
 	 * @param telefone do cliente
 	 * @return êxito ou não
 	 */
-	public boolean atualizarTelefone(Cliente c, String telefone) {
+	public boolean atualizarTelefone(Customer c, String telefone) {
 		if (!telefoneValido(telefone)) {
 			throw new IllegalArgumentException("Utilize um telefone válido: ");
 		}
@@ -172,7 +172,7 @@ public class ClienteService {
 	 * @param email do cliente
 	 * @return êxito ou não
 	 */
-	public boolean atualizarEmail(Cliente c, String email) {
+	public boolean atualizarEmail(Customer c, String email) {
 		if (!emailValido(email)) {
 			throw new IllegalArgumentException("Utilize um telefone válido: ");
 		}
@@ -187,7 +187,7 @@ public class ClienteService {
 	 * @param senha do cliente
 	 * @return êxito ou não
 	 */
-	public boolean atualizarSenha(Cliente c, String senha) {
+	public boolean atualizarSenha(Customer c, String senha) {
 		if (!senhaValida(senha)) {
 			throw new IllegalArgumentException("Utilize uma senha válida: ");
 		}
@@ -201,7 +201,7 @@ public class ClienteService {
 	 * @param c objeto cliente
 	 * @return boolean
 	 */
-	public boolean cadastrarCliente(Cliente c) {
+	public boolean cadastrarCliente(Customer c) {
 		return dao.inserirCliente(conn, c);
 	}
 	
@@ -210,7 +210,7 @@ public class ClienteService {
 	 * @param cnpj
 	 * @return Cliente
 	 */
-	public Cliente retornarCliente(String cpf) {
+	public Customer retornarCliente(String cpf) {
 		return dao.retornarCliente(conn, cpf);
 	}
 	

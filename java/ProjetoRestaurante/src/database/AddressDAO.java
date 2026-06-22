@@ -4,43 +4,43 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import entities.Endereco;
-import entities.EnderecoCliente;
-import entities.EnderecoRestaurante;
+import entities.Address;
+import entities.CustomerAddress;
+import entities.RestaurantAddress;
 
 /**
- * Classe: EnderecoDAO
+ * Class: EnderecoDAO
  *
- * Descrição:
- * Classe responsável por gerenciar dados dos endereços do cliente e do restaurante
+ * Description:
+ * Manages client and restaurant address data.
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Connect to the database
+ * - Manipulate address data
  *
  * @author Rodrigo
  * @since 24-04-2026
  */
 
-public class EnderecoDAO {
+public class AddressDAO {
 		
 	/**
-	 * Responsável por receber um objeto de endereço do restaurante e inserir no banco de dados
-	 * @param objeto de conexão
-	 * @param objeto restaurante
+	 * Inserts a restaurant address into the database.
+	 * @param conn database connection
+	 * @param er restaurant address object
 	 * @return boolean
 	 */
-	public boolean inserirEnderecoRestaurante(Connection conn, Endereco er) {
+	public boolean inserirEnderecoRestaurante(Connection conn, Address er) {
 		String sqlQuery = "INSERT INTO ENDERECO_RESTAURANTE "
 				+ "(pk_fk_res_cnpj, "
 				+ "pk_enr_cep, "
 				+ "enr_nome, "
 				+ "enr_numero) VALUES (?, ?, ?, ?)";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, er.getIdentificacao());
 			stmt.setString(2, er.getCep());
 			stmt.setString(3, er.getNome());
@@ -58,27 +58,26 @@ public class EnderecoDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações do endereço do restaurante
-	 * para que possam ser utilizadas ao longo das operações
-	 * @param objeto de conexão  
-	 * @param cnpj do restaurante
-	 * @return objeto enderecorestaurante
+	 * Retrieves restaurant address details for use in other operations.
+	 * @param conn database connection  
+	 * @param cnpj restaurant CNPJ
+	 * @return restaurant address object
 	 */
-	public EnderecoRestaurante retornarEnderecoRestaurante(Connection conn, String cnpj) {
+	public RestaurantAddress retornarEnderecoRestaurante(Connection conn, String cnpj) {
 		String sqlQuery = "SELECT * FROM ENDERECO_RESTAURANTE WHERE pk_fk_res_cnpj = ?";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, cnpj);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca pelo cpnj, instancia um objeto restaurante
-			//com os atributos do resultado
+			// if a result is found for the CNPJ, create a restaurant address object
+			// with the result attributes
 			if (resultado.next()) {
-				EnderecoRestaurante er = new EnderecoRestaurante();
+				RestaurantAddress er = new RestaurantAddress();
 				
 				er.setCnpjRestaurante(resultado.getString("pk_fk_res_cnpj"));
 				er.setCep(resultado.getString("pk_enr_cep"));
@@ -97,21 +96,21 @@ public class EnderecoDAO {
 	}
 	
 	/**
-	 * Responsável por atualizar as informações do endereço de um restaurante no banco de dados 
-	 * @param objeto de conexão
-	 * @param objeto enderecorestaurante
+	 * Updates a restaurant address in the database.
+	 * @param conn database connection
+	 * @param er address object
 	 */
-	public boolean atualizarEnderecoRestaurante(Connection conn, Endereco er) {
+	public boolean atualizarEnderecoRestaurante(Connection conn, Address er) {
 		String sqlQuery = "UPDATE ENDERECO_RESTAURANTE SET " +
 	            "pk_enr_cep = ?, " +
 	            "enr_nome = ?, " +
 	            "enr_numero = ? " +
 	            "WHERE pk_fk_res_cnpj = ?";
 
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, er.getCep());
 	        stmt.setString(2, er.getNome());
 	        stmt.setInt(3, er.getNumero());
@@ -129,22 +128,22 @@ public class EnderecoDAO {
 	}
 	
 	/**
-	 * Responsável por receber um objeto de endereço do cliente e inserir no banco de dados
-	 * @param objeto de conexão
-	 * @param objeto enderecocliente
+	 * Inserts a client address into the database.
+	 * @param conn database connection
+	 * @param ec client address object
 	 * @return boolean
 	 */
-	public boolean inserirEnderecoCliente(Connection conn, Endereco ec) {
+	public boolean inserirEnderecoCliente(Connection conn, Address ec) {
 		String sqlQuery = "INSERT INTO ENDERECO_CLIENTE "
 				+ "(pk_fk_cli_cpf, "
 				+ "pk_enc_cep, "
 				+ "enc_nome, "
 				+ "enc_numero) VALUES (?, ?, ?, ?)";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, ec.getIdentificacao());
 			stmt.setString(2, ec.getCep());
 			stmt.setString(3, ec.getNome());
@@ -162,27 +161,26 @@ public class EnderecoDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações do endereço do cliente
-	 * para que possam ser utilizadas ao longo das operações
-	 * @param objeto de conexão
-	 * @param cpf do cliente
-	 * @return objeto enderecocliente
+	 * Retrieves client address details for later use.
+	 * @param conn database connection
+	 * @param cpf client CPF
+	 * @return client address object
 	 */
-	public EnderecoCliente retornarEnderecoCliente(Connection conn, String cpf) {
+	public CustomerAddress retornarEnderecoCliente(Connection conn, String cpf) {
 		String sqlQuery = "SELECT * FROM ENDERECO_CLIENTE WHERE pk_fk_cli_cpf = ?";
 		
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, cpf);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca pelo cpnj, instancia um objeto restaurante
-			//com os atributos do resultado
+			// if a result is found for the CPF, create a client address object
+			// with the result attributes
 			if (resultado.next()) {
-				EnderecoCliente ec = new EnderecoCliente();
+				CustomerAddress ec = new CustomerAddress();
 				
 				ec.setCpfCliente(resultado.getString("pk_fk_cli_cpf"));
 				ec.setCep(resultado.getString("pk_enc_cep"));
@@ -201,22 +199,22 @@ public class EnderecoDAO {
 	}
 	
 	/**
-	 * Responsável por atualizar as informações do endereço de um cliente no banco de dados 
-	 * @param objeto de conexão
-	 * @param objeto enderecocliente
+	 * Updates a client address in the database.
+	 * @param conn database connection
+	 * @param ec address object
 	 * @return boolean
 	 */
-	public boolean atualizarEnderecoCliente(Connection conn, Endereco ec) {
+	public boolean atualizarEnderecoCliente(Connection conn, Address ec) {
 		String sqlQuery = "UPDATE ENDERECO_CLIENTE SET " +
 	            "pk_enc_cep = ?, " +
 	            "enc_nome = ?, " +
 	            "enc_numero = ? " +
 	            "WHERE pk_fk_cli_cpf = ?";
 
-		//preparação da query antes da execução
+		// prepare the query before execution
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind attributes to the prepared query
 			stmt.setString(1, ec.getCep());
 	        stmt.setString(2, ec.getNome());
 	        stmt.setInt(3, ec.getNumero());

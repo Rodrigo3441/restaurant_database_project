@@ -1,9 +1,9 @@
-package ui.cliente;
+package ui.customer;
 
 import java.sql.Connection;
 import java.util.Scanner;
-import entities.Cliente;
-import services.ClienteService;
+import entities.Customer;
+import services.CustomerService;
 
 /**
  * Classe: MenuCliente
@@ -18,9 +18,9 @@ import services.ClienteService;
  * @since 24-04-2026
  */
 
-public class MenuCliente {
+public class CustomerMenu {
 	
-	private ClienteService servicocliente;
+	private CustomerService servicocliente;
 	private Connection conn;
 	private Scanner sc;
 	
@@ -29,8 +29,8 @@ public class MenuCliente {
 	 * 
 	 * @param conn
 	 */
-	public MenuCliente(Connection conn, Scanner sc) {
-		this.servicocliente = new ClienteService(conn);
+	public CustomerMenu(Connection conn, Scanner sc) {
+		this.servicocliente = new CustomerService(conn);
 		this.conn = conn;
 		this.sc = sc;
 	}
@@ -218,7 +218,7 @@ public class MenuCliente {
 			
 			if (opt.equals("s")) {
 				//instanciação de um novo cliente e vinculação dos atributos
-				Cliente c = new Cliente();
+				Customer c = new Customer();
 				c.setCpf(cpf);
 				c.setPrimeiroNome(primeiroNome);
 				c.setNomeMeio(nomeMeio);
@@ -257,7 +257,7 @@ public class MenuCliente {
 		String cpf = sc.next().trim();
 		
 		//armazena todas as informações do restaurante
-		Cliente c = servicocliente.retornarCliente(cpf);
+		Customer c = servicocliente.retornarCliente(cpf);
 		
 		//verifica se houve retorno para um restaurante
 		if(c != null) {
@@ -284,7 +284,7 @@ public class MenuCliente {
 	 * Responsável por oferecer o menu de ações para o cliente em sessão
 	 * @param c objeto Cliente
 	 */
-	private void menuClienteLogado(Cliente c) {
+	private void menuClienteLogado(Customer c) {
 		int option = -1;
 		
 		while (true) {
@@ -317,15 +317,15 @@ public class MenuCliente {
 			
 			switch (option) {
 				case 1:
-					MenuPerfilCliente menuPerfil = new MenuPerfilCliente(servicocliente, conn, sc);
+					CustomerProfileMenu menuPerfil = new CustomerProfileMenu(servicocliente, conn, sc);
 					menuPerfil.mostrarMenuPerfil(c);
 					break;
 				case 2:
-					MenuPedidoCliente menuPedidos = new MenuPedidoCliente(conn, sc);
+					CustomerOrderMenu menuPedidos = new CustomerOrderMenu(conn, sc);
 					menuPedidos.mostrarPedidosCliente(c);
 					break;
 				case 3:
-					MenuSelecaoRestaurante menuCompras = new MenuSelecaoRestaurante(conn, c, sc);
+					RestaurantSelectionMenu menuCompras = new RestaurantSelectionMenu(conn, c, sc);
 					menuCompras.mostrarRestaurantes();
 					break;
 				case 4:

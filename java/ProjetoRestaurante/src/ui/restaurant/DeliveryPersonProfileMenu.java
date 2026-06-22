@@ -1,9 +1,9 @@
-package ui.restaurante;
+package ui.restaurant;
 
 import java.sql.Connection;
 import java.util.Scanner;
-import entities.Entregador;
-import services.EntregadorService;
+import entities.DeliveryPerson;
+import services.DeliveryPersonService;
 
 /**
  * Classe: MenuPerfilEntregador
@@ -19,13 +19,13 @@ import services.EntregadorService;
  * @since 30-04-2026
  */
 
-public class MenuPerfilEntregador {
+public class DeliveryPersonProfileMenu {
 	
-	private EntregadorService servicoentregador;
+	private DeliveryPersonService servicoentregador;
 	private Scanner sc;
 
-	public MenuPerfilEntregador(Connection conn, Scanner sc) {
-		this.servicoentregador = new EntregadorService(conn);
+	public DeliveryPersonProfileMenu(Connection conn, Scanner sc) {
+		this.servicoentregador = new DeliveryPersonService(conn);
 		this.sc = sc;
 	}
 	
@@ -33,7 +33,7 @@ public class MenuPerfilEntregador {
 	 * Responsável por exibir as ações de personalização do perfil
 	 * @param c objeto Cliente
 	 */
-	public void mostrarMenuPerfil(Entregador entregador) {
+	public void mostrarMenuPerfil(DeliveryPerson entregador) {
 		int option = 9;
 		
 		//validação da entrada de opção pelo usuário
@@ -99,7 +99,7 @@ public class MenuPerfilEntregador {
 	 * Responsável por atualizar o primeiro nome do entregador
 	 * @param entregador objeto entregador
 	 */
-	private void atualizarPrimeiroNome(Entregador entregador) {
+	private void atualizarPrimeiroNome(DeliveryPerson entregador) {
 
 		//campo para validação do primeiro nome
 		while (true) {
@@ -124,7 +124,7 @@ public class MenuPerfilEntregador {
 	 * Responsável por atualizar o nome do meio do entregador
 	 * @param entregador objeto entregador
 	 */
-	private void atualizarNomeMeio(Entregador entregador) {
+	private void atualizarNomeMeio(DeliveryPerson entregador) {
 
 		//campo para validação do nome do meio
 		while (true) {
@@ -150,7 +150,7 @@ public class MenuPerfilEntregador {
 	 * Responsável por atualizar o ultimo nome do entregador
 	 * @param entregador objeto entregador
 	 */
-	private void atualizarUltimoNome(Entregador entregador) {
+	private void atualizarUltimoNome(DeliveryPerson entregador) {
 
 		//campo para validação do ultimo nome
 		while (true) {
@@ -175,7 +175,7 @@ public class MenuPerfilEntregador {
 	 * Responsável por atualizar o telefone do entregador
 	 * @param entregador objeto entregador
 	 */
-	private void atualizarTelefone(Entregador entregador) {
+	private void atualizarTelefone(DeliveryPerson entregador) {
 
 		//campo para validação do telefone
 		while (true) {
@@ -200,7 +200,7 @@ public class MenuPerfilEntregador {
 	 * Responsável por atualizar a placa do veículo do entregador
 	 * @param entregador objeto entregador
 	 */
-	private void atualizarPlacaVeiculo(Entregador entregador) {
+	private void atualizarPlacaVeiculo(DeliveryPerson entregador) {
 
 		//campo para validação do email
 		while (true) {

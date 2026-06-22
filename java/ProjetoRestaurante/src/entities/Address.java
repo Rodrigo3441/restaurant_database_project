@@ -14,7 +14,7 @@ package entities;
  * @since 20-04-2026
  */
 
-public abstract class Endereco {
+public abstract class Address {
 	protected String cep;
 	protected String nome;
 	protected Integer numero;
@@ -22,7 +22,7 @@ public abstract class Endereco {
 	/**
 	 * Construtor sem argumentos
 	 */
-	protected Endereco() {
+	protected Address() {
 		
 	}
 

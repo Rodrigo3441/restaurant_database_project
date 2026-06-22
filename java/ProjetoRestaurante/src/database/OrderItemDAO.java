@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import entities.ItemPedido;
-import view.ItemPedidoView;
+import entities.OrderItem;
+import view.OrderItemView;
 
 /**
  * Classe: ItemPedidoDAO
@@ -23,7 +23,7 @@ import view.ItemPedidoView;
  * @since 07-05-2026
  */
 
-public class ItemPedidoDAO {
+public class OrderItemDAO {
 	
 	/**
 	 * cadastra um item do pedido dos clientes no banco de dados
@@ -31,7 +31,7 @@ public class ItemPedidoDAO {
 	 * @param objeto itempedido
 	 * @return boolean
 	 */
-	public boolean inserirItemPedido(Connection conn, ItemPedido ip) {
+	public boolean inserirItemPedido(Connection conn, OrderItem ip) {
 		String sqlQuery = "INSERT INTO ITEM_PEDIDO ("
 						+ "pk_fk_ped_numero, "
 						+ "pk_fk_prd_codigo, "
@@ -63,7 +63,7 @@ public class ItemPedidoDAO {
 	 * @param codigoPedido
 	 * @return ArrayList do tipo ItemPedidoView
 	 */
-	public ArrayList<ItemPedidoView> retornarItensPedido(Connection conn, int codigoPedido) {		
+	public ArrayList<OrderItemView> retornarItensPedido(Connection conn, int codigoPedido) {		
 		String sqlQuery = "SELECT "
 						+ "p.prd_nome, "
 						+ "ip.itp_quantidade, "
@@ -76,7 +76,7 @@ public class ItemPedidoDAO {
 						+ "WHERE ip.pk_fk_ped_numero = ?;";
 		
 		//Lista para armazenar todos as instâncias de itens do pedido
-		ArrayList<ItemPedidoView> listaItemPedido = new ArrayList<ItemPedidoView>();
+		ArrayList<OrderItemView> listaItemPedido = new ArrayList<OrderItemView>();
 				
 		//preparação da query antes da execução
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
@@ -87,7 +87,7 @@ public class ItemPedidoDAO {
 			ResultSet resultado = stmt.executeQuery();
 			
 			while (resultado.next()) {
-				ItemPedidoView ip = new ItemPedidoView();
+				OrderItemView ip = new OrderItemView();
 				ip.setNome(resultado.getString("prd_nome"));
 				ip.setPreco(resultado.getDouble("pdr_preco"));
 				ip.setQuantidade(resultado.getInt("itp_quantidade"));

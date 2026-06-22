@@ -19,14 +19,14 @@ package view;
  * @author rodrigo
  * @since 04-05-2026
  */
-public class ItemPedidoView {
+public class OrderItemView {
 	String nomeProduto;
 	Double preco;
 	Integer codigoProduto;
 	Integer quantidade;
 	
 
-	public ItemPedidoView() {
+	public OrderItemView() {
 		
 	}
 

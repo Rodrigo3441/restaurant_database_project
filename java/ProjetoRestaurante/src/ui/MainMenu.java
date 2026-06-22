@@ -3,8 +3,8 @@ package ui;
 import java.sql.Connection;
 import java.util.Scanner;
 
-import ui.cliente.MenuCliente;
-import ui.restaurante.MenuRestaurante;
+import ui.customer.CustomerMenu;
+import ui.restaurant.RestaurantMenu;
 
 /**
  * Classe: MenuPrincipal
@@ -20,7 +20,7 @@ import ui.restaurante.MenuRestaurante;
  * @since 23-04-2026
  */
 
-public class MenuPrincipal {
+public class MainMenu {
 	
 	private Scanner sc;
 	private Connection conn;
@@ -29,7 +29,7 @@ public class MenuPrincipal {
 	 * 
 	 * @param conn
 	 */
-	public MenuPrincipal(Connection conn, Scanner sc) {
+	public MainMenu(Connection conn, Scanner sc) {
 		this.conn = conn;
 		this.sc = sc;
 	}
@@ -77,12 +77,12 @@ public class MenuPrincipal {
 			//acesso as opções do menu			
 			switch (option) {
 				case 1:
-					MenuCliente menucliente = new MenuCliente(conn, sc);
+					CustomerMenu menucliente = new CustomerMenu(conn, sc);
 					menucliente.mostrarMenuPrincipal();
 					break;
 	
 				case 2:
-					MenuRestaurante menurestaurante = new MenuRestaurante(conn, sc);
+					RestaurantMenu menurestaurante = new RestaurantMenu(conn, sc);
 					menurestaurante.mostrarMenuPrincipal();
 					break;
 					

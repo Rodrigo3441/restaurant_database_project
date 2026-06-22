@@ -14,14 +14,14 @@ package entities;
  * @since 20-04-2026
  */
 
-public class Cliente extends Usuario {
+public class Customer extends User {
 	private String email;
 	private String senha;
 	
 	/**
 	 * Construtor sem argumentos
 	 */
-	public Cliente() {
+	public Customer() {
 		super();
 	}
 

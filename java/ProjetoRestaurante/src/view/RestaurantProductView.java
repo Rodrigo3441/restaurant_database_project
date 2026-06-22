@@ -13,7 +13,7 @@ package view;
  * @author rodrigo
  * @since 28-04-2026
  */
-public class ProdutoRestauranteView {
+public class RestaurantProductView {
 	private Integer codigoProduto;
 	private String nomeProduto;
 	private Double precoProduto;
@@ -23,7 +23,7 @@ public class ProdutoRestauranteView {
 	/**
 	 * Construtor sem argumentos
 	 */
-	public ProdutoRestauranteView() {
+	public RestaurantProductView() {
 		
 	}
 

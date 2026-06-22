@@ -1,12 +1,12 @@
-package ui.restaurante;
+package ui.restaurant;
 
 import java.sql.Connection;
 import java.util.Scanner;
 
-import entities.Endereco;
-import entities.EnderecoRestaurante;
-import entities.Restaurante;
-import services.EnderecoService;
+import entities.Address;
+import entities.RestaurantAddress;
+import entities.Restaurant;
+import services.AddressService;
 
 /**
  * Classe: MenuEnderecoRestaurante
@@ -22,15 +22,15 @@ import services.EnderecoService;
  * @since 27-04-2026
  */
 
-public class MenuEnderecoRestaurante {
+public class RestaurantAddressMenu {
 
-	private Endereco enderecoRestaurante;
-	private EnderecoService servicoendereco;
+	private Address enderecoRestaurante;
+	private AddressService servicoendereco;
 	private Scanner sc;
 	
 	
-	public MenuEnderecoRestaurante(Connection conn, Scanner sc) {
-		this.servicoendereco = new EnderecoService(conn);
+	public RestaurantAddressMenu(Connection conn, Scanner sc) {
+		this.servicoendereco = new AddressService(conn);
 		this.sc = sc;
 	}
 
@@ -40,7 +40,7 @@ public class MenuEnderecoRestaurante {
 	 * se o restaurante possui um endereço exibe um menu, caso contrário outro
 	 * @param r objeto restaurante
 	 */
-	public void mostrar(Restaurante r) {
+	public void mostrar(Restaurant r) {
 		
 		int option = 9;
 		
@@ -149,7 +149,7 @@ public class MenuEnderecoRestaurante {
 	 * Implementa o cadastro de um endereço para um restaurante
 	 * @param r objeto restaurante
 	 */
-	private void cadastrarEndereco(Restaurante r) {
+	private void cadastrarEndereco(Restaurant r) {
 		String cep;
 		String nome;
 		int numero;
@@ -213,7 +213,7 @@ public class MenuEnderecoRestaurante {
 			
 			if (opt.equals("s")) {
 				//instanciação de um novo enderecorestaurante e vinculação dos atributos
-				EnderecoRestaurante er = new EnderecoRestaurante();
+				RestaurantAddress er = new RestaurantAddress();
 				er.setCep(cep);
 				er.setCnpjRestaurante(r.getCnpj());
 				er.setNome(nome);
@@ -247,7 +247,7 @@ public class MenuEnderecoRestaurante {
 	 * Edição do endereço do restaurante
 	 * @param er objeto enderecoRestaurante
 	 */
-	private void atualizarCepRestaurante(Endereco er) {
+	private void atualizarCepRestaurante(Address er) {
 		//campo para validação do CEP
 		while (true) {
 			System.out.print("Digite o novo CEP do restaurante (8 dígitos): ");
@@ -272,7 +272,7 @@ public class MenuEnderecoRestaurante {
 	 * Implementa a edição do nome do endereço
 	 * @param er objeto enderecorestaurante
 	 */
-	private void atualizarNomeEnderecoRestaurante(Endereco er) {
+	private void atualizarNomeEnderecoRestaurante(Address er) {
 		
 		//campo para validação do nome da rua
 		while (true) {
@@ -297,7 +297,7 @@ public class MenuEnderecoRestaurante {
 	 * Implementa a edição do número do endereço
 	 * @param er objeto enderecorestaurante
 	 */
-	private void atualizarNumeroEnderecoRestaurante(Endereco er) {
+	private void atualizarNumeroEnderecoRestaurante(Address er) {
 		
 		//campo para validação do número da rua
 		while (true) {

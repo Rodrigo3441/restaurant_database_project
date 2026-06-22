@@ -15,14 +15,14 @@ package entities;
  * @since 20-04-2026
  */
 
-public class EnderecoCliente extends Endereco {
+public class CustomerAddress extends Address {
 	private String cpfCliente;
 	
 	/**
 	 * Construtor sem argumentos
 	 * 
 	 */
-	public EnderecoCliente() {
+	public CustomerAddress() {
 		super();
 	}
 

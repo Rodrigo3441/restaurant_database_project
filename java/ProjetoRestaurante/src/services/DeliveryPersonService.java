@@ -2,8 +2,8 @@ package services;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import database.EntregadorDAO;
-import entities.Entregador;
+import database.DeliveryPersonDAO;
+import entities.DeliveryPerson;
 
 /**
  * Classe: EntregadorService
@@ -19,13 +19,13 @@ import entities.Entregador;
  * @since 30-04-2026
  */
 
-public class EntregadorService {
+public class DeliveryPersonService {
 	//conexão com o banco de dados que será usada em todas as operações
-	private EntregadorDAO dao;
+	private DeliveryPersonDAO dao;
 	private Connection conn;
 	
-	public EntregadorService(Connection conn) {
-		this.dao = new EntregadorDAO();
+	public DeliveryPersonService(Connection conn) {
+		this.dao = new DeliveryPersonDAO();
 		this.conn = conn;
 	}
 	
@@ -99,7 +99,7 @@ public class EntregadorService {
 	 * @param primeiroNome do entregador
 	 * @return boolean
 	 */
-	public boolean atualizarPrimeiroNome(Entregador e, String primeiroNome) {
+	public boolean atualizarPrimeiroNome(DeliveryPerson e, String primeiroNome) {
 		if (!primeiroNomeValido(primeiroNome)) {
 			throw new IllegalArgumentException("Utilize um nome válido: ");
 		}
@@ -114,7 +114,7 @@ public class EntregadorService {
 	 * @param nomeMeio do entregador
 	 * @return boolean 
 	 */
-	public boolean atualizarNomeMeio(Entregador e, String nomeMeio) {
+	public boolean atualizarNomeMeio(DeliveryPerson e, String nomeMeio) {
 		if (!nomeMeioValido(nomeMeio)) {
 			throw new IllegalArgumentException("Utilize um nome válido: ");
 		}
@@ -129,7 +129,7 @@ public class EntregadorService {
 	 * @param ultimoNome do entregador
 	 * @return boolean
 	 */
-	public boolean atualizarUltimoNome(Entregador e, String ultimoNome) {
+	public boolean atualizarUltimoNome(DeliveryPerson e, String ultimoNome) {
 		if (!ultimoNomeValido(ultimoNome)) {
 			throw new IllegalArgumentException("Utilize um nome válido: ");
 		}
@@ -144,7 +144,7 @@ public class EntregadorService {
 	 * @param telefone do entregador
 	 * @return boolean
 	 */
-	public boolean atualizarTelefone(Entregador e, String telefone) {
+	public boolean atualizarTelefone(DeliveryPerson e, String telefone) {
 		if (!telefoneValido(telefone)) {
 			throw new IllegalArgumentException("Utilize um telefone válido: ");
 		}
@@ -159,7 +159,7 @@ public class EntregadorService {
 	 * @param placaVeiculo
 	 * @return boolean
 	 */
-	public boolean atualizarPlacaVeiculo(Entregador e, String placaVeiculo) {
+	public boolean atualizarPlacaVeiculo(DeliveryPerson e, String placaVeiculo) {
 		if (!placaVeiculoValida(placaVeiculo)) {
 			throw new IllegalArgumentException("Utilize uma placa válida: ");
 		}
@@ -173,7 +173,7 @@ public class EntregadorService {
 	 * @param r
 	 * @return boolean
 	 */
-	public boolean cadastrarEntregador(Entregador e) {
+	public boolean cadastrarEntregador(DeliveryPerson e) {
 		return dao.inserirEntregador(conn, e);
 	}
 	
@@ -182,7 +182,7 @@ public class EntregadorService {
 	 * @param cpf do entregador
 	 * @return Entregador
 	 */
-	public Entregador retornarEntregador(String cpf) {
+	public DeliveryPerson retornarEntregador(String cpf) {
 		return dao.retornarEntregador(conn, cpf);
 	}
 	
@@ -190,7 +190,7 @@ public class EntregadorService {
 	 * Retorna todos os entregadores que está cadastrados no sistema
 	 * @return ArrayList
 	 */
-	public ArrayList<Entregador> listarEntregadores() {
+	public ArrayList<DeliveryPerson> listarEntregadores() {
 		return dao.listarEntregadores(conn);
 	}
 	

@@ -14,7 +14,7 @@ package entities;
  * @since 20-04-2026
  */
 
-public abstract class Usuario {
+public abstract class User {
 	protected String cpf;
 	protected String primeiroNome;
 	protected String nomeMeio;
@@ -24,7 +24,7 @@ public abstract class Usuario {
 	/**
 	 * Construtor sem argumentos
 	 */
-	protected Usuario() {
+	protected User() {
 		
 	}
 

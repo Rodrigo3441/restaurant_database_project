@@ -16,7 +16,7 @@ package entities;
  * @since 20-04-2026
  */
 
-public class Restaurante {
+public class Restaurant {
 	private String cnpj;
 	private String nome;
 	private String telefone;
@@ -26,7 +26,7 @@ public class Restaurante {
 	/**
 	 * construtor sem argumentos
 	 */
-	public Restaurante() {
+	public Restaurant() {
 		
 	}
 

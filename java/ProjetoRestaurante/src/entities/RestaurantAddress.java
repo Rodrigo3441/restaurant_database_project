@@ -15,13 +15,13 @@ package entities;
  * @since 20-04-2026
  */
 
-public class EnderecoRestaurante extends Endereco {
+public class RestaurantAddress extends Address {
 	private String cnpjRestaurante;
 	
 	/**
 	 * Construtor sem argumentos
 	 */
-	public EnderecoRestaurante() {
+	public RestaurantAddress() {
 		super();
 	}
 

@@ -1,14 +1,14 @@
-package ui.restaurante;
+package ui.restaurant;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import entities.Entregador;
-import entities.Pedido;
-import entities.Restaurante;
-import services.EntregadorService;
-import services.PedidoService;
+import entities.DeliveryPerson;
+import entities.Order;
+import entities.Restaurant;
+import services.DeliveryPersonService;
+import services.OrderService;
 
 /**
  * Classe: MenuPedidoRestaurante
@@ -23,14 +23,14 @@ import services.PedidoService;
  * @since 07-05-2026
  */
 
-public class MenuPedidoRestaurante {
-	private PedidoService servicoPedido;
-	private EntregadorService servicoEntregador;
+public class RestaurantOrderMenu {
+	private OrderService servicoPedido;
+	private DeliveryPersonService servicoEntregador;
 	private Scanner sc;
 	
-	public MenuPedidoRestaurante(Connection conn, Scanner sc) {
-		this.servicoPedido = new PedidoService(conn);
-		this.servicoEntregador = new EntregadorService(conn);
+	public RestaurantOrderMenu(Connection conn, Scanner sc) {
+		this.servicoPedido = new OrderService(conn);
+		this.servicoEntregador = new DeliveryPersonService(conn);
 		this.sc = sc;
 	}
 		
@@ -38,7 +38,7 @@ public class MenuPedidoRestaurante {
 	 * Exibe todos os pedidos do restaurante para que o restaurante possa gerenciar eles
 	 * @param r objeto restaurante
 	 */
-	public void mostrarMenuPedidos(Restaurante r) {
+	public void mostrarMenuPedidos(Restaurant r) {
 		
 		int option;
 		
@@ -100,7 +100,7 @@ public class MenuPedidoRestaurante {
 	private void gerenciarPedidosEmPreparo(String cnpj) {
 
 		//lista com todos os pedidos para permitir o acesso à primeira posição (pedido mais antigo)
-		ArrayList<Pedido> listaPedidos = servicoPedido.retornarPedidosRestaurante(cnpj, "Em preparo");
+		ArrayList<Order> listaPedidos = servicoPedido.retornarPedidosRestaurante(cnpj, "Em preparo");
 		
 		//impede operações se a lista estiver vazia
 		if (listaPedidos.isEmpty()) {
@@ -114,7 +114,7 @@ public class MenuPedidoRestaurante {
 		//inverte a lista para exibir os pedidos mais antigos em cima
 		Collections.reverse(listaPedidos);
 		
-		for (Pedido p: listaPedidos) {
+		for (Order p: listaPedidos) {
 			System.out.println(p);
 		}
 		
@@ -146,11 +146,11 @@ public class MenuPedidoRestaurante {
 	 * faz a atribuição de um entregador a um pedido e atualiza o status de 0 (livre) para 1 (ocupado)
 	 * @param p objeto pedido
 	 */
-	private void atribuirEntregadorPedido(Pedido p) {
+	private void atribuirEntregadorPedido(Order p) {
 		int index;
 		
 		//lista para armazenar todos os entregadores do sistema
-		ArrayList<Entregador> listaEntregadores = servicoEntregador.listarEntregadores();
+		ArrayList<DeliveryPerson> listaEntregadores = servicoEntregador.listarEntregadores();
 		
 		//impede qualquer operação se a lista de entregadores estiver vazia
 		if (listaEntregadores.isEmpty()) {
@@ -195,7 +195,7 @@ public class MenuPedidoRestaurante {
 		}
 		
 		//da lista de entregadores disponíveis armazena o entregador escolhido pelo restaurante
-		Entregador entregador = listaEntregadores.get(index);
+		DeliveryPerson entregador = listaEntregadores.get(index);
 		
 		
 		System.out.printf("Deseja confirmar a atribuição do entregador %s ao pedido %d? (s-sim/n-não): ", entregador.getCpf(), p.getNumeroPedido());
@@ -227,7 +227,7 @@ public class MenuPedidoRestaurante {
 	 */
 	private void gerenciarPedidosEnviados(String cnpj) {
 		
-		ArrayList<Pedido> listaPedidos = servicoPedido.retornarPedidosRestaurante(cnpj, "Saiu entrega");
+		ArrayList<Order> listaPedidos = servicoPedido.retornarPedidosRestaurante(cnpj, "Saiu entrega");
 		
 		if (listaPedidos.isEmpty()) {
 			System.out.println("Não há nenhum pedido concluído no momento!");
@@ -271,7 +271,7 @@ public class MenuPedidoRestaurante {
 	 * recebe o índice de qual produto o restaurante deseja marcar como entregue
 	 * @param listaPedidos
 	 */
-	private void marcarPedidoConcluido(ArrayList<Pedido> listaPedidos) {
+	private void marcarPedidoConcluido(ArrayList<Order> listaPedidos) {
 		int index;
 		System.out.print("Digite o índice do pedido que você deseja marcar como concluído: ");
 		
@@ -293,8 +293,8 @@ public class MenuPedidoRestaurante {
 		    }
 		}
 		
-		Pedido pedido = listaPedidos.get(index);
-		Entregador entregador = servicoEntregador.retornarEntregador(pedido.getCpfEntregador());
+		Order pedido = listaPedidos.get(index);
+		DeliveryPerson entregador = servicoEntregador.retornarEntregador(pedido.getCpfEntregador());
 		
 		System.out.printf("Deseja confirmar a conclusão do pedido %d? (s-sim/n-não): ", pedido.getNumeroPedido());
 		//restaurante confirma se deseja atribuir o entregador ao pedido
@@ -325,7 +325,7 @@ public class MenuPedidoRestaurante {
 	 */
 	private void visualizarPedidosConcluidos(String cnpj) {
 		
-		ArrayList<Pedido> listaPedidos = servicoPedido.retornarPedidosRestaurante(cnpj, "Entregue");
+		ArrayList<Order> listaPedidos = servicoPedido.retornarPedidosRestaurante(cnpj, "Entregue");
 		
 		//impede operações se a lista estiver vazia
 		if (listaPedidos.isEmpty()) {

@@ -1,14 +1,14 @@
-package ui.cliente;
+package ui.customer;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
-import entities.Cliente;
-import entities.Restaurante;
-import services.PedidoService;
-import services.ProdutoRestauranteService;
-import view.ItemPedidoView;
-import view.ProdutoRestauranteView;
+import entities.Customer;
+import entities.Restaurant;
+import services.OrderService;
+import services.RestaurantProductService;
+import view.OrderItemView;
+import view.RestaurantProductView;
 
 /**
  * Classe: MenuSelecaoProduto
@@ -24,16 +24,16 @@ import view.ProdutoRestauranteView;
  * @since 04-05-2026
  */
 
-public class MenuSelecaoProduto {
+public class ProductSelectionMenu {
 	
-	private PedidoService servicopedido;
-	private ProdutoRestauranteService servicoprodutorestaurante;
+	private OrderService servicopedido;
+	private RestaurantProductService servicoprodutorestaurante;
 	private Connection conn;
 	private Scanner sc;
 
-	public MenuSelecaoProduto(Connection conn, Scanner sc) {
-		this.servicopedido = new PedidoService(conn);
-		this.servicoprodutorestaurante = new ProdutoRestauranteService(conn);
+	public ProductSelectionMenu(Connection conn, Scanner sc) {
+		this.servicopedido = new OrderService(conn);
+		this.servicoprodutorestaurante = new RestaurantProductService(conn);
 		this.conn = conn;
 		this.sc = sc;
 	}
@@ -45,13 +45,13 @@ public class MenuSelecaoProduto {
 	 * @param r objeto Restaurante
 	 * @param c objeto Cliente
 	 */
-	public void mostrarProdutos(Restaurante r, Cliente c) {
+	public void mostrarProdutos(Restaurant r, Customer c) {
 
 		//Armazena todos os produtos oferecidos pelo restaurante escolhido pelo cliente
-		ArrayList<ProdutoRestauranteView> listaProdutos = servicoprodutorestaurante.retornarTodoProdutoRestaurante(r.getCnpj());
+		ArrayList<RestaurantProductView> listaProdutos = servicoprodutorestaurante.retornarTodoProdutoRestaurante(r.getCnpj());
 		
 		//armazena todos os produtos do restaurante escolhido pelo usuário
-		ArrayList<ItemPedidoView> carrinhoCompras = new ArrayList<ItemPedidoView>();
+		ArrayList<OrderItemView> carrinhoCompras = new ArrayList<OrderItemView>();
 		
 		//interrompe se o restaurante não tiver pelo menos um produto
 		if (listaProdutos.isEmpty()) {
@@ -101,7 +101,7 @@ public class MenuSelecaoProduto {
 						break;
 					}
 					
-					MenuConfirmacaoPedido menuconfirmacao = new MenuConfirmacaoPedido(conn, sc);
+					OrderConfirmationMenu menuconfirmacao = new OrderConfirmationMenu(conn, sc);
 						
 					//chama o método e armazena se o pedido foi realizado ou não
 					boolean pedidoRealizado = menuconfirmacao.mostrarDetalhesPedido(r, c, carrinhoCompras);
@@ -165,7 +165,7 @@ public class MenuSelecaoProduto {
 	 * @param listaProdutos lista de todos os produtos do restaurante escolhido
 	 * @param carrinhoCompras todos os produtos que o usuário já escolheu
 	 */
-	private void escolherItemPedido(ArrayList<ProdutoRestauranteView> listaProdutos, ArrayList<ItemPedidoView> carrinhoCompras) {
+	private void escolherItemPedido(ArrayList<RestaurantProductView> listaProdutos, ArrayList<OrderItemView> carrinhoCompras) {
 		int index;		  //indice do produto escolhido pelo usuário
 		
 		System.out.println("Digite o índice do produto que você deseja adicionar no carrinho");
@@ -189,7 +189,7 @@ public class MenuSelecaoProduto {
 		}
 		
 		//armazena o produto escolhido só no momento de adicionar ao carrinho
-		ProdutoRestauranteView produtoTemp = listaProdutos.get(index);
+		RestaurantProductView produtoTemp = listaProdutos.get(index);
 		
 		//verificação para impedir de um produto sem estoque ser selecionado
 		if (produtoTemp.getQuantidadeEstoque() == 0) {
@@ -212,7 +212,7 @@ public class MenuSelecaoProduto {
 					int indexProdutoExistente = servicopedido.retornarPosicaoItemCarrinho(carrinhoCompras, produtoTemp.getCodigoProduto());
 					
 					if (indexProdutoExistente != -1) {
-						ProdutoRestauranteView produto = servicopedido.retornarProdutoPeloCodigo(listaProdutos, produtoTemp.getCodigoProduto());
+						RestaurantProductView produto = servicopedido.retornarProdutoPeloCodigo(listaProdutos, produtoTemp.getCodigoProduto());
 						this.atualizarItemPedido(produto, carrinhoCompras.get(indexProdutoExistente));
 					} else {
 						carrinhoCompras.add(this.criarItemPedido(produtoTemp, carrinhoCompras));
@@ -234,9 +234,9 @@ public class MenuSelecaoProduto {
 	 * @param carrinhoCompras todos os produtos que o cliente escolheu
 	 * @return ItemPedidoView
 	 */
-	private ItemPedidoView criarItemPedido(
-		ProdutoRestauranteView produtoTemp, 
-		ArrayList<ItemPedidoView> carrinhoCompras
+	private OrderItemView criarItemPedido(
+		RestaurantProductView produtoTemp, 
+		ArrayList<OrderItemView> carrinhoCompras
 	) {
 		int quantidade; 
 		
@@ -267,8 +267,8 @@ public class MenuSelecaoProduto {
 	 * @param item escolhido pelo cliente
 	 */
 	private void atualizarItemPedido(
-		ProdutoRestauranteView produto, 
-		ItemPedidoView item
+		RestaurantProductView produto, 
+		OrderItemView item
 	) {
 		int quantidade;
 
@@ -316,7 +316,7 @@ public class MenuSelecaoProduto {
 	 * solicita o índice do produto que o usuário deseja remover do carrinho de compras
 	 * @param carrinhoCompras do usuário
 	 */
-	private void removerItemPedido(ArrayList<ItemPedidoView> carrinhoCompras) {
+	private void removerItemPedido(ArrayList<OrderItemView> carrinhoCompras) {
 		//index do produto que será removido do carrinho
 		int index; 
 		

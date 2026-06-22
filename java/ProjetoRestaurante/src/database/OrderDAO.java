@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import entities.Cliente;
-import entities.Pedido;
-import entities.Restaurante;
+import entities.Customer;
+import entities.Order;
+import entities.Restaurant;
 
 /**
  * Classe: PedidoDAO
@@ -25,7 +25,7 @@ import entities.Restaurante;
  * @since 21-04-2026
  */
 
-public class PedidoDAO {
+public class OrderDAO {
 	
 	/**
 	 * responsável por fazer a inserção de um novo pedido no banco de dados e retornar o id gerado
@@ -33,7 +33,7 @@ public class PedidoDAO {
 	 * @param pedido: objeto pedido
 	 * @return int gerado como id do pedido
 	 */
-	public int inserirPedido(Connection conn, Restaurante r, Cliente c) {
+	public int inserirPedido(Connection conn, Restaurant r, Customer c) {
 		String sqlQuery = "INSERT INTO PEDIDO (ped_status, "
 				+ "fk_res_cnpj, "
 				+ "fk_cli_cpf) "
@@ -72,7 +72,7 @@ public class PedidoDAO {
 	 * @param numero do pedido buscado
 	 * @return objeto pedido
 	 */
-	public Pedido retornarPedido(Connection conn, int numero) {
+	public Order retornarPedido(Connection conn, int numero) {
 		String sqlQuery = "SELECT * FROM PEDIDO WHERE pk_ped_numero = ?";
 		
 		//preparação da query antes da execução
@@ -86,7 +86,7 @@ public class PedidoDAO {
 			//se houver resultado da busca pelo cnpj, instancia um objeto restaurante
 			//com os atributos do resultado
 			if (resultado.next()) {
-				Pedido p = new Pedido();
+				Order p = new Order();
 				
 				p.setNumeroPedido(resultado.getInt("pk_ped_numero"));
 				p.setStatus(resultado.getString("ped_status"));
@@ -112,7 +112,7 @@ public class PedidoDAO {
 	 * @param pedido: objeto do tipo pedido
 	 * @return boolean
 	 */
-	public boolean atualizarPedido(Connection conn, Pedido pedido) {
+	public boolean atualizarPedido(Connection conn, Order pedido) {
 		String sqlQuery = "UPDATE PEDIDO " +
 							"SET ped_status = ?, " +
 							"fk_etg_cpf = ? " +
@@ -172,10 +172,10 @@ public class PedidoDAO {
 	 * @param status desejado
 	 * @return ArrayList com todos os pedidos
 	 */
-	public ArrayList<Pedido> listarPedidosPorRestaurante(Connection conn, String cnpj, String status){
+	public ArrayList<Order> listarPedidosPorRestaurante(Connection conn, String cnpj, String status){
 		
 		//Lista para armazenar todos as instâncias de pedido
-		ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
+		ArrayList<Order> listaPedidos = new ArrayList<Order>();
 		
 		String sqlQuery = "SELECT * FROM PEDIDO WHERE fk_res_cnpj = ? AND ped_status = ? ORDER BY ped_data ASC";
 		
@@ -189,7 +189,7 @@ public class PedidoDAO {
 			
 			//armazenando todos os restaurantes encontrados na lista dinânica de pedidos
 			while (resultado.next()) {
-				Pedido p = new Pedido();
+				Order p = new Order();
 				
 				p.setNumeroPedido(resultado.getInt("pk_ped_numero"));
 				p.setStatus(resultado.getString("ped_status"));
@@ -216,10 +216,10 @@ public class PedidoDAO {
 	 * @param cpf do cliente
 	 * @return ArrayList com todos os pedidos
 	 */
-	public ArrayList<Pedido> listarPedidosPorCliente(Connection conn, String cpf){
+	public ArrayList<Order> listarPedidosPorCliente(Connection conn, String cpf){
 		
 		//Lista para armazenar todos as instâncias de pedido
-		ArrayList<Pedido> listaPedidos = new ArrayList<Pedido>();
+		ArrayList<Order> listaPedidos = new ArrayList<Order>();
 		
 		String sqlQuery = "SELECT * FROM PEDIDO WHERE fk_cli_cpf = ? ORDER BY ped_data DESC";
 		
@@ -232,7 +232,7 @@ public class PedidoDAO {
 			
 			//armazenando todos os restaurantes encontrados na lista dinânica de pedidos
 			while (resultado.next()) {
-				Pedido p = new Pedido();
+				Order p = new Order();
 				
 				p.setNumeroPedido(resultado.getInt("pk_ped_numero"));
 				p.setStatus(resultado.getString("ped_status"));

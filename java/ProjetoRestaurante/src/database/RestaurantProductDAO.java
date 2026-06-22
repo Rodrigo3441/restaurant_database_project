@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import entities.ProdutoRestaurante;
-import view.ItemPedidoView;
-import view.ProdutoRestauranteView;
+import entities.RestaurantProduct;
+import view.OrderItemView;
+import view.RestaurantProductView;
 
 /**
  * Classe: ProdutoRestauranteDAO
@@ -24,7 +24,7 @@ import view.ProdutoRestauranteView;
  * @since 28-04-2026
  */
 
-public class ProdutoRestauranteDAO {
+public class RestaurantProductDAO {
 	
 	/**
 	 * responsável por fazer a inserção na tabela associativa entre produto e restaurante no banco de dados
@@ -32,7 +32,7 @@ public class ProdutoRestauranteDAO {
 	 * @param objeto produto
 	 * @return boolean
 	 */
-	public boolean associarProdutoRestaurante(Connection conn, ProdutoRestaurante pr) {
+	public boolean associarProdutoRestaurante(Connection conn, RestaurantProduct pr) {
 		String sqlQuery = "INSERT INTO PRODUTO_RESTAURANTE (" +
 				"pk_fk_res_cnpj, " +
 				"pk_fk_prd_codigo, " +
@@ -66,7 +66,7 @@ public class ProdutoRestauranteDAO {
 	 * @param cnpj do restaurante em sessão
 	 * @return arraylist tipo produto
 	 */
-	public ArrayList<ProdutoRestauranteView> retornarTodoProdutoRestaurante(Connection conn, String cnpj) {		
+	public ArrayList<RestaurantProductView> retornarTodoProdutoRestaurante(Connection conn, String cnpj) {		
 		String sqlQuery = "SELECT p.prd_nome, "
 				+ "p.pk_prd_codigo,"
 				+ "pr.pdr_preco, "
@@ -78,7 +78,7 @@ public class ProdutoRestauranteDAO {
 				+ "WHERE pk_fk_res_cnpj = ?";
 		
 		//Lista para armazenar todos as instâncias de restaurante
-		ArrayList<ProdutoRestauranteView> listaProdutos = new ArrayList<ProdutoRestauranteView>();
+		ArrayList<RestaurantProductView> listaProdutos = new ArrayList<RestaurantProductView>();
 				
 		//preparação da query antes da execução
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
@@ -91,7 +91,7 @@ public class ProdutoRestauranteDAO {
 			//se houver resultado da busca de produto pelo cpnj, adiciona cada produto
 			//com os atributos do resultado na lista de produtos
 			while (resultado.next()) {
-				ProdutoRestauranteView pr = new ProdutoRestauranteView();
+				RestaurantProductView pr = new RestaurantProductView();
 				pr.setCodigoProduto(resultado.getInt("pk_prd_codigo"));
 				pr.setNomeProduto(resultado.getString("prd_nome"));
 				pr.setPrecoProduto(resultado.getDouble("pdr_preco"));
@@ -168,7 +168,7 @@ public class ProdutoRestauranteDAO {
 		return false;
 	}
 	
-	public boolean atualizarProdutoRestaurante(Connection conn, ProdutoRestaurante pr) {
+	public boolean atualizarProdutoRestaurante(Connection conn, RestaurantProduct pr) {
 		String sqlQuery = "UPDATE PRODUTO_RESTAURANTE " +
 				"SET pdr_qtde_estoque = ?, " +
 				"pdr_preco = ? " +
@@ -202,7 +202,7 @@ public class ProdutoRestauranteDAO {
 	 * @param item do carrinho do cliente
 	 * @return boolean
 	 */
-	public boolean diminuirEstoque(Connection conn, String cnpj, ItemPedidoView item) {
+	public boolean diminuirEstoque(Connection conn, String cnpj, OrderItemView item) {
 		String sqlQuery = "UPDATE PRODUTO_RESTAURANTE " +
 						  "SET pdr_qtde_estoque = pdr_qtde_estoque - ? " +
 						  "WHERE pk_fk_res_cnpj = ? AND pk_fk_prd_codigo = ? AND pdr_qtde_estoque >= ?";

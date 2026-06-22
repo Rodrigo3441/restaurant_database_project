@@ -1,15 +1,15 @@
-package ui.restaurante;
+package ui.restaurant;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
-import entities.Produto;
-import entities.ProdutoRestaurante;
-import entities.Restaurante;
-import services.ProdutoService;
-import services.PedidoService;
-import services.ProdutoRestauranteService;
-import view.ProdutoRestauranteView;
+import entities.Product;
+import entities.RestaurantProduct;
+import entities.Restaurant;
+import services.ProductService;
+import services.OrderService;
+import services.RestaurantProductService;
+import view.RestaurantProductView;
 
 /**
  * Classe: MenuProdutoRestaurante
@@ -25,18 +25,18 @@ import view.ProdutoRestauranteView;
  * @since 27-04-2026
  */
 
-public class MenuProdutoRestaurante {
+public class RestaurantProductMenu {
 	
 	private Scanner sc;
-	private ProdutoService servicoproduto;
-	private ProdutoRestauranteService servicoprodutorestaurante;
-	private PedidoService servicoPedido;
+	private ProductService servicoproduto;
+	private RestaurantProductService servicoprodutorestaurante;
+	private OrderService servicoPedido;
 	
 	
-	public MenuProdutoRestaurante(Connection conn, Scanner sc) {
-		this.servicoprodutorestaurante = new ProdutoRestauranteService(conn);
-		this.servicoproduto = new ProdutoService(conn);
-		this.servicoPedido = new PedidoService(conn);
+	public RestaurantProductMenu(Connection conn, Scanner sc) {
+		this.servicoprodutorestaurante = new RestaurantProductService(conn);
+		this.servicoproduto = new ProductService(conn);
+		this.servicoPedido = new OrderService(conn);
 		this.sc = sc;
 	}
 	
@@ -44,7 +44,7 @@ public class MenuProdutoRestaurante {
 	 * Exibir o menu para o restaurante poder gerenciar os produtos de seu catálogo
 	 * @param r objeto restaurante
 	 */
-	public void mostrarMenuProdutos(Restaurante r) {
+	public void mostrarMenuProdutos(Restaurant r) {
 		int option = 9;
 		
 		//validação da entrada de opção pelo usuário
@@ -110,7 +110,7 @@ public class MenuProdutoRestaurante {
 		    }
 		}
 		
-		Produto p = servicoproduto.buscarProdutoPorNome(nomeProduto);
+		Product p = servicoproduto.buscarProdutoPorNome(nomeProduto);
 		
 		//verificação se houve um produto com o mesmo nome retornado
 		if (p != null) {
@@ -210,7 +210,7 @@ public class MenuProdutoRestaurante {
 			
 			if (opt.equals("s")) {
 				//instanciação de um novo produto e vinculação dos atributos
-				Produto p = new Produto();
+				Product p = new Product();
 				
 				p.setCodigo(codigo);
 				p.setNome(nomeProduto);
@@ -245,7 +245,7 @@ public class MenuProdutoRestaurante {
 	 * @param p objeto produto
 	 * @param cnpj do restaurante
 	 */
-	private void associarProdutoRestaurante(Produto p, String cnpj) {
+	private void associarProdutoRestaurante(Product p, String cnpj) {
 		int quantidadeEstoque;
 		double preco;
 		
@@ -302,7 +302,7 @@ public class MenuProdutoRestaurante {
 			
 			if (opt.equals("s")) {
 				//instanciação de um novo produto e vinculação dos atributos
-				ProdutoRestaurante pr = new ProdutoRestaurante();
+				RestaurantProduct pr = new RestaurantProduct();
 				
 				pr.setCnpjRestaurante(cnpj);
 				pr.setCodigoProduto(p.getCodigo());
@@ -338,7 +338,7 @@ public class MenuProdutoRestaurante {
 	 */
 	public void gerenciarProdutosCadastrados(String cnpj) {
 		int option = 0;
-		ArrayList<ProdutoRestauranteView> listaProdutos = servicoprodutorestaurante.retornarTodoProdutoRestaurante(cnpj);
+		ArrayList<RestaurantProductView> listaProdutos = servicoprodutorestaurante.retornarTodoProdutoRestaurante(cnpj);
 
 		//Interrompe a execução quando não há produtos cadastrados
 		if (listaProdutos.isEmpty()) {
@@ -401,7 +401,7 @@ public class MenuProdutoRestaurante {
 	 * @param cnpj do restaurante
 	 * @param listaProdutos todos os produtos do restaurante
 	 */
-	private void atualizarQuantidadeEstoque(String cnpj, ArrayList<ProdutoRestauranteView> listaProdutos) {
+	private void atualizarQuantidadeEstoque(String cnpj, ArrayList<RestaurantProductView> listaProdutos) {
 		int index;
 		int quantidadeEstoque;
 		
@@ -425,7 +425,7 @@ public class MenuProdutoRestaurante {
 		    }
 		}
 		
-		ProdutoRestauranteView produtoAlvo = listaProdutos.get(index);
+		RestaurantProductView produtoAlvo = listaProdutos.get(index);
 
 		
 		System.out.printf("Digite a nova quantidade em estoque do produto %s: ", produtoAlvo.getNomeProduto());
@@ -496,7 +496,7 @@ public class MenuProdutoRestaurante {
 		    }
 		}
 		
-		Produto alvo = servicoproduto.buscarProdutoPorId(codigo);
+		Product alvo = servicoproduto.buscarProdutoPorId(codigo);
 		
 		if (alvo != null) {
 			System.out.printf("Deseja apagar o produto %s do seu restaurante? (s-sim/n-não): ",alvo.getNome());

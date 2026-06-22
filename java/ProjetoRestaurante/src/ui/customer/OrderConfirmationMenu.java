@@ -1,12 +1,12 @@
-package ui.cliente;
+package ui.customer;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
-import entities.Cliente;
-import entities.Restaurante;
-import services.PedidoService;
-import view.ItemPedidoView;
+import entities.Customer;
+import entities.Restaurant;
+import services.OrderService;
+import view.OrderItemView;
 
 /**
  * Classe: MenuConfirmacaoPedido
@@ -23,13 +23,13 @@ import view.ItemPedidoView;
  */
 
 
-public class MenuConfirmacaoPedido {
+public class OrderConfirmationMenu {
 	
-	private PedidoService servicopedido;
+	private OrderService servicopedido;
 	private Scanner sc;
 	
-	public MenuConfirmacaoPedido(Connection conn, Scanner sc) {
-		this.servicopedido = new PedidoService(conn);
+	public OrderConfirmationMenu(Connection conn, Scanner sc) {
+		this.servicopedido = new OrderService(conn);
 		this.sc = sc;
 	}
 	
@@ -41,7 +41,7 @@ public class MenuConfirmacaoPedido {
 	 * @param carrinhoCompras do cliente
 	 * @return true se o pedido foi criado
 	 */
-	public boolean mostrarDetalhesPedido(Restaurante r, Cliente c, ArrayList<ItemPedidoView> carrinhoCompras) {
+	public boolean mostrarDetalhesPedido(Restaurant r, Customer c, ArrayList<OrderItemView> carrinhoCompras) {
 		double valorTotal = 0;
 		
 		System.out.println("\n============================================================================");

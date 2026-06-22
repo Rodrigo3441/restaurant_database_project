@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
  * @since 20-04-2026
  */
 
-public class Pedido {
+public class Order {
 	private Integer numeroPedido;
 	private String status;
 	private String cpfEntregador;
@@ -30,7 +30,7 @@ public class Pedido {
 	/**
 	 * Construtor sem argumentos
 	 */
-	public Pedido() {
+	public Order() {
 		
 	}
 

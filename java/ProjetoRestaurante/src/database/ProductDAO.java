@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import entities.Produto;
+import entities.Product;
 
 /**
  * Classe: ProdutoDAO
@@ -21,7 +21,7 @@ import entities.Produto;
  * @since 21-04-2026
  */
 
-public class ProdutoDAO {
+public class ProductDAO {
 	
 	/**
 	 * responsável por fazer a inserção de um novo produto no banco de dados
@@ -29,7 +29,7 @@ public class ProdutoDAO {
 	 * @param objeto produto
 	 * @return boolean
 	 */
-	public boolean inserirProduto(Connection conn, Produto produto) {
+	public boolean inserirProduto(Connection conn, Product produto) {
 		String sqlQuery = "INSERT INTO PRODUTO (" +
 				"pk_prd_codigo, " +
 				"prd_nome, " +
@@ -64,7 +64,7 @@ public class ProdutoDAO {
 	 * @param codigo do produto buscado
 	 * @return objeto produto
 	 */
-	public Produto retornarProdutoPorId(Connection conn, int codigo) {
+	public Product retornarProdutoPorId(Connection conn, int codigo) {
 		String sqlQuery = "SELECT * FROM PRODUTO WHERE pk_prd_codigo = ?";
 		
 		//preparação da query antes da execução
@@ -78,7 +78,7 @@ public class ProdutoDAO {
 			//se houver resultado da busca pelo cpnj, instancia um objeto restaurante
 			//com os atributos do resultado
 			if (resultado.next()) {
-				Produto p = new Produto();
+				Product p = new Product();
 							
 				p.setCodigo(resultado.getInt("pk_prd_codigo"));
 				p.setNome(resultado.getString("prd_nome"));
@@ -108,7 +108,7 @@ public class ProdutoDAO {
 	 * @param nome do produto buscado
 	 * @return objeto produto
 	 */
-	public Produto retornarProdutoPorNome(Connection conn, String nome) {
+	public Product retornarProdutoPorNome(Connection conn, String nome) {
 		String sqlQuery = "SELECT * FROM PRODUTO WHERE prd_nome LIKE ?";
 		
 		//preparação da query antes da execução
@@ -122,7 +122,7 @@ public class ProdutoDAO {
 			//se houver resultado da busca pelo cpnj, instancia um objeto restaurante
 			//com os atributos do resultado
 			if (resultado.next()) {
-				Produto p = new Produto();
+				Product p = new Product();
 							
 				p.setCodigo(resultado.getInt("pk_prd_codigo"));
 				p.setNome(resultado.getString("prd_nome"));
@@ -151,7 +151,7 @@ public class ProdutoDAO {
 	 * @param objeto produto
 	 * @return boolean
 	 */
-	public boolean atualizarProduto(Connection conn, Produto produto) {
+	public boolean atualizarProduto(Connection conn, Product produto) {
 		String sqlQuery = "UPDATE PRODUTO SET "
 				+ "prd_nome = ?, "
 				+ "prd_descricao = ?, "

@@ -1,12 +1,12 @@
-package ui.cliente;
+package ui.customer;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Scanner;
-import entities.Cliente;
-import entities.Restaurante;
-import services.PedidoService;
-import services.RestauranteService;
+import entities.Customer;
+import entities.Restaurant;
+import services.OrderService;
+import services.RestaurantService;
 
 /**
  * Classe: MenuSelecaoRestaurante
@@ -22,17 +22,17 @@ import services.RestauranteService;
  * @since 04-05-2026
  */
 
-public class MenuSelecaoRestaurante {
+public class RestaurantSelectionMenu {
 	
-	private RestauranteService servicorestaurante;
-	private PedidoService servicopedido;
+	private RestaurantService servicorestaurante;
+	private OrderService servicopedido;
 	private Connection conn;
-	private Cliente cliente;
+	private Customer cliente;
 	private Scanner sc;
 
-	public MenuSelecaoRestaurante(Connection conn, Cliente cliente, Scanner sc) {
-		this.servicorestaurante = new RestauranteService(conn);
-		this.servicopedido = new PedidoService(conn);
+	public RestaurantSelectionMenu(Connection conn, Customer cliente, Scanner sc) {
+		this.servicorestaurante = new RestaurantService(conn);
+		this.servicopedido = new OrderService(conn);
 		this.cliente = cliente;
 		this.conn = conn;
 		this.sc = sc;
@@ -46,7 +46,7 @@ public class MenuSelecaoRestaurante {
 		int contador = 1; //enumerador dos restaurantes
 		int index;		  //escolha do usuário
 		
-		ArrayList<Restaurante> listaRestaurantes = servicorestaurante.listarRestaurantes();
+		ArrayList<Restaurant> listaRestaurantes = servicorestaurante.listarRestaurantes();
 		
 		//impede o usuário de avançar se não houver restaurantes
 		if (listaRestaurantes.isEmpty()) {
@@ -57,7 +57,7 @@ public class MenuSelecaoRestaurante {
 		System.out.println("\nLISTA DE RESTAURANTES PARA FAZER UM PEDIDO");
 		System.out.println("================================================");
 		
-		for (Restaurante r: listaRestaurantes) {
+		for (Restaurant r: listaRestaurantes) {
 			System.out.println(contador + "- " + r.getNome());
 			contador++;
 		}
@@ -84,9 +84,9 @@ public class MenuSelecaoRestaurante {
 		}
 		
 		//pega da lista o restaurante escolhido pelo usuário com base no índice
-		Restaurante r = listaRestaurantes.get(index);
+		Restaurant r = listaRestaurantes.get(index);
 
-		MenuSelecaoProduto menuselecaoproduto = new MenuSelecaoProduto(conn, sc);
+		ProductSelectionMenu menuselecaoproduto = new ProductSelectionMenu(conn, sc);
 		menuselecaoproduto.mostrarProdutos(r, cliente);
 		
 	}	

@@ -5,37 +5,37 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import entities.Cliente;
+import entities.Customer;
 
 /**
- * Classe: ClienteDAO
+ * Class: ClienteDAO
  *
- * Descrição:
- * Classe responsável por gerenciar dados do Cliente
+ * Description:
+ * Manages Cliente data access and persistence.
  *
- * Responsabilidades:
- * - Conectar ao banco de dados
- * - Fazer manipulações com os dados
+ * Responsibilities:
+ * - Connect to the database
+ * - Perform CRUD operations for Cliente
  *
  * @author Rodrigo
  * @since 21-04-2026
  */
 
-public class ClienteDAO {
+public class CustomerDAO {
 	
 	/**
-	 * responsável por fazer a inserção de um novo cliente no banco de dados
-	 * @param objeto de conexão
-	 * @param objeto cliente
+	 * Inserts a new cliente into the database.
+	 * @param conn database connection
+	 * @param cliente cliente object
 	 */
-	public boolean inserirCliente(Connection conn, Cliente cliente) {
+	public boolean inserirCliente(Connection conn, Customer cliente) {
 		String sqlQuery = "INSERT INTO CLIENTE (pk_cli_cpf, cli_primeiro_nome, cli_nome_meio, "
 				+ "cli_ultimo_nome, cli_telefone, cli_email, cli_senha) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
-		//preparação da query antes da execução
+			// prepare statement
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind parameters
 			stmt.setString(1, cliente.getCpf());
 			stmt.setString(2, cliente.getPrimeiroNome());
 			stmt.setString(3, cliente.getNomeMeio());
@@ -56,27 +56,25 @@ public class ClienteDAO {
 	}
 	
 	/**
-	 * Responsável por trazer as informações do cliente da base de dados
-	 * para que possam ser utilizadas ao das operações
-	 * @param objeto de conexão
-	 * @param cpf do cliente buscado
-	 * @return objeto cliente
+	 * Retrieves a cliente by CPF from the database.
+	 * @param conn database connection
+	 * @param cpf cliente CPF
+	 * @return cliente object or null if not found
 	 */
-	public Cliente retornarCliente(Connection conn, String cpf) {
+	public Customer retornarCliente(Connection conn, String cpf) {
 		String sqlQuery = "SELECT * FROM CLIENTE WHERE pk_cli_cpf = ?";
 		
-		//preparação da query antes da execução
+			// prepare statement
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind parameters
 			stmt.setString(1, cpf);
 			
 			ResultSet resultado = stmt.executeQuery();
 			
-			//se houver resultado da busca pelo cpnj, instancia um objeto restaurante
-			//com os atributos do resultado
+			// if a result is found, populate a Cliente object
 			if (resultado.next()) {
-				Cliente c = new Cliente();
+				Customer c = new Customer();
 							
 				c.setCpf(resultado.getString("pk_cli_cpf"));
 				c.setPrimeiroNome(resultado.getString("cli_primeiro_nome"));
@@ -98,11 +96,11 @@ public class ClienteDAO {
 	}
 	
 	/**
-	 * Responsável por atualizar as informações de um cliente no banco de dados 
-	 * @param objeto de conexão
-	 * @param objeto cliente
+	 * Updates an existing cliente's information.
+	 * @param conn database connection
+	 * @param cliente cliente object
 	 */
-	public boolean atualizarCliente(Connection conn, Cliente cliente) {
+	public boolean atualizarCliente(Connection conn, Customer cliente) {
 		String sqlQuery = "UPDATE CLIENTE SET " +
 	            "cli_primeiro_nome = ?, " +
 	            "cli_nome_meio = ?, " +
@@ -112,10 +110,10 @@ public class ClienteDAO {
 	            "cli_senha = ? " +
 	            "WHERE pk_cli_cpf = ?";
 
-		//preparação da query antes da execução
+			// prepare statement
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind parameters
 			stmt.setString(1, cliente.getPrimeiroNome());
 	        stmt.setString(2, cliente.getNomeMeio());
 	        stmt.setString(3, cliente.getUltimoNome());
@@ -136,21 +134,21 @@ public class ClienteDAO {
 	}
 	
 	/**
-	 * Responsável por apagar um cliente do banco de dados
-	 * @param objeto de conexão
-	 * @param cpf do cliente
-	 * @return boolean
+	 * Deletes a cliente by CPF.
+	 * @param conn database connection
+	 * @param cpf cliente CPF
+	 * @return true if deletion succeeded
 	 */
 	public boolean deletarCliente(Connection conn, String cpf) {
 		String sqlQuery = "DELETE FROM CLIENTE WHERE pk_cli_cpf = ?";
 		
-		//preparação da query antes da execução
+			// prepare statement
 		try (PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
 			
-			//vinculação dos atributos à query preparada
+			// bind parameters
 			stmt.setString(1, cpf);
 			
-			//execução da query e validação de êxito
+			// execute update and check success
 			int linhasAfetadas = stmt.executeUpdate();
 			return linhasAfetadas > 0;
 

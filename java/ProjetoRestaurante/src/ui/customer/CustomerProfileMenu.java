@@ -1,10 +1,10 @@
-package ui.cliente;
+package ui.customer;
 
 import java.sql.Connection;
 import java.util.Scanner;
 
-import entities.Cliente;
-import services.ClienteService;
+import entities.Customer;
+import services.CustomerService;
 
 /**
  * Classe: MenuPerfilCliente
@@ -19,13 +19,13 @@ import services.ClienteService;
  * @since 24-04-2026
  */
 
-public class MenuPerfilCliente {
+public class CustomerProfileMenu {
 	
 	private Scanner sc;
-	private ClienteService servicocliente;
+	private CustomerService servicocliente;
 	private Connection conn;
 	
-	public MenuPerfilCliente(ClienteService servicocliente, Connection conn, Scanner sc) {
+	public CustomerProfileMenu(CustomerService servicocliente, Connection conn, Scanner sc) {
 		this.servicocliente = servicocliente;
 		this.conn = conn;
 		this.sc = sc;
@@ -36,7 +36,7 @@ public class MenuPerfilCliente {
 	 * Responsável por exibir as ações de personalização do perfil
 	 * @param c objeto Cliente
 	 */
-	public void mostrarMenuPerfil(Cliente c) {
+	public void mostrarMenuPerfil(Customer c) {
 		int option = 9;
 		
 		//validação da entrada de opção pelo usuário
@@ -92,7 +92,7 @@ public class MenuPerfilCliente {
 					this.atualizarSenha(c);		
 					break;
 				case 7:
-					MenuEnderecoCliente menuenderecocliente = new MenuEnderecoCliente(conn, sc);
+					CustomerAddressMenu menuenderecocliente = new CustomerAddressMenu(conn, sc);
 					menuenderecocliente.mostrar(c);
 					break;
 				case 8:
@@ -109,7 +109,7 @@ public class MenuPerfilCliente {
 	 * Responsável por atualizar o primeiro nome do cliente
 	 * @param c objeto cliente
 	 */
-	private void atualizarPrimeiroNome(Cliente c) {
+	private void atualizarPrimeiroNome(Customer c) {
 
 		//campo para validação do primeiro nome
 		while (true) {
@@ -134,7 +134,7 @@ public class MenuPerfilCliente {
 	 * Responsável por atualizar o nome do meio do cliente
 	 * @param c objeto cliente
 	 */
-	private void atualizarNomeMeio(Cliente c) {
+	private void atualizarNomeMeio(Customer c) {
 
 		//campo para validação do nome do meio
 		while (true) {
@@ -160,7 +160,7 @@ public class MenuPerfilCliente {
 	 * Responsável por atualizar o ultimo nome do cliente
 	 * @param c objeto cliente
 	 */
-	private void atualizarUltimoNome(Cliente c) {
+	private void atualizarUltimoNome(Customer c) {
 
 		//campo para validação do ultimo nome
 		while (true) {
@@ -185,7 +185,7 @@ public class MenuPerfilCliente {
 	 * Responsável por atualizar o telefone do cliente
 	 * @param c objeto cliente
 	 */
-	private void atualizarTelefone(Cliente c) {
+	private void atualizarTelefone(Customer c) {
 
 		//campo para validação do telefone
 		while (true) {
@@ -210,7 +210,7 @@ public class MenuPerfilCliente {
 	 * Responsável por atualizar o email do usuário
 	 * @param c objeto cliente
 	 */
-	private void atualizarEmail(Cliente c) {
+	private void atualizarEmail(Customer c) {
 
 		//campo para validação do email
 		while (true) {
@@ -235,7 +235,7 @@ public class MenuPerfilCliente {
 	 * Responsável por atualizar a senha do usuário
 	 * @param c objeto cliente
 	 */
-	private void atualizarSenha(Cliente c) {
+	private void atualizarSenha(Customer c) {
 
 		//campo para validação da senha
 		while (true) {

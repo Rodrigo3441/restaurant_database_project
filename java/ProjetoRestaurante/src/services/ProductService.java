@@ -1,8 +1,8 @@
 package services;
 
-import database.ProdutoDAO;
+import database.ProductDAO;
 import java.sql.Connection;
-import entities.Produto;
+import entities.Product;
 
 /**
  * Classe: ServicoProduto
@@ -17,12 +17,12 @@ import entities.Produto;
  * @author Rodrigo
  * @since 27-04-2026
  */
-public class ProdutoService {
-	private ProdutoDAO dao;
+public class ProductService {
+	private ProductDAO dao;
 	private Connection conn;
 	
-	public ProdutoService(Connection conn) {
-		this.dao = new ProdutoDAO();
+	public ProductService(Connection conn) {
+		this.dao = new ProductDAO();
 		this.conn = conn;
 	}
 
@@ -65,7 +65,7 @@ public class ProdutoService {
 	 * @param nome do produto buscado
 	 * @return objeto Produto
 	 */
-	public Produto buscarProdutoPorNome(String nome) {
+	public Product buscarProdutoPorNome(String nome) {
 		nome = nome.toLowerCase().trim();
 		return dao.retornarProdutoPorNome(conn, nome);
 	}
@@ -75,7 +75,7 @@ public class ProdutoService {
 	 * @param codigo do produto
 	 * @return objeto Produto
 	 */
-	public Produto buscarProdutoPorId(int codigo) {
+	public Product buscarProdutoPorId(int codigo) {
 		return dao.retornarProdutoPorId(conn, codigo);
 	}
 	
@@ -84,7 +84,7 @@ public class ProdutoService {
 	 * @param p objeto Produto
 	 * @return boolean
 	 */
-	public boolean inserirProduto(Produto p) {
+	public boolean inserirProduto(Product p) {
 		return dao.inserirProduto(conn, p);
 	}
 	

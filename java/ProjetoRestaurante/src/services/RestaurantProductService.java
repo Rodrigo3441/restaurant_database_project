@@ -2,9 +2,9 @@ package services;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import database.ProdutoRestauranteDAO;
-import entities.ProdutoRestaurante;
-import view.ProdutoRestauranteView;
+import database.RestaurantProductDAO;
+import entities.RestaurantProduct;
+import view.RestaurantProductView;
 
 /**
  * Classe: ProdutoRestauranteService
@@ -20,13 +20,13 @@ import view.ProdutoRestauranteView;
  * @since 04-05-2026
  */
 
-public class ProdutoRestauranteService {
+public class RestaurantProductService {
 
-	private ProdutoRestauranteDAO dao;
+	private RestaurantProductDAO dao;
 	private Connection conn;
 	
-	public ProdutoRestauranteService(Connection conn) {
-		this.dao = new ProdutoRestauranteDAO();
+	public RestaurantProductService(Connection conn) {
+		this.dao = new RestaurantProductDAO();
 		this.conn = conn;
 	}
 	
@@ -88,7 +88,7 @@ public class ProdutoRestauranteService {
 	 * @param pr objeto ProdutoRestaurante
 	 * @return boolean
 	 */
-	public boolean associarProdutoRestaurante(ProdutoRestaurante pr) {
+	public boolean associarProdutoRestaurante(RestaurantProduct pr) {
 		return dao.associarProdutoRestaurante(conn, pr);
 	}
 	
@@ -99,9 +99,9 @@ public class ProdutoRestauranteService {
 	 * @param quantidadeEstoque do produto
 	 * @return boolean
 	 */
-	public boolean atualizarProdutoRestaurante(String cnpj, ProdutoRestauranteView prView, int quantidadeEstoque) {
+	public boolean atualizarProdutoRestaurante(String cnpj, RestaurantProductView prView, int quantidadeEstoque) {
 		
-		ProdutoRestaurante pr = new ProdutoRestaurante();
+		RestaurantProduct pr = new RestaurantProduct();
 		
 		pr.setCnpjRestaurante(cnpj);
 		pr.setCodigoProduto(prView.getCodigoProduto());
@@ -117,7 +117,7 @@ public class ProdutoRestauranteService {
 	 * @param cnpj do restaurante em sessão
 	 * @return arraylista com todos os produtos do restaurante
 	 */
-	public ArrayList<ProdutoRestauranteView> retornarTodoProdutoRestaurante(String cnpj){
+	public ArrayList<RestaurantProductView> retornarTodoProdutoRestaurante(String cnpj){
 		return dao.retornarTodoProdutoRestaurante(conn, cnpj);
 	}
 	

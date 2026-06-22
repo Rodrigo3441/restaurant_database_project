@@ -16,7 +16,7 @@ package entities;
  * @since 20-04-2026
  */
 
-public class ProdutoRestaurante {
+public class RestaurantProduct {
 	private String cnpjRestaurante;
 	private Integer codigoProduto;
 	private Integer quantidadeEstoque;
@@ -26,7 +26,7 @@ public class ProdutoRestaurante {
 	/**
 	 * Construtor sem argumentos
 	 */
-	public ProdutoRestaurante() {
+	public RestaurantProduct() {
 		
 	}
 

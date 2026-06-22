@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import entities.Restaurante;
+import entities.Restaurant;
 
 /**
  * Classe: RestauranteDAO
@@ -22,7 +22,7 @@ import entities.Restaurante;
  * @since 21-04-2026
  */
 
-public class RestauranteDAO {
+public class RestaurantDAO {
 	
 	/**
 	 * responsável por fazer a inserção de um novo restaurante no banco de dados
@@ -30,7 +30,7 @@ public class RestauranteDAO {
 	 * @param objeto restaurante
 	 * @return boolean
 	 */
-	public boolean inserirRestaurante(Connection conn, Restaurante restaurante) {
+	public boolean inserirRestaurante(Connection conn, Restaurant restaurante) {
 		String sqlQuery = "INSERT INTO RESTAURANTE (pk_res_cnpj, res_nome, res_telefone, res_senha) VALUES (?, ?, ?, ?)";
 		
 		//preparação da query antes da execução
@@ -60,7 +60,7 @@ public class RestauranteDAO {
 	 * @param cnpj: cnpj do Restaurante buscado
 	 * @return um objeto Restaurante
 	 */
-	public Restaurante retornarRestaurante(Connection conn, String cnpj) {
+	public Restaurant retornarRestaurante(Connection conn, String cnpj) {
 		String sqlQuery = "SELECT * FROM RESTAURANTE WHERE pk_res_cnpj = ?";
 		
 		//preparação da query antes da execução
@@ -74,7 +74,7 @@ public class RestauranteDAO {
 			//se houver resultado da busca pelo cnpj, instancia um objeto restaurante
 			//com os atributos do resultado
 			if (resultado.next()) {
-				Restaurante r = new Restaurante();
+				Restaurant r = new Restaurant();
 				
 				r.setCnpj(resultado.getString("pk_res_cnpj"));
 				r.setNome(resultado.getString("res_nome"));
@@ -105,7 +105,7 @@ public class RestauranteDAO {
 	 * @param restaurante: objeto restaurante
 	 * @return boolean
 	 */
-	public boolean atualizarRestaurante(Connection conn, Restaurante restaurante) {
+	public boolean atualizarRestaurante(Connection conn, Restaurant restaurante) {
 		String sqlQuery = "UPDATE RESTAURANTE " +
 							"SET res_nome = ?, " +
 							"res_telefone = ?, " +
@@ -166,10 +166,10 @@ public class RestauranteDAO {
 	 * @param objeto de conexão
 	 * @return arraylist do tipo restaurante
 	 */
-	public ArrayList<Restaurante> listarRestaurantes(Connection conn){
+	public ArrayList<Restaurant> listarRestaurantes(Connection conn){
 		
 		//Lista para armazenar todos as instâncias de restaurante
-		ArrayList<Restaurante> listaRestaurantes = new ArrayList<Restaurante>();
+		ArrayList<Restaurant> listaRestaurantes = new ArrayList<Restaurant>();
 		
 		String sqlQuery = "SELECT * FROM RESTAURANTE";
 		
@@ -180,7 +180,7 @@ public class RestauranteDAO {
 			
 			//armazenando todos os restaurantes encontrados na lista dinânica de restaurantes
 			while (resultado.next()) {
-				Restaurante r = new Restaurante();
+				Restaurant r = new Restaurant();
 				
 				r.setCnpj(resultado.getString("pk_res_cnpj"));
 				r.setNome(resultado.getString("res_nome"));
