@@ -5,14 +5,14 @@ import java.sql.Connection;
 import entities.Product;
 
 /**
- * Classe: ServicoProduto
+ * Class: ProductService
  *
- * Descrição:
- * Classe responsável por gerenciar as regras de negócio do produto
+ * Description:
+ * Service responsible for managing business rules related to products.
  *
- * Responsabilidades:
- * - oferecer métodos de validação das informações
- * - se comunicar com a camada de dados
+ * Responsibilities:
+ * - provide validation methods for product data
+ * - communicate with the data access layer
  *
  * @author Rodrigo
  * @since 27-04-2026
@@ -27,8 +27,8 @@ public class ProductService {
 	}
 
 	/**
-	 * Valida se o nome do produto é válido
-	 * @param nome do produto
+	 * Validates that the product name is valid
+	 * @param nome product name
 	 */
 	public void validarNome(String nome) {
 		if (!nomeValido(nome)) {
@@ -37,8 +37,8 @@ public class ProductService {
 	}
 	
 	/**
-	 * Valida se a descrição é válida
-	 * @param descricao do produto
+	 * Validates that the product description is valid
+	 * @param descricao product description
 	 */
 	public void validarDescricao(String descricao) {
 		if (!descricaoValida(descricao)) {
@@ -47,8 +47,8 @@ public class ProductService {
 	}
 	
 	/**
-	 * Verifica se o código do produto é válido e se ele já não foi utilizado por outro produto
-	 * @param codigo do produto
+	 * Checks if the product code is valid and not already used by another product
+	 * @param codigo product code
 	 */
 	public void validarCodigo(int codigo) {
 		if (!codigoValido(codigo)) {
@@ -61,9 +61,9 @@ public class ProductService {
 	}
 	
 	/**
-	 * Busca e retorna um produto com base no nome informado
-	 * @param nome do produto buscado
-	 * @return objeto Produto
+	 * Searches and returns a product by the given name
+	 * @param nome product name to search for
+	 * @return Product object or null if not found
 	 */
 	public Product buscarProdutoPorNome(String nome) {
 		nome = nome.toLowerCase().trim();
@@ -71,18 +71,18 @@ public class ProductService {
 	}
 	
 	/**
-	 * Busca e retorna um produto com base no codigo informado
-	 * @param codigo do produto
-	 * @return objeto Produto
+	 * Searches and returns a product by the given id/code
+	 * @param codigo product id
+	 * @return Product object or null if not found
 	 */
 	public Product buscarProdutoPorId(int codigo) {
 		return dao.retornarProdutoPorId(conn, codigo);
 	}
 	
 	/**
-	 * Realiza a inserção de um produto no catálogo global do sistema
-	 * @param p objeto Produto
-	 * @return boolean
+	 * Inserts a product into the system catalog
+	 * @param p Product object to insert
+	 * @return true if insertion succeeded
 	 */
 	public boolean inserirProduto(Product p) {
 		return dao.inserirProduto(conn, p);
@@ -101,9 +101,9 @@ public class ProductService {
 	}
 	
 	/**
-	 * Verifica se um código de produto informado está disponível para uso
-	 * @param codigo do produto informado
-	 * @return true se o código estiver disponível
+	 * Checks whether the given product code is available for use
+	 * @param codigo product code to check
+	 * @return true if the code is available
 	 */
 	private boolean codigoDisponivel(int codigo) {
 		return dao.retornarProdutoPorId(conn, codigo) == null;

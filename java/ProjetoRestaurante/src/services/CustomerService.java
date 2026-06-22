@@ -5,14 +5,14 @@ import database.CustomerDAO;
 import entities.Customer;
 
 /**
- * Classe: ServicoCliente
+ * Class: CustomerService
  *
- * Descrição:
- * Classe responsável por gerenciar as regras de negócio do cliente
+ * Description:
+ * Service class responsible for managing customer business rules.
  *
- * Responsabilidades:
- * - oferecer métodos de validação das informações
- * - se comunicar com a camada de dados
+ * Responsibilities:
+ * - provide validation methods for customer information
+ * - communicate with the data access layer
  *
  * @author Rodrigo
  * @since 24-04-2026
@@ -23,9 +23,9 @@ public class CustomerService {
 	private Connection conn;
 	
 	/**
-	 * Construtor que recebe o objeto para conexão com a camada de dados
-	 * 
-	 * @param dao objeto AccesoDadosCliente
+	 * Constructor that receives the database connection object.
+	 *
+	 * @param conn database connection
 	 */
 	public CustomerService(Connection conn) {
 		this.dao = new CustomerDAO();
@@ -33,8 +33,8 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Responsável por verificar disponibilidade de CPF e se o mesmo é válido
-	 * @param cpf do cliente
+	 * Validate CPF: checks format and availability.
+	 * @param cpf customer's CPF (Brazilian tax ID)
 	 */
 	public void validarCpf(String cpf) {
 		if (!cpfValido(cpf)) {
@@ -47,8 +47,8 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do primeiro nome
-	 * @param primeiroNome
+	 * Validate first name integrity.
+	 * @param primeiroNome first name
 	 */
 	public void validarPrimeiroNome(String primeiroNome) {
 		if(!primeiroNomeValido(primeiroNome)) {
@@ -57,8 +57,8 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do nome do meio
-	 * @param nomeMeio do cliente
+	 * Validate middle name integrity.
+	 * @param nomeMeio middle name
 	 */
 	public void validarNomeMeio(String nomeMeio) {
 		if(!nomeMeioValido(nomeMeio)) {
@@ -67,8 +67,8 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do ultimo nome
-	 * @param ultimoNome do cliente
+	 * Validate last name integrity.
+	 * @param ultimoNome last name
 	 */
 	public void validarUltimoNome(String ultimoNome) {
 		if(!ultimoNomeValido(ultimoNome)) {
@@ -77,8 +77,8 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do telefone
-	 * @param telefone do cliente
+	 * Validate phone number integrity.
+	 * @param telefone phone number
 	 */
 	public void validarTelefone(String telefone) {
 		if(!telefoneValido(telefone)) {
@@ -87,8 +87,8 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do email
-	 * @param email do cliente
+	 * Validate email integrity.
+	 * @param email email address
 	 */
 	public void validarEmail(String email) {
 		if(!emailValido(email)) {
@@ -97,8 +97,8 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade de senha
-	 * @param senha do cliente
+	 * Validate password integrity.
+	 * @param senha password
 	 */
 	public void validarSenha(String senha) {
 		if(!senhaValida(senha)) {
@@ -107,10 +107,10 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Atualiza primeiro nome do cliente
-	 * @param c objeto cliente
-	 * @param primeiroNome do cliente
-	 * @return êxito ou não
+	 * Update customer's first name.
+	 * @param c customer object
+	 * @param primeiroNome first name
+	 * @return true if update succeeded
 	 */
 	public boolean atualizarPrimeiroNome(Customer c, String primeiroNome) {
 		if (!primeiroNomeValido(primeiroNome)) {
@@ -122,10 +122,10 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Atualiza nome do meio do cliente
-	 * @param c objeto cliente
-	 * @param nomeMeio do cliente
-	 * @return êxito ou não 
+	 * Update customer's middle name.
+	 * @param c customer object
+	 * @param nomeMeio middle name
+	 * @return true if update succeeded
 	 */
 	public boolean atualizarNomeMeio(Customer c, String nomeMeio) {
 		if (!nomeMeioValido(nomeMeio)) {
@@ -137,10 +137,10 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Atualiza ultimo nome do cliente
-	 * @param c objeto cliente
-	 * @param ultimoNome do cliente
-	 * @return êxito ou não
+	 * Update customer's last name.
+	 * @param c customer object
+	 * @param ultimoNome last name
+	 * @return true if update succeeded
 	 */
 	public boolean atualizarUltimoNome(Customer c, String ultimoNome) {
 		if (!ultimoNomeValido(ultimoNome)) {
@@ -152,10 +152,10 @@ public class CustomerService {
 	}
 	
 	/**
-	 * atualiza o telefone do cliente
-	 * @param c objeto cliente
-	 * @param telefone do cliente
-	 * @return êxito ou não
+	 * Update customer's phone number.
+	 * @param c customer object
+	 * @param telefone phone number
+	 * @return true if update succeeded
 	 */
 	public boolean atualizarTelefone(Customer c, String telefone) {
 		if (!telefoneValido(telefone)) {
@@ -167,10 +167,10 @@ public class CustomerService {
 	}
 	
 	/**
-	 * atualiza o email do cliente
-	 * @param c objeto cliente
-	 * @param email do cliente
-	 * @return êxito ou não
+	 * Update customer's email.
+	 * @param c customer object
+	 * @param email email address
+	 * @return true if update succeeded
 	 */
 	public boolean atualizarEmail(Customer c, String email) {
 		if (!emailValido(email)) {
@@ -182,10 +182,10 @@ public class CustomerService {
 	}
 	
 	/**
-	 * Atualiza a senha do cliente
-	 * @param c objeto cliente
-	 * @param senha do cliente
-	 * @return êxito ou não
+	 * Update customer's password.
+	 * @param c customer object
+	 * @param senha password
+	 * @return true if update succeeded
 	 */
 	public boolean atualizarSenha(Customer c, String senha) {
 		if (!senhaValida(senha)) {
@@ -197,18 +197,18 @@ public class CustomerService {
 	}
 	
 	/**
-	 * cadastra um cliente no sistema
-	 * @param c objeto cliente
-	 * @return boolean
+	 * Register a new customer in the system.
+	 * @param c customer object
+	 * @return true if insertion succeeded
 	 */
 	public boolean cadastrarCliente(Customer c) {
 		return dao.inserirCliente(conn, c);
 	}
 	
 	/**
-	 * retorna um cliente baseado em seu cpf
-	 * @param cnpj
-	 * @return Cliente
+	 * Return a customer by CPF.
+	 * @param cpf customer's CPF
+	 * @return Customer or null if not found
 	 */
 	public Customer retornarCliente(String cpf) {
 		return dao.retornarCliente(conn, cpf);

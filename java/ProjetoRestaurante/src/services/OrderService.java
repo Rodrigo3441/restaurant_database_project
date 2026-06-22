@@ -16,14 +16,14 @@ import view.RestaurantProductView;
 import database.RestaurantProductDAO;
 
 /**
- * Classe: PedidoService
+ * Class: OrderService
  *
- * Descrição:
- * Classe responsável por gerenciar as regras de negócio do pedido
+ * Description:
+ * Service class responsible for managing business rules related to orders.
  *
- * Responsabilidades:
- * - oferecer métodos de validação das informações
- * - se comunicar com a camada de dados
+ * Responsibilities:
+ * - provide validation methods for order-related information
+ * - interact with the data access layer
  *
  * @author Rodrigo
  * @since 04-05-2026
@@ -46,9 +46,9 @@ public class OrderService {
 	}
 	
 	/**
-	 * método genérico para validar se o índice informado é valido para listas do tipo ArrayList de qualquer valor
-	 * @param lista a ser validada
-	 * @param index informado
+	 * Generic method to validate whether the provided index is valid for an ArrayList of any type
+	 * @param lista the list to validate
+	 * @param index the index to check
 	 */
 	public <T> void validarIndex(ArrayList<T> lista, int index) {
 		if(!indexValido(lista, index)) {
@@ -57,9 +57,9 @@ public class OrderService {
 	}
 	
 	/**
-	 * valida se a quantidade informada pelo usuário é válida
-	 * @param produtoTemp
-	 * @param quantidade
+	 * Validates whether the quantity provided by the user is valid for the given product
+	 * @param produtoTemp product view with stock information
+	 * @param quantidade quantity to validate
 	 */
 	public void validarQuantidade(RestaurantProductView produtoTemp, int quantidade) {
 		if (!quantidadeValida(produtoTemp, quantidade)){
@@ -68,10 +68,10 @@ public class OrderService {
 	}
 	
 	/**
-	 * instancia um ItemPedidoView e o retorna para o carrinho de compras do usuário
-	 * @param produtoTemp
-	 * @param quantidade
-	 * @return ItemPedidoView
+	 * Instantiates an OrderItemView and returns it for the user's shopping cart
+	 * @param produtoTemp product view used to create the order item
+	 * @param quantidade quantity for the order item
+	 * @return OrderItemView
 	 */
 	public OrderItemView criarItemPedido(RestaurantProductView produtoTemp, int quantidade) {
 		OrderItemView ip = new OrderItemView();
@@ -83,10 +83,10 @@ public class OrderService {
 	}
 	
 	/**
-	 * Busca um produto no carrinho pelo seu código e retorna sua posição na lista.
-	 * @param carrinhoCompras lista de compras do usuário
-	 * @param codigoProduto código do produto a ser buscado
-	 * @return índice do produto na lista
+	 * Searches for a product in the shopping cart by its code and returns its index in the list.
+	 * @param carrinhoCompras user's shopping cart
+	 * @param codigoProduto product code to search for
+	 * @return index of the product in the list, or -1 if not found
 	 */
 	public int retornarPosicaoItemCarrinho(
 		ArrayList<OrderItemView> carrinhoCompras, 
@@ -94,18 +94,18 @@ public class OrderService {
 	) {
 		for (int i = 0; i < carrinhoCompras.size(); i++) {
 			if (carrinhoCompras.get(i).getCodigoProduto() == codigoProduto) {
-				return i; //retorna a posição
+				return i; //return the position of the product in the cart
 			}
 		}
 		
-		return -1; //não encontrado
+		return -1; //not found
 	}
 	
 	/**
-	 * Busca um produto na lista com base no seu código.
-	 * @param listaProdutos lista de produtos disponíveis
-	 * @param codigoProduto código do produto a ser buscado
-	 * @return o produto correspondente ao código informado, ou null caso não seja encontrado
+	 * Searches for a product in the provided list by its code.
+	 * @param listaProdutos list of available products
+	 * @param codigoProduto product code to search for
+	 * @return the matching product, or null if not found
 	 */
 	public RestaurantProductView retornarProdutoPeloCodigo(
 		ArrayList<RestaurantProductView> listaProdutos,
@@ -113,16 +113,16 @@ public class OrderService {
 	) {
 		for (int i = 0; i < listaProdutos.size(); i++) {
 			if (listaProdutos.get(i).getCodigoProduto() == codigoProduto) {
-				return listaProdutos.get(i); //retorna a posição
+				return listaProdutos.get(i); //return the matching product
 			}
 		}
 		return null;
 	}
 	
 	/**
-	 * calcula o desconto para o valor total do pedido de um cliente
-	 * @param valorTotal do pedido do cliente
-	 * @return o valor com o desconto aplicado
+	 * Calculates the discount for a customer's total order value.
+	 * @param valorTotal customer's total order value
+	 * @return the total value after applying the discount
 	 */
 	public double calcularDesconto(double valorTotal) {
 		if (valorTotal > 300) {
@@ -140,37 +140,37 @@ public class OrderService {
 	
 	
 	/**
-	 * cadastra um pedido no sistema e todos os items desse pedido
-	 * também diminui do estoque do restaurante os produtos que foram comprados
-	 * @param r objeto restaurante
-	 * @param c objeto cliente
-	 * @param carrinhoCompras do cliente
+	 * Registers an order in the system along with all its items.
+	 * Also decreases the restaurant's stock for purchased products.
+	 * @param r restaurant object
+	 * @param c customer object
+	 * @param carrinhoCompras customer's shopping cart
 	 */
 	public void cadastrarPedido(
 		Restaurant r, 
 		Customer c, 
 		ArrayList<OrderItemView> carrinhoCompras
 	) {
-		//pedidoDAO local sem argumentos que usará a conexão com autoCommit desativado
+		// local OrderDAO instance that will use the connection with autoCommit disabled
 		OrderDAO pedidoDAO = new OrderDAO();
 		
 		try {
-			//desativa o salvamento automático do banco de dados
+			// disable automatic commits on the database connection
 			conn.setAutoCommit(false);
 			
-			//cadastra o pedido e pega a chave primária gerada para cadastrar items
+			// insert the order and get the generated primary key to insert items
 			int idPedido = pedidoDAO.inserirPedido(conn, r, c);
 			
 			for (OrderItemView item: carrinhoCompras) {
 				
-				//diminui a quantidade comprada do estoque e armazena o resultado para checar
+				// decrease the purchased quantity from stock and store the result to verify
 				boolean estoqueAtualizado = produtoRestauranteDAO.diminuirEstoque(conn, r.getCnpj(), item);
 				
 				if (!estoqueAtualizado) {
 					throw new RuntimeException("Estoque insuficiente");
 				}
 				
-				//instancia um ItemPedido que será inserido no N:N e vincula os parametros
+				// instantiate an OrderItem to be inserted into the join table and set its fields
 				OrderItem ip = new OrderItem();
 				ip.setNumeroPedido(idPedido);
 				ip.setCodigoProduto(item.getCodigoProduto());
@@ -178,13 +178,14 @@ public class OrderService {
 				
 				itemPedidoDAO.inserirItemPedido(conn, ip);
 				
+				// commit after each item insertion
 				conn.commit();
 			}
 			
 		} catch (Exception e) {
 			
 			try {
-				//em caso de algum erro, desfaz todas as inserções feitas no banco de dados
+				// on error, roll back all changes made in the database
 	            conn.rollback();
 	        } catch (SQLException ex) {
 	            ex.printStackTrace();
@@ -195,7 +196,7 @@ public class OrderService {
 		} finally {
 			
 			try {
-				//reativa o auto commit da conexão para outras operações
+				// re-enable auto commit on the connection for other operations
 	            conn.setAutoCommit(true);
 	        } catch (SQLException e) {
 	            e.printStackTrace();
@@ -205,92 +206,92 @@ public class OrderService {
 	}
 	
 	/**
-	 * Retorna todos os pedidos associados ao restaurante em sessão, filtrando eles por status de preparo
-	 * @param cnpj do restaurante
-	 * @param status do pedido
-	 * @return ArrayList do tipo pedido
+	 * Returns all orders associated with the given restaurant, filtered by preparation status
+	 * @param cnpj restaurant identifier
+	 * @param status order status to filter by
+	 * @return list of orders
 	 */
 	public ArrayList<Order> retornarPedidosRestaurante(String cnpj, String status){
 		return pedidoDAO.listarPedidosPorRestaurante(conn, cnpj, status);
 	}
 	
 	/**
-	 * Retorna todos os pedidos que determinado cliente em sessão já comprou no sistema
-	 * @param cpf do cliente
-	 * @return ArrayList do tipo pedido
+	 * Returns all orders that a given customer has placed in the system
+	 * @param cpf customer's identifier
+	 * @return list of orders
 	 */
 	public ArrayList<Order> retornarPedidosCliente(String cpf){
 		return pedidoDAO.listarPedidosPorCliente(conn, cpf);
 	}
 	
 	/**
-	 * Retorna todos os itens associados a um pedido no sistema
-	 * @param codigoPedido
-	 * @return ArrayList do tipo ItemPedidoView com todos os itens de um pedido
+	 * Returns all items associated with a given order
+	 * @param codigoPedido order id
+	 * @return list of OrderItemView for the order
 	 */
 	public ArrayList<OrderItemView> retornarItensPedido(int codigoPedido){
 		return itemPedidoDAO.retornarItensPedido(conn, codigoPedido);
 	}
 	
 	/**
-	 * Atualiza as informações de entrega de um pedido e a disponibilidade do entregador
-	 * utilizando transação para garantir consistência no banco de dados.
-	 * @param p pedido que terá os dados de entrega atualizados
-	 * @param e entregador responsável pela entrega
-	 * @param eDisp nova disponibilidade do entregador
-	 * @param statusPedido novo status do pedido
-	 * @return boolean
+	 * Updates delivery information for an order and the delivery person's availability
+	 * using a transaction to ensure database consistency.
+	 * @param p order to update
+	 * @param e delivery person responsible
+	 * @param eDisp new availability for the delivery person
+	 * @param statusPedido new status for the order
+	 * @return true if update succeeds, false otherwise
 	 */
 	public boolean atualizarEntregaPedido(Order p, DeliveryPerson e, short eDisp, String statusPedido) {
 
-	    try {
+		    try {
 
-	    	//salvamento do banco de dados é desativado
+			// disable database auto-commit
 	        conn.setAutoCommit(false);
 
-	        //atualiza os atributos do pedido
+		        // update order attributes
 	        p.setCpfEntregador(e.getCpf());
 	        p.setStatus(statusPedido);
 
-	        //executa e verifica se não houve erros na atualização
-	        if (!pedidoDAO.atualizarPedido(conn, p)) {
-	        	//desfaz alterações e não salva nada se houve erro
-	            conn.rollback(); 
-	            return false;
-	        }
+		        // execute update and verify it succeeded
+		        if (!pedidoDAO.atualizarPedido(conn, p)) {
+		        	// rollback and return false if update failed
+		            conn.rollback(); 
+		            return false;
+		        }
 
-	        //atualiza os atributos do entregador
+		        // update delivery person attributes
 	        e.setDisponibilidade(eDisp);
 
-	      //executa e verifica se não houve erros na atualização
-	        if (!entregadorDAO.atualizarEntregador(conn, e)) {
-	        	//desfaz alterações e não salva nada se houve erro
-	            conn.rollback();
-	            return false;
-	        }
+		      // execute update and verify it succeeded
+		        if (!entregadorDAO.atualizarEntregador(conn, e)) {
+		        	// rollback and return false if update failed
+		            conn.rollback();
+		            return false;
+		        }
 
-	        //se tudo executou de maneira correta confirma as mudanças e retorna êxito
+		        // commit if everything executed correctly and return success
 	        conn.commit();
 	        return true;
 
 	    } catch (Exception ex) {
 
-	        try {
-	            conn.rollback();
-	        } catch (SQLException e1) {
-	            e1.printStackTrace();
-	        }
-
-	        ex.printStackTrace();
-	        return false;
+		        try {
+		            conn.rollback();
+		        } catch (SQLException e1) {
+		            e1.printStackTrace();
+		        }
+		
+		        ex.printStackTrace();
+		        return false;
 
 	    } finally {
 
-	        try {
-	            conn.setAutoCommit(true);
-	        } catch (SQLException e2) {
-	            e2.printStackTrace();
-	        }
+		        try {
+		            conn.setAutoCommit(true);
+		        } catch (SQLException e2) {
+		            e2.printStackTrace();
+		        }
 	    }
 	}
 	

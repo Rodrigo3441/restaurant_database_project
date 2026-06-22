@@ -7,14 +7,14 @@ import database.RestaurantDAO;
 import entities.Restaurant;
 
 /**
- * Classe: ServicoRestaurante
+ * Class: RestaurantService
  *
- * Descrição:
- * Classe responsável por gerenciar as regras de negócio do restaurante
+ * Description:
+ * Service class responsible for enforcing business rules for restaurants.
  *
- * Responsabilidades:
- * - oferecer métodos de validação das informações
- * - se comunicar com a camada de dados
+ * Responsibilities:
+ * - provide validation methods for restaurant data
+ * - communicate with the data access layer
  *
  * @author Rodrigo
  * @since 27-04-2026
@@ -31,8 +31,8 @@ public class RestaurantService {
 	}
 	
 	/**
-	 * Responsável por verificar disponibilidade de CNPJ e se é válido
-	 * @param cnpj do restaurante
+	 * Validates that a CNPJ is correctly formatted and not already in use.
+	 * @param cnpj restaurant CNPJ
 	 */
 	public void validarCnpj(String cnpj) {
 		if (!cnpjValido(cnpj)) {
@@ -45,8 +45,8 @@ public class RestaurantService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do nome do restaurante
-	 * @param primeiroNome
+	 * Validates the integrity of the restaurant name.
+	 * @param nome restaurant name
 	 */
 	public void validarNome(String nome) {
 		if(!nomeValido(nome)) {
@@ -55,8 +55,8 @@ public class RestaurantService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do telefone
-	 * @param telefone do restaurante
+	 * Validates the integrity of the restaurant phone number.
+	 * @param telefone restaurant phone
 	 */
 	public void validarTelefone(String telefone) {
 		if(!telefoneValido(telefone)) {
@@ -65,8 +65,8 @@ public class RestaurantService {
 	}
 		
 	/**
-	 * Responsável por verificar integridade de senha
-	 * @param senha do restaurante
+	 * Validates the integrity of the restaurant password.
+	 * @param senha restaurant password
 	 */
 	public void validarSenha(String senha) {
 		if(!senhaValida(senha)) {
@@ -75,10 +75,10 @@ public class RestaurantService {
 	}
 	
 	/**
-	 * Atualiza nome do restaurante
-	 * @param r objeto restaurante
-	 * @param nome do restaurante
-	 * @return boolean
+	 * Updates the restaurant's name.
+	 * @param r restaurant object
+	 * @param nome new restaurant name
+	 * @return boolean indicating success
 	 */
 	public boolean atualizarNome(Restaurant r, String nome) {
 		if (!nomeValido(nome)) {
@@ -90,10 +90,10 @@ public class RestaurantService {
 	}
 	
 	/**
-	 * atualiza o telefone do restaurante
-	 * @param r objeto restaurante
-	 * @param telefone do restaurante
-	 * @return boolean
+	 * Updates the restaurant's phone number.
+	 * @param r restaurant object
+	 * @param telefone new phone number
+	 * @return boolean indicating success
 	 */
 	public boolean atualizarTelefone(Restaurant r, String telefone) {
 		if (!telefoneValido(telefone)) {
@@ -105,10 +105,10 @@ public class RestaurantService {
 	}
 	
 	/**
-	 * Atualiza a senha do restaurante
-	 * @param r objeto restaurante
-	 * @param senha do restaurante
-	 * @return boolean
+	 * Updates the restaurant's password.
+	 * @param r restaurant object
+	 * @param senha new password
+	 * @return boolean indicating success
 	 */
 	public boolean atualizarSenha(Restaurant r, String senha) {
 		if (!senhaValida(senha)) {
@@ -120,26 +120,26 @@ public class RestaurantService {
 	}
 	
 	/**
-	 * Realiza o cadastro de um restaurante no sistema
-	 * @param r objeto restaurante
-	 * @return boolean
+	 * Registers a new restaurant in the system.
+	 * @param r restaurant object
+	 * @return boolean indicating success
 	 */
 	public boolean cadastrarRestaurante(Restaurant r) {
 		return dao.inserirRestaurante(conn, r);
 	}
 	
 	/**
-	 * Retorna um restaurante com base no CNPJ informado
-	 * @param cnpj do restaurante
-	 * @return objeto Restaurante
+	 * Returns a restaurant by the given CNPJ.
+	 * @param cnpj restaurant CNPJ
+	 * @return Restaurant object
 	 */
 	public Restaurant retornarRestaurante(String cnpj) {
 		return dao.retornarRestaurante(conn, cnpj);
 	}
 	
 	/**
-	 * Retorna uma lista com todos os restaurantes do sistema
-	 * @return arraylist do tipo Restaurante
+	 * Returns a list of all restaurants in the system.
+	 * @return ArrayList of Restaurant
 	 */
 	public ArrayList<Restaurant> listarRestaurantes(){
 		return dao.listarRestaurantes(conn);

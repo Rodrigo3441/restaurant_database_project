@@ -6,21 +6,21 @@ import database.DeliveryPersonDAO;
 import entities.DeliveryPerson;
 
 /**
- * Classe: EntregadorService
+ * Class: DeliveryPersonService
  *
- * Descrição:
- * Classe responsável por gerenciar as regras de negócio do entregador
+ * Description:
+ * Service layer responsible for managing business rules related to delivery persons.
  *
- * Responsabilidades:
- * - oferecer métodos de validação das informações
- * - se comunicar com a camada de dados
+ * Responsibilities:
+ * - provide validation methods for delivery person data
+ * - communicate with the data access layer
  *
  * @author Rodrigo
  * @since 30-04-2026
  */
 
 public class DeliveryPersonService {
-	//conexão com o banco de dados que será usada em todas as operações
+	// database connection used for all operations
 	private DeliveryPersonDAO dao;
 	private Connection conn;
 	
@@ -30,8 +30,8 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Responsável por verificar disponibilidade de CPF e se é válido
-	 * @param cpf do entregador
+	 * Validates a CPF: checks format and availability.
+	 * @param cpf delivery person's CPF
 	 */
 	public void validarCpf(String cpf) {
 		if (!cpfValido(cpf)) {
@@ -44,8 +44,8 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do primeiro nome
-	 * @param primeiroNome do Entregador
+	 * Validates the delivery person's first name.
+	 * @param primeiroNome first name
 	 */
 	public void validarPrimeiroNome(String primeiroNome) {
 		if(!primeiroNomeValido(primeiroNome)) {
@@ -54,8 +54,8 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do nome do meio
-	 * @param nomeMeio do Entregador
+	 * Validates the delivery person's middle name.
+	 * @param nomeMeio middle name
 	 */
 	public void validarNomeMeio(String nomeMeio) {
 		if(!nomeMeioValido(nomeMeio)) {
@@ -64,8 +64,8 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do ultimo nome
-	 * @param ultimoNome do entregador
+	 * Validates the delivery person's last name.
+	 * @param ultimoNome last name
 	 */
 	public void validarUltimoNome(String ultimoNome) {
 		if(!ultimoNomeValido(ultimoNome)) {
@@ -74,8 +74,8 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do telefone
-	 * @param telefone do entregador
+	 * Validates the delivery person's phone number.
+	 * @param telefone phone number
 	 */
 	public void validarTelefone(String telefone) {
 		if(!telefoneValido(telefone)) {
@@ -84,8 +84,8 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Responsável por verificar integridade do veiculo
-	 * @param veiculo vinculado ao entregador
+	 * Validates the delivery person's vehicle plate.
+	 * @param placaVeiculo vehicle plate
 	 */
 	public void validarPlacaVeiculo(String placaVeiculo) {
 		if(!placaVeiculoValida(placaVeiculo)) {
@@ -94,10 +94,10 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Atualiza primeiro nome do entregador
-	 * @param e objeto entregador
-	 * @param primeiroNome do entregador
-	 * @return boolean
+	 * Updates the delivery person's first name.
+	 * @param e delivery person object
+	 * @param primeiroNome new first name
+	 * @return boolean indicating success
 	 */
 	public boolean atualizarPrimeiroNome(DeliveryPerson e, String primeiroNome) {
 		if (!primeiroNomeValido(primeiroNome)) {
@@ -109,10 +109,10 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Atualiza nome do meio do entregador
-	 * @param e objeto entregador
-	 * @param nomeMeio do entregador
-	 * @return boolean 
+	 * Updates the delivery person's middle name.
+	 * @param e delivery person object
+	 * @param nomeMeio new middle name
+	 * @return boolean indicating success
 	 */
 	public boolean atualizarNomeMeio(DeliveryPerson e, String nomeMeio) {
 		if (!nomeMeioValido(nomeMeio)) {
@@ -124,10 +124,10 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Atualiza ultimo nome do entregador
-	 * @param e objeto entregador
-	 * @param ultimoNome do entregador
-	 * @return boolean
+	 * Updates the delivery person's last name.
+	 * @param e delivery person object
+	 * @param ultimoNome new last name
+	 * @return boolean indicating success
 	 */
 	public boolean atualizarUltimoNome(DeliveryPerson e, String ultimoNome) {
 		if (!ultimoNomeValido(ultimoNome)) {
@@ -139,10 +139,10 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * atualiza o telefone do entregador
-	 * @param e objeto entregador
-	 * @param telefone do entregador
-	 * @return boolean
+	 * Updates the delivery person's phone number.
+	 * @param e delivery person object
+	 * @param telefone new phone number
+	 * @return boolean indicating success
 	 */
 	public boolean atualizarTelefone(DeliveryPerson e, String telefone) {
 		if (!telefoneValido(telefone)) {
@@ -154,10 +154,10 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Atualiza a placa do veículo do entregador
-	 * @param e Entregador
-	 * @param placaVeiculo
-	 * @return boolean
+	 * Updates the delivery person's vehicle plate.
+	 * @param e delivery person object
+	 * @param placaVeiculo new vehicle plate
+	 * @return boolean indicating success
 	 */
 	public boolean atualizarPlacaVeiculo(DeliveryPerson e, String placaVeiculo) {
 		if (!placaVeiculoValida(placaVeiculo)) {
@@ -169,35 +169,35 @@ public class DeliveryPersonService {
 	}
 		
 	/**
-	 * Cadastra um entregador no sistema 
-	 * @param r
-	 * @return boolean
+	 * Registers a delivery person in the system.
+	 * @param e delivery person to register
+	 * @return boolean indicating success
 	 */
 	public boolean cadastrarEntregador(DeliveryPerson e) {
 		return dao.inserirEntregador(conn, e);
 	}
 	
 	/**
-	 * Retorna um único entregador com base no cpf informado
-	 * @param cpf do entregador
-	 * @return Entregador
+	 * Returns a delivery person by CPF.
+	 * @param cpf delivery person's CPF
+	 * @return DeliveryPerson or null if not found
 	 */
 	public DeliveryPerson retornarEntregador(String cpf) {
 		return dao.retornarEntregador(conn, cpf);
 	}
 	
 	/**
-	 * Retorna todos os entregadores que está cadastrados no sistema
-	 * @return ArrayList
+	 * Returns all registered delivery persons.
+	 * @return list of DeliveryPerson
 	 */
 	public ArrayList<DeliveryPerson> listarEntregadores() {
 		return dao.listarEntregadores(conn);
 	}
 	
 	/**
-	 * Faz a remoção de um entregador do sistema e retorna se houve êxito na operação
-	 * @param cpf do entregador
-	 * @return boolean
+	 * Removes a delivery person by CPF.
+	 * @param cpf delivery person's CPF
+	 * @return boolean indicating success
 	 */
 	public boolean removerEntregador(String cpf) {
 		return dao.deletarEntregador(conn, cpf);
@@ -228,8 +228,8 @@ public class DeliveryPersonService {
 	}
 	
 	/**
-	 * Verifica se a placa do veículo está no padrão Mercosul.
-	 * @param placaVeiculo placa do veículo a ser validada
+	 * Checks if a vehicle plate matches the Mercosur standard.
+	 * @param placaVeiculo vehicle plate to validate
 	 * @return boolean
 	 */
 	private boolean placaVeiculoValida(String placaVeiculo) {

@@ -7,13 +7,13 @@ import entities.RestaurantAddress;
 import database.AddressDAO;
 
 /**
- * Classe: ServicoEndereco
+ * Class: AddressService
  *
- * Descrição:
- * Classe responsável por validar serviços de Endereço do cliente e do restaurante
+ * Description:
+ * Service class responsible for validating address operations for customers and restaurants
  *
- * Responsabilidades:
- * - oferecer métodos e validações da regra de negócio
+ * Responsibilities:
+ * - provide business logic methods and validation
  *
  * @author Rodrigo
  * @since 27-04-2026
@@ -29,26 +29,26 @@ public class AddressService {
 	}
 	
 	/**
-	 * Retorna o endereço do restaurante com base no CNPJ informado
-	 * @param cnpj do restaurante
-	 * @return objeto restaurante
+	 * Returns the restaurant address based on the provided CNPJ
+	 * @param cnpj restaurant CNPJ
+	 * @return restaurant address object
 	 */
 	public RestaurantAddress retornarEnderecoRestaurante(String cnpj) {
 		return dao.retornarEnderecoRestaurante(conn, cnpj);
 	}
 	
 	/**
-	 * Retorna o endereço do cliente com base no CPF informado
-	 * @param cpf do cliente
-	 * @return objeto EnderecoCliente
+	 * Returns the customer address based on the provided CPF
+	 * @param cpf customer CPF
+	 * @return customer address object
 	 */
 	public CustomerAddress retornarEnderecoCliente(String cpf) {
 		return dao.retornarEnderecoCliente(conn, cpf);
 	}
 	
 	/**
-	 * Realiza o cadastro de um endereço do restaurante no sistema
-	 * @param er objeto EndereçoRestaurante
+	 * Inserts a restaurant address into the system
+	 * @param er restaurant address object
 	 * @return boolean
 	 */
 	public boolean inserirEnderecoRestaurante(Address er) {
@@ -56,8 +56,8 @@ public class AddressService {
 	}
 	
 	/**
-	 * Realiza o cadastro de um endereço do cliente no sistema
-	 * @param ec objeto EndereçoCliente
+	 * Inserts a customer address into the system
+	 * @param ec customer address object
 	 * @return boolean
 	 */
 	public boolean inserirEnderecoCliente(Address ec) {
@@ -65,8 +65,8 @@ public class AddressService {
 	}
 	
 	/**
-	 * Valida se um CEP inserido é válido
-	 * @param cep do endereço
+	 * Validates whether the provided ZIP code is valid
+	 * @param cep address ZIP code
 	 */
 	public void validarCep(String cep) {
 		if (!cepValido(cep)) {
@@ -75,8 +75,8 @@ public class AddressService {
 	}
 	
 	/**
-	 * Valida se o nome da rua do endereço é válido
-	 * @param nome da rua do endereço
+	 * Validates whether the provided street name is valid
+	 * @param nome street name
 	 */
 	public void validarNome(String nome) {
 		if (!nomeValido(nome)) {
@@ -85,8 +85,8 @@ public class AddressService {
 	}
 	
 	/**
-	 * Valida se o número do endereço é válido
-	 * @param numero do endereço
+	 * Validates whether the provided address number is valid
+	 * @param numero address number
 	 */
 	public void validarNumero(int numero) {
 		if (!numeroValido(numero)) {
@@ -95,9 +95,9 @@ public class AddressService {
 	}
 	
 	/**
-	 * Realiza a atualização do CEP do endereço do cliente no sistema
-	 * @param ec objeto EnderecoCliente
-	 * @param cep do endereço
+	 * Updates the customer address ZIP code in the system
+	 * @param ec customer address object
+	 * @param cep address ZIP code
 	 * @return boolean
 	 */
 	public boolean atualizarCepEnderecoCliente(Address ec, String cep) {
@@ -110,9 +110,9 @@ public class AddressService {
 	}
 	
 	/**
-	 * Realiza a atualização do nome da rua do endereço do cliente no sistema
-	 * @param ec objeto EnderecoCliente
-	 * @param nome da rua do cliente
+	 * Updates the customer street name in the system
+	 * @param ec customer address object
+	 * @param nome customer street name
 	 * @return boolean
 	 */
 	public boolean atualizarNomeEnderecoCliente(Address ec, String nome) {
@@ -125,9 +125,9 @@ public class AddressService {
 	}
 	
 	/**
-	 * Realiza a atualização do número do endereço do cliente no sistema
-	 * @param ec objeto EnderecoCliente
-	 * @param numero do endereço cliente
+	 * Updates the customer address number in the system
+	 * @param ec customer address object
+	 * @param numero customer address number
 	 * @return boolean
 	 */
 	public boolean atualizarNumeroEnderecoCliente(Address ec, int numero) {
@@ -140,9 +140,9 @@ public class AddressService {
 	}
 	
 	/**
-	 * Realiza a atualização do CEP do endereço do restaurante no sistema
-	 * @param er objeto EnderecoRestaurante
-	 * @param cep do endereço
+	 * Updates the restaurant address ZIP code in the system
+	 * @param er restaurant address object
+	 * @param cep address ZIP code
 	 * @return boolean
 	 */
 	public boolean atualizarCepEnderecoRestaurante(Address er, String cep) {
@@ -155,9 +155,9 @@ public class AddressService {
 	}
 	
 	/**
-	 * Realiza a atualização do nome da rua do endereço do restaurante no sistema
-	 * @param er objeto EnderecoRestaurante
-	 * @param nome da rua do restaurante
+	 * Updates the restaurant street name in the system
+	 * @param er restaurant address object
+	 * @param nome restaurant street name
 	 * @return boolean
 	 */
 	public boolean atualizarNomeEnderecoRestaurante(Address er, String nome) {
@@ -170,9 +170,9 @@ public class AddressService {
 	}
 	
 	/**
-	 * Realiza a atualização do número do endereço do restaurante no sistema
-	 * @param er objeto EnderecoRestaurante
-	 * @param numero do endereço restaurante
+	 * Updates the restaurant address number in the system
+	 * @param er restaurant address object
+	 * @param numero restaurant address number
 	 * @return boolean
 	 */
 	public boolean atualizarNumeroEnderecoRestaurante(Address er, int numero) {
